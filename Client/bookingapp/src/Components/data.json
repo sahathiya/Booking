@@ -1,0 +1,55 @@
+[{
+    "partner":"67593591d60ffcdead66c968",
+    "Propertyname":"Hotel VKJ International Kuttampuzha",
+    
+    "description":"The hotel is located next to India’s busiest international airport",
+    "city":"kerala",
+    
+    "country":"india",
+    
+    "type":"hotel",
+    
+    "adultCount":20,
+    "childCount":10,
+    
+    
+    "facilities":["pool"],
+    
+    "starRating":4,
+    
+    "pricePerNight":10000,
+    
+    "numberofRooms":50,
+    
+    
+    "images":"https://cf.bstatic.com/xdata/images/hotel/max1024x768/551309603.jpg?k=3088c1703d62bfa18472dc93f3324f45cc29a955f5fcbdeef3dd777dee6eb495&o="},
+
+
+{
+    "partner":"67593591d60ffcdead66c968",
+    "Propertyname":"ibis New Delhi Aerocity - An Accor Brand",
+    
+    "description":"The hotel is located next to India’s busiest international airport",
+    "city":"new delhi",
+    
+    "country":"india",
+    
+    "type":"hotel",
+    
+    "adultCount":20,
+    "childCount":10,
+    
+    
+    "facilities":["pool"],
+    
+    "starRating":4,
+    
+    "pricePerNight":10000,
+    
+    "numberofRooms":50,
+    
+    
+    "images":"http://res.cloudinary.com/dr55yjjx4/image/upload/v1701185322/a4ypeock0piore5mbnyy.jpg"}
+
+
+]
