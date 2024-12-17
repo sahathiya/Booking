@@ -15,7 +15,7 @@ function Checkinbox() {
         <h1 className="text-2xl font-bold text-gray-800 mb-4">
           Check your inbox
           </h1>
-          <p>We've just emailed instructions and a reset password link to {email} It might take a few minutes to arrive.</p>
+          <p>We've just emailed instructions and a reset password link to <strong>{email}</strong> It might take a few minutes to arrive.</p>
           <br></br>
         <button 
         onClick={()=>navigate('/loginemail')}

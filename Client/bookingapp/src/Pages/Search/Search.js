@@ -58,7 +58,7 @@ const Header = ({ type }) => {
         } w-full`}
       >
         <div className="flex gap-10 mb-12">
-          <div className="flex items-center gap-2 p-2 border border-white rounded-lg">
+          <div className="flex items-center gap-2 p-2 hover:border border-white rounded-lg">
             <FontAwesomeIcon icon={faBed} />
             <span>Stays</span>
           </div>

@@ -46,27 +46,22 @@ const Navbar = () => {
         console.error("Failed to parse partner cookie:", error);
       }
     } else {
-      dispatch(LogoutUser()); 
+      dispatch(LogoutUser());
     }
   }, [dispatch]);
 
   return (
     <div className="bg-blue-900 text-white">
-    
       <div className="flex items-center justify-between px-4 py-3 max-w-7xl mx-auto">
-        
         <div onClick={() => navigate(`/`)} className="text-2xl font-semibold">
           Booking.com
         </div>
 
-       
         <div className="flex items-center space-x-4">
-          
           <div className="flex items-center space-x-1 cursor-pointer">
             <span>INR</span>
           </div>
 
-         
           <div className="flex items-center space-x-1 cursor-pointer">
             <img
               src="https://flagcdn.com/w40/in.png"
@@ -75,17 +70,14 @@ const Navbar = () => {
             />
           </div>
 
-        
           <div className="cursor-pointer">
             <FaQuestionCircle size={20} />
           </div>
 
-          
           <div className="cursor-pointer">
             <FaBell size={20} />
           </div>
 
-         
           <button
             onClick={() => navigate("/homepartner")}
             className="text-white font-medium"
@@ -119,7 +111,7 @@ const Navbar = () => {
               {dropdownOpen && (
                 <div className="absolute right-0 mt-2 w-40 bg-white text-black rounded-md shadow-lg z-50">
                   <button
-                    onClick={() => navigate(`/personaldetailes/${user._id}`)}
+                    onClick={() => navigate(`/personaldetailes`)}
                     className="block w-full px-4 py-2 text-left hover:bg-gray-100"
                   >
                     <MdAccountCircle className="inline text-xl" />

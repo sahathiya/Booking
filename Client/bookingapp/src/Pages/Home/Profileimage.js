@@ -14,14 +14,12 @@ const ProfileImageUploader = () => {
   };
 
   const handleSave = () => {
-    
     alert("Image saved successfully!");
     setShowModal(false);
   };
 
   return (
     <div className="relative flex flex-col items-center">
-      {/* Image Display with Camera Icon */}
       <div
         className="relative w-24 h-24 rounded-full border-4 border-yellow-400 overflow-hidden flex items-center justify-center cursor-pointer bg-gray-300"
         onClick={() => setShowModal(true)}
@@ -36,11 +34,9 @@ const ProfileImageUploader = () => {
         </div>
       </div>
 
-      
       {showModal && (
         <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white rounded-lg w-11/12 max-w-lg p-6 relative">
-            
             <button
               className="absolute top-3 right-3 text-gray-600 hover:text-gray-900"
               onClick={() => setShowModal(false)}
@@ -62,7 +58,6 @@ const ProfileImageUploader = () => {
               </div>
             </div>
 
-            
             <div className="text-center mb-4">
               <input
                 type="file"
@@ -79,7 +74,6 @@ const ProfileImageUploader = () => {
               </label>
             </div>
 
-            {/* Save Button */}
             <div className="flex justify-center">
               <button
                 className={`bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600 ${

@@ -23,11 +23,11 @@ router
   .get("/users", tryCatch(getUsers))
   .post("/logout", tryCatch(logoutUser))
   .put(
-    "/edituser/:id",
+    "/edituser",
     userAuthMiddleware,
     upload.single("profileImage"),
     tryCatch(editUser)
   )
-  .get("/userbyid/:id", userAuthMiddleware, tryCatch(getUserbyId));
+  .get("/userbyid/:id", tryCatch(getUserbyId));
 
 module.exports = router;

@@ -1,10 +1,9 @@
-import React from 'react'
+import React from "react";
 
 function Header() {
   return (
     <div>
-       {/* Navbar */}
-       <nav className="bg-blue-900 h-16 flex justify-between items-center px-4">
+      <nav className="bg-blue-900 h-16 flex justify-between items-center px-4">
         <span className="text-white text-xl font-semibold">Booking.com</span>
         <div className="flex items-center space-x-4">
           <img
@@ -21,7 +20,7 @@ function Header() {
         </div>
       </nav>
     </div>
-  )
+  );
 }
 
-export default Header
+export default Header;

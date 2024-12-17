@@ -21,8 +21,11 @@
 
 
 
-// // Use cookie-parser middleware
-
+// app.use((req, res, next) => {
+//     res.setTimeout(120000); // 2 minutes
+//     next();
+//   });
+  
 // app.use('/',router)
 // app.use('/',partnerRoutes)
 // app.use(errorHandler);

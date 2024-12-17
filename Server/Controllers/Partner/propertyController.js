@@ -1,13 +1,12 @@
 const Property = require("../../Models/User/propertySchema");
-const Users = require("../../Models/User/userSchema"); // Ensure this path is correct for your Users model
+const Partners=require("../../Models/User/partnerSchema")
 
 
 const AddProperty = async (req, res) => {
   try {
-    const partnerId = req.params.id;
+    
 
-    // Check if the partner exists
-    const partner = await Users.findById(partnerId);
+    const partner = await Partners.findById({_id:req.user.id});
     if (!partner) {
       return res.status(404).json({ message: "Partner not found" });
     }
@@ -26,12 +25,12 @@ const AddProperty = async (req, res) => {
       numberofRooms,
     } = req.body;
 
-    // Process uploaded images
-    const images = req.files.map(file => file.path); // Cloudinary provides the image URL in the `path` field
+    const images = req.files.map(file => file.path); 
+console.log("many files",req.files);
 
-    // Create new property with the provided details
+   
     const property = new Property({
-      partner: partnerId,
+      partner: req.user.id,
       Propertyname,
       description,
       city,
@@ -43,10 +42,9 @@ const AddProperty = async (req, res) => {
       starRating,
       pricePerNight,
       numberofRooms,
-      images, // Store the array of image URLs
+      images, 
     });
 
-    // Save the property and populate the partner field
     const savedProperty = await property.save();
     const populatedProperty = await Property.findById(savedProperty._id).populate("partner");
 
@@ -64,12 +62,12 @@ const AddProperty = async (req, res) => {
 
 
 const PropertiesByPartner=async(req,res)=>{
-  console.log("sdfghjk");
+ 
   
   const partnerid=req.params.id
   console.log("partnerid",partnerid);
   
-  const partner= await Users.findOne({_id:partnerid})
+  const partner= await Partners.findOne({_id:partnerid})
   console.log("partner",partner);
   
 if(!partner){
@@ -104,17 +102,17 @@ const EditProperty = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Find the property by ID
+    
     const property = await Property.findById(id);
     if (!property) {
       return res.status(404).json({ message: "Property not found" });
     }
 
-    // Log request body and files for debugging
+    
     console.log("Request Body:", req.body);
     console.log("Uploaded Files:", req.files);
 
-    // Extract form data from req.body
+    
     const {
       Propertyname,
       description,
@@ -129,13 +127,13 @@ const EditProperty = async (req, res) => {
       numberofRooms,
     } = req.body;
 
-    // Handle the uploaded files if any
+    
     let images = [];
     if (req.files && req.files.length > 0) {
-      images = req.files.map(file => file.path); // Get the path of each uploaded file
+      images = req.files.map(file => file.path);
     }
 
-    // Prepare the updated property data
+    
     const updatedPropertyData = {
       Propertyname: Propertyname || property.Propertyname,
       description: description || property.description,
@@ -144,17 +142,17 @@ const EditProperty = async (req, res) => {
       type: type || property.type,
       adultCount: adultCount || property.adultCount,
       childCount: childCount || property.childCount,
-      facilities: facilities ? facilities.split(',') : property.facilities, // Assuming `facilities` is sent as a comma-separated string
+      facilities: facilities ? facilities.split(',') : property.facilities, 
       starRating: starRating || property.starRating,
       pricePerNight: pricePerNight || property.pricePerNight,
       numberofRooms: numberofRooms || property.numberofRooms,
-      images: images.length > 0 ? images : property.images, // Replace only if new images are provided
+      images: images.length > 0 ? images : property.images, 
     };
 
-    // Update the property in the database
+    
     const updatedProperty = await Property.findByIdAndUpdate(id, updatedPropertyData, { new: true });
 
-    // Return the updated property
+   
     res.status(200).json({
       message: "Property updated successfully",
       property: updatedProperty,

@@ -9,12 +9,10 @@
 // //   const Partner = useSelector((state) => state.partner.partner);
 // //   console.log("user",user);
 
-
-  
 // //   useEffect(() => {
 // //     const partnerCookie = Cookies.get("user");
 // //     if (partnerCookie) {
-      
+
 // //       const partnerJson = partnerCookie.startsWith("j:") ? partnerCookie.slice(2) : partnerCookie;
 // //       try {
 // //         const partner = JSON.parse(partnerJson);
@@ -34,7 +32,7 @@
 // //             console.log('User logged out successfully');
 // //             dispatch(LogoutPartner());
 // //             Cookies.remove('partner'); // Remove user cookie
-           
+
 // //             navigate('/homepartner'); // Optionally redirect to home or login page
 // //           } else {
 // //             console.error('Failed to log out');
@@ -44,7 +42,6 @@
 // //         }
 // //       };
 
-     
 // //   return (
 // //     <nav className="bg-blue-800 text-white">
 // //       <div className="container mx-auto px-4 flex justify-between items-center py-4">
@@ -84,19 +81,16 @@
 // //     <button onClick={handleSignOut}>
 // //     <FaUser/>
 // //     </button>
-    
+
 // //   </div>
 // // )}
-       
+
 // //       </div>
 // //     </nav>
 // //   );
 // // };
 
 // // export default Navbarpartner;
-
-
-
 
 // // import React, { useEffect } from "react";
 // // import { FaUser } from "react-icons/fa";
@@ -182,7 +176,7 @@
 // //             </button>
 // //           </div>
 // //         ) : (
-          
+
 // //           <div>
 // //             <button
 // //               onClick={handleSignOut}
@@ -201,9 +195,6 @@
 
 // // export default Navbarpartner;
 
-
-
-
 // import React, { useEffect } from "react";
 // import { FaUser } from "react-icons/fa";
 // import { useDispatch, useSelector } from "react-redux";
@@ -212,13 +203,12 @@
 // import { LogPartner, LogoutPartner } from "../Features/partnerSlice";
 // import axiosInstance from "../Axios/axiosinstance"; // Adjust path as needed
 
-
 // const Navbarpartner = () => {
 //   const navigate = useNavigate();
 //   const dispatch = useDispatch();
 //   const Partner = useSelector((state) => state.partner.partner);
 //   console.log("Partner:", Partner);
-//   const [dropdownOpen, setDropdownOpen] = useState(false); 
+//   const [dropdownOpen, setDropdownOpen] = useState(false);
 //   useEffect(() => {
 //     const partnerCookie = Cookies.get("partner");
 //     if (partnerCookie) {
@@ -317,8 +307,6 @@
 
 // export default Navbarpartner;
 
-
-
 // import React, { useEffect, useState } from "react";
 // import { FaHotel } from "react-icons/fa";
 // import { useDispatch, useSelector } from "react-redux";
@@ -332,7 +320,7 @@
 //   const navigate = useNavigate();
 //   const dispatch = useDispatch();
 //   const Partner = useSelector((state) => state.partner.partner);
-  
+
 //   const [dropdownOpen, setDropdownOpen] = useState(false); // State for dropdown visibility
 
 //   useEffect(() => {
@@ -391,7 +379,7 @@
 //           <div className="flex justify-between items-center">
 //             <div className="flex items-center">
 //               <div className="text-2xl font-bold">Booking.com</div>
-              
+
 //             </div>
 //             <div className="relative flex items-center space-x-6">
 //               {/* Profile Dropdown */}
@@ -402,7 +390,7 @@
 // >
 //   <div className="flex items-center justify-center w-8 h-8 rounded-full bg-slate-500 border-2 border-white">
 //     <ImUser className="text-white text-2xl" />
-    
+
 //   </div>
 //   <p>{Partner.firstname} {Partner.lastname}</p>
 // </button>
@@ -422,7 +410,6 @@
 //                       Sign Out
 //                     </button>
 
-
 //                     <button
 //                       onClick={()=>navigate(`/allproperties/${Partner._id}`)}
 //                       className="block w-full px-4 py-2 text-left hover:bg-gray-100"
@@ -430,7 +417,7 @@
 //                       <FaHotel className="inline mr-2" />
 //                      View my properties
 //                     </button>
-                    
+
 //                   </div>
 //                 )}
 //               </div>
@@ -444,15 +431,13 @@
 
 // export default Navbarpartner;
 
-
-
 import React, { useEffect, useState } from "react";
 import { FaHotel } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { LogPartner, LogoutPartner } from "../Features/partnerSlice";
-import axiosInstance from "../Axios/axiosinstance"; // Adjust path as needed
+import axiosInstance from "../Axios/axiosinstance";
 import { BiLogOut, BiEdit } from "react-icons/bi";
 import { ImUser } from "react-icons/im";
 
@@ -461,7 +446,7 @@ const Navbarpartner = () => {
   const dispatch = useDispatch();
   const Partner = useSelector((state) => state.partner.partner);
 
-  const [dropdownOpen, setDropdownOpen] = useState(false); // State for dropdown visibility
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   useEffect(() => {
     const partnerCookie = Cookies.get("partner");
@@ -476,7 +461,7 @@ const Navbarpartner = () => {
         console.error("Failed to parse partner cookie:", error);
       }
     } else {
-      dispatch(LogoutPartner()); // Ensure state is cleared if no cookie is found
+      dispatch(LogoutPartner());
     }
   }, [dispatch]);
 
@@ -486,8 +471,8 @@ const Navbarpartner = () => {
       if (res.status === 200) {
         console.log("Partner logged out successfully");
         dispatch(LogoutPartner());
-        Cookies.remove("partner"); // Remove partner cookie
-        navigate("/homepartner"); // Redirect to home or login page
+        Cookies.remove("partner");
+        navigate("/homepartner");
       } else {
         console.error("Failed to log out");
       }
@@ -499,7 +484,6 @@ const Navbarpartner = () => {
   return (
     <nav className="bg-blue-900 text-white">
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
-        {/* Logo */}
         <div
           className="text-2xl font-bold cursor-pointer"
           onClick={() => navigate("/")}
@@ -507,7 +491,6 @@ const Navbarpartner = () => {
           Booking.com
         </div>
 
-        {/* Desktop & Mobile Menu */}
         <div className="flex items-center space-x-6">
           {Partner === null ? (
             <div className="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-6">
@@ -523,7 +506,6 @@ const Navbarpartner = () => {
             </div>
           ) : (
             <div className="relative flex items-center space-x-6">
-              {/* Profile Dropdown */}
               <div className="relative">
                 <button
                   className="flex items-center space-x-2 px-4 py-2 rounded-md hover:bg-blue-700"
@@ -572,7 +554,3 @@ const Navbarpartner = () => {
 };
 
 export default Navbarpartner;
-
-
-
-

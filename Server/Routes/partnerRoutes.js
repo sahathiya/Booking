@@ -19,7 +19,7 @@ const {
 } = require("../Controllers/Partner/propertyController");
 const upload = require("../Middlewares/Imageupload");
 const tryCatch = require("../Middlewares/Trycatch");
-
+const {partnerAuthMiddleware}=require("../Middlewares/Authentication")
 //partner
 router
   .post("/partnerRegister", tryCatch(registerPartner))
@@ -32,7 +32,7 @@ router
   //property
   .get("/propertyByPartner/:id", tryCatch(PropertiesByPartner))
   .delete("/deleteproperty/:id", tryCatch(DeleteProperty))
-  .post("/addproperty/:id", upload.array("images", 4), tryCatch(AddProperty))
+  .post("/addproperty",partnerAuthMiddleware, upload.array("images", 4), tryCatch(AddProperty))
   .put("/editproperty/:id", upload.array("images", 4), tryCatch(EditProperty))
   .get("/allproperties", AllProperties)
   .get("/propertyById/:id", propertyById);

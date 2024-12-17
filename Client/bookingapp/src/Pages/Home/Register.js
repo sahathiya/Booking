@@ -43,10 +43,8 @@ function RegistrationPage() {
       const isRegistered = checkIfEmailIsRegistered(email);
 
       if (isRegistered) {
-       
         navigate("/login", { state: { email } });
       } else {
-       
         navigate("/password", { state: { email } });
       }
     } else {
@@ -82,7 +80,7 @@ function RegistrationPage() {
               value={email}
               onChange={(e) => {
                 setEmail(e.target.value);
-                setEmailError(""); 
+                setEmailError("");
               }}
               className={`w-full border ${
                 emailError ? "border-red-500" : "border-gray-300"

@@ -1,5 +1,5 @@
 
-const User = require("../../Models/User/userSchema"); // Adjust the path as needed
+ const Partners=require("../../Models/User/partnerSchema")
 const bcrypt = require("bcrypt");
 const jwt=require("jsonwebtoken")
 var nodemailer = require('nodemailer');
@@ -10,7 +10,7 @@ const registerPartner = async (req, res) => {
     const { email, password,firstname,lastname,phonenumber } = req.body;
 
     
-    const existingUser = await User.findOne({ email:email,role:'partner' });
+    const existingUser = await Partners.findOne({ email:email});
     if (existingUser) {
       return res.status(400).json({ message: "Email already in use" });
     }
@@ -19,13 +19,12 @@ const registerPartner = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     
-    const newPartner = new User({
+    const newPartner = new Partners({
       email,
       password: hashedPassword,
       firstname,
       lastname,
       phonenumber,
-      role: 'partner',
     });
 
    
@@ -48,13 +47,13 @@ const registerPartner = async (req, res) => {
 
 
 
-//login user
+//login partner
 
 const loginPartner=async(req,res)=>{
   const{email,password}=req.body
   console.log("request.body",req.body);
   
-  const user=await User.findOne({email,role:'partner'})
+  const user=await Partners.findOne({email})
   console.log("user.....",user);
   
 
@@ -129,7 +128,7 @@ const logoutPartner=async(req,res)=>{
 
     const forgottPassword=async(req,res)=>{
       const {email}=req.body
-      const partner=await User.findOne({email})
+      const partner=await Partners.findOne({email})
       console.log("forgot email",partner);
       if(!partner){
         res.json({message:"partner not found"})
@@ -139,13 +138,13 @@ const token=jwt.sign({id:partner._id},process.env.PARTNER_KEY,{expiresIn:'1d'})
 var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'shahadiyafathima04@gmail.com',
+    user: process.env.MY_EMAIL,
     pass: process.env.MY_PASSWRD
   }
 });
 
 var mailOptions = {
-  from: 'shahadiyafathima04@gmail.com',
+  from: process.env.MY_EMAIL,
   to: email,
   subject: 'Reset your password',
   text: `http://localhost:3000/reset-password/${partner._id}/${token}`
@@ -166,43 +165,42 @@ transporter.sendMail(mailOptions, function(error, info){
     
 
     const resetPassword = async (req, res) => {
-      const { id, token } = req.params; // Extract id and token from URL
-      const { password } = req.body; // Extract new password from request body
+      const { id, token } = req.params; 
+      const { password } = req.body; 
     
       if (!password) {
         return res.status(400).json({ status: 'error', message: 'New password is required' });
       }
     
       try {
-        // Verify the JWT token
+        
         const decoded = jwt.verify(token, process.env.PARTNER_KEY);
     
         if (decoded.id !== id) {
           return res.status(400).json({ status: 'error', message: 'Invalid token or user ID mismatch' });
         }
     
-        // Find the user by ID
-        const partner = await User.findById(id);
+       
+        const partner = await Partners.findById(id);
         if (!partner) {
           return res.status(404).json({ status: 'error', message: 'Partner not found' });
         }
     
-        // Check if the new password matches the old password
+        
         const isSamePassword = await bcrypt.compare(password, partner.password);
         if (isSamePassword) {
           return res.status(400).json({ status: 'error', message: 'New password must be different from the old password' });
         }
         
-        // Hash the new password securely
+       
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(password, saltRounds);
     
-        // Update the user's password
+      
         partner.password = hashedPassword;
         await partner.save();
     
-        // Invalidate existing login sessions (if applicable)
-        // Optional: Store a version or timestamp to invalidate old JWT tokens
+        
         partner.tokenVersion = (partner.tokenVersion || 0) + 1;
         await partner.save();
     
@@ -210,7 +208,7 @@ transporter.sendMail(mailOptions, function(error, info){
       } catch (err) {
         console.error("Error in resetPassword controller:", err);
     
-        // Handle JWT errors
+        
         if (err.name === 'TokenExpiredError') {
           return res.status(400).json({ status: 'error', message: 'Reset link has expired' });
         } else if (err.name === 'JsonWebTokenError') {
@@ -224,7 +222,7 @@ transporter.sendMail(mailOptions, function(error, info){
 
 
     const getAllPartners=async(req,res)=>{
-      const partners=await User.find({role:'partner'})
+      const partners=await Partners.find()
       res.json({message:'all partners',partners})
     }
 module.exports = { registerPartner ,loginPartner,logoutPartner,forgottPassword,resetPassword,getAllPartners};

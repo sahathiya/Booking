@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const propertySchema = new mongoose.Schema({
   partner: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Users",
+    ref: "Partners",
     required: true,
   },
   Propertyname: { type: String },

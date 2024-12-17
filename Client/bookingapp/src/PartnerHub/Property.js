@@ -48,10 +48,7 @@ const PropertyListing = () => {
           List anything on Booking.com
         </h1>
         <p className="text-start">45% of hosts get their first booking within a week.</p>
-        {/* <p className="text-gray-600 mb-8">
-          To get started, choose the type of property you want to list on
-          Booking.com
-        </p> */}
+      
 
 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-5">
   {properties.map((property) => (
@@ -59,19 +56,19 @@ const PropertyListing = () => {
       key={property.id}
       className="bg-white p-4 rounded-lg shadow hover:shadow-lg transform transition hover:scale-105 w-70 h-90 flex flex-col"
     >
-      {/* Image Section */}
+      
       <img
         src={property.image}
         alt={property.title}
         className="w-full h-40 object-cover rounded-t-lg mb-4"
       />
-      {/* Title and Description Section */}
+     
       <div className="flex flex-col flex-1 mb-4">
         <h3 className="text-lg font-bold mb-2">{property.title}</h3>
         <p className="text-gray-500 mb-4 text-sm">{property.description}</p>
-        {/* Button Section */}
+        
         <button
-          onClick={() => navigate(`/listproperty/${property.id}`)} // Correcting the reference
+          onClick={() => navigate(`/listproperty`)} 
           className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full mt-auto"
         >
           List your property

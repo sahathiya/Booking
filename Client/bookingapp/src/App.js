@@ -19,7 +19,6 @@ import PersonalDetails from './Pages/Home/PersonalDetailes';
 import ListProperty from './PartnerHub/Property/ListProperty';
 import AllProperties from './PartnerHub/Property/AllProperties';
 import EditProperty from './PartnerHub/Property/EditProperty';
-import { useSelector } from 'react-redux';
 import ProfileImageUploader from './Pages/Home/Profileimage';
 import TroubleP from './PartnerHub/TroubleP';
 import ContactSupport from './PartnerHub/ContactSupport';
@@ -29,11 +28,7 @@ import Checkinbox from './PartnerHub/Checkinbox';
 
 
 function App() {
-  // const user=useSelector((state)=>state.user.user)
-  // console.log("useruser",user.role);
   
-  // // const partner=useSelector((state)=>state.partner.partner)
-  // // console.log("userapp",partner.role);
   
  
   return (
@@ -46,7 +41,7 @@ function App() {
         <Route path='/password' element={<PasswordForm/>}/>
         <Route path='/log' element={<LogEmail/>}/>
         <Route path='/login' element={<Login/>}/>
-        
+        <Route path='/personaldetailes' element={<PersonalDetails/>}/>
         <Route path='/profileimage' element={<ProfileImageUploader/>}/>
 
 
@@ -58,12 +53,12 @@ function App() {
         <Route path='/troubleP' element={<TroubleP/>}/>
         <Route path='/contact-support' element={<ContactSupport/>}/>
         <Route path='/loginpassword' element={<LoginPassword/>}/>
-        <Route path='/personaldetailes/:id' element={<PersonalDetails/>}/>
+       
         <Route path='/forgot-password' element={<ForgottPassword/>}/>
         <Route path='/checkinbox' element={<Checkinbox/>}/>
         <Route path='/reset-password/:id/:token' element={<ResetPassword/>}/>
         <Route path='/property' element={<PropertyListing/>}/>
-        <Route path='/listproperty/:id' element={<ListProperty/>}/>
+        <Route path='/listproperty' element={<ListProperty/>}/>
         <Route path='/allproperties/:id' element={<AllProperties/>}/>
         <Route path='/editproperty/:id' element={<EditProperty/>}/>
         <Route path='/propertydetails/:id' element={<PropertyDetails/>}/>

@@ -1,6 +1,5 @@
 const Users = require("../../Models/User/userSchema");
 const bcrypt = require("bcrypt");
-const { joiUserSchema } = require("../../Validations/Joivalidations");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
@@ -153,7 +152,7 @@ const generateOtp = async (req, res) => {
     const a = await transporter.sendMail({
       from: process.env.MY_EMAIL,
       to: user.email,
-      subject: "Test Email",
+      subject: "Verify Email",
       text: `Your OTP for login is: ${otp}. This code is valid for 5 minutes.`,
     });
     console.log("Email sent:", a);
@@ -266,7 +265,7 @@ const logoutUser = async (req, res) => {
 //to edit user profile
 
 const editUser = async (req, res) => {
-  const userId = req.params.id;
+  // const userId = req.params.id;
   const { firstname, lastname, phonenumber, email } = req.body;
 
   const updateData = {
@@ -280,7 +279,7 @@ const editUser = async (req, res) => {
     updateData.profileImage = req.file.path;
   }
 
-  const updatedUser = await Users.findByIdAndUpdate(userId, updateData, {
+  const updatedUser = await Users.findByIdAndUpdate({_id:req.user.id}, updateData, {
     new: true,
   });
 

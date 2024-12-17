@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../../Axios/axiosinstance";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { BiEdit } from "react-icons/bi";
 import Navbarpartner from "../Navbarpartner";
-import { FaTrash } from "react-icons/fa";
-
+import { FaTrash,FaHotel } from "react-icons/fa";
+import{setProperty} from '../../Features/propertySlice'
 function PropertyDetails() {
+  const property=useSelector((state)=>state.property.property)
   const { id } = useParams();
-  const [property, setProperty] = useState(null);
+  // const [property, setProperties] = useState(null);
   console.log("proo", property);
 
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ function PropertyDetails() {
     const fetchPropertyDetails = async () => {
       try {
         const response = await axiosInstance.get(`/propertyById/${id}`);
-        setProperty(response.data.property);
+        dispatch(setProperty(response.data.property))
       } catch (error) {
         console.error("Error fetching property details:", error);
       }
@@ -27,11 +28,11 @@ function PropertyDetails() {
     fetchPropertyDetails();
   }, [id]);
 
-  const handleDelete = async () => {
+  const handleDelete = async (id) => {
     try {
       await axiosInstance.delete(`/deleteproperty/${id}`);
       dispatch(setProperty([])); 
-      navigate("/allproperties"); 
+      navigate(`/allproperties/${id}`); 
     } catch (error) {
       console.error("Error deleting property:", error);
     }
@@ -114,7 +115,7 @@ function PropertyDetails() {
                   <BiEdit className="inline mr-2" /> Edit
                 </button>
                 <button
-                  onClick={handleDelete}
+                  onClick={()=>handleDelete(property._id)}
                   className="flex items-center bg-red-500 text-white py-2 px-4 rounded-md shadow-sm hover:bg-red-600 transition-all duration-300"
                 >
                   <FaTrash className="inline mr-2" /> Delete
@@ -123,10 +124,11 @@ function PropertyDetails() {
 
 
                 <button
-                  onClick={()=>navigate('/allproperties')}
+                  onClick={()=>navigate(`/allproperties/${property._id}`)}
                   className="flex items-center bg-red-500 text-white py-2 px-4 rounded-md shadow-sm hover:bg-red-600 transition-all duration-300"
                 >
-                  <FaTrash className="inline mr-2" /> Delete
+                  Back
+                  <FaHotel className="inline mr-2" /> 
                 </button>
               </div>
             </div>

@@ -1,42 +1,38 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import Header from '../../Components/Header';
-import axiosInstance from '../../Axios/axiosinstance';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Header from "../../Components/Header";
+import axiosInstance from "../../Axios/axiosinstance";
 
 function LogEmail() {
-    const[email,setEmail]=useState("")
-    const [emailError, setEmailError] = useState("");
-const navigate=useNavigate()
-    const handleSubmit=(e)=>{
-e.preventDefault()
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const navigate = useNavigate();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
+
+  const handleNext = async () => {
+    if (!email) {
+      setEmailError("Email is required");
+      return;
     }
 
-    const handleNext=async()=>{
-
-
-
-      if (!email) {
-        setEmailError("Email is required");
-        return;
-      }
-    
-      const emailRegex = /\S+@\S+\.\S+/;
-      if (!emailRegex.test(email)) {
-        setEmailError("Please enter a valid email address");
-        return;
-      }
-        if(email){
-    
-          const response=await axiosInstance.post('/otplogin',{email})
-          console.log(response);
-           navigate('/login',{state:{email}})
+    const emailRegex = /\S+@\S+\.\S+/;
+    if (!emailRegex.test(email)) {
+      setEmailError("Please enter a valid email address");
+      return;
     }
-    setEmailError("")
-  }
+    if (email) {
+      const response = await axiosInstance.post("/otplogin", { email });
+      console.log(response);
+      navigate("/login", { state: { email } });
+    }
+    setEmailError("");
+  };
   return (
     <>
-      <Header/>
-      {/* Registration Form */}
+      <Header />
+
       <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] p-4">
         <div className="bg-white shadow-lg rounded-lg p-6 max-w-md w-full">
           <h1 className="text-2xl font-bold text-gray-800 mb-4">
@@ -59,7 +55,7 @@ e.preventDefault()
               value={email}
               onChange={(e) => {
                 setEmail(e.target.value);
-                setEmailError(""); // Clear error message on typing
+                setEmailError("");
               }}
               className={`w-full border ${
                 emailError ? "border-red-500" : "border-gray-300"
@@ -71,8 +67,8 @@ e.preventDefault()
             {emailError && (
               <p className="text-red-500 text-sm mt-1">{emailError}</p>
             )}
-            <button 
-            onClick={handleNext}
+            <button
+              onClick={handleNext}
               type="submit"
               className="w-full bg-blue-600 text-white font-medium py-2 rounded-lg hover:bg-blue-700 transition"
             >
@@ -102,7 +98,7 @@ e.preventDefault()
         </div>
       </div>
     </>
-  )
+  );
 }
 
-export default LogEmail
+export default LogEmail;

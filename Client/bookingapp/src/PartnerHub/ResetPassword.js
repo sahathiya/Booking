@@ -1,30 +1,64 @@
-import React, { useState } from 'react'
-import axiosInstance from '../Axios/axiosinstance';
-import { useNavigate, useParams } from 'react-router-dom';
-import NavbarP from './Navbar/NavbarP';
+import React, { useState } from "react";
+import axiosInstance from "../Axios/axiosinstance";
+import { useNavigate, useParams } from "react-router-dom";
+import NavbarP from "./Navbar/NavbarP";
 
 function ResetPassword() {
-    const {id,token}=useParams()
-    const [password,setPassword]=useState("")
-    const[confirmPassword,setConfirmPassword]=useState("")
-    const [showPassword, setShowPassword] = useState(false);
-      const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-      const [error, setError] = useState("");
-      const navigate=useNavigate()
+  const { id, token } = useParams();
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
-      const handleSubmit=async(e)=>{
-        e.preventDefault()
-        const response=await axiosInstance.post(`/reset-password/${id}/${token}`,{password})
-        console.log("response reset",response);
-        
+  const validatePassword = (password) => {
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{10,}$/;
+    return passwordRegex.test(password);
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!password) {
+      newErrors.password = "Password is required.";
+    } else if (!validatePassword(password)) {
+      newErrors.password =
+        "Password must be at least 10 characters long and include uppercase letters, lowercase letters, and numbers.";
+    }
+
+    if (!confirmPassword) {
+      newErrors.confirmPassword = "Confirm Password is required.";
+    } else if (confirmPassword !== password) {
+      newErrors.confirmPassword = "Passwords do not match.";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (validateForm()) {
+      try {
+        const response = await axiosInstance.post(
+          `/reset-password/${id}/${token}`,
+          { password }
+        );
+        console.log("Response:", response);
+        navigate("/loginemail");
+      } catch (error) {
+        setErrors({
+          apiError: "Failed to reset password. Please try again later.",
+        });
       }
+    }
+  };
+
   return (
     <div>
-    <div>
-        <NavbarP/>
-    </div>
-       {/* Password Form Container */}
-       <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] p-3">
+      <NavbarP />
+      <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] p-3">
         <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-md">
           <h1 className="text-2xl font-bold text-gray-800 mb-4">
             Create a new password
@@ -34,9 +68,7 @@ function ResetPassword() {
             lowercase letters, and numbers.
           </p>
 
-          {/* Form */}
           <form onSubmit={handleSubmit}>
-            {/* Password Field */}
             <div className="mb-4 relative">
               <label
                 htmlFor="password"
@@ -49,11 +81,12 @@ function ResetPassword() {
                   type={showPassword ? "text" : "password"}
                   id="password"
                   value={password}
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                    setError("");
-                  }}
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  onChange={(e) => setPassword(e.target.value)}
+                  className={`w-full border rounded-lg px-4 py-2 pr-10 focus:outline-none focus:ring-2 ${
+                    errors.password
+                      ? "border-red-500 focus:ring-red-500"
+                      : "border-gray-300 focus:ring-blue-600"
+                  }`}
                   placeholder="Enter your password"
                 />
                 <i
@@ -63,9 +96,11 @@ function ResetPassword() {
                   onClick={() => setShowPassword(!showPassword)}
                 ></i>
               </div>
+              {errors.password && (
+                <p className="text-red-500 text-sm">{errors.password}</p>
+              )}
             </div>
 
-            {/* Confirm Password Field */}
             <div className="mb-4 relative">
               <label
                 htmlFor="confirmPassword"
@@ -78,28 +113,32 @@ function ResetPassword() {
                   type={showConfirmPassword ? "text" : "password"}
                   id="confirmPassword"
                   value={confirmPassword}
-                  onChange={(e) => {
-                    setConfirmPassword(e.target.value);
-                    setError("");
-                  }}
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  className={`w-full border rounded-lg px-4 py-2 pr-10 focus:outline-none focus:ring-2 ${
+                    errors.confirmPassword
+                      ? "border-red-500 focus:ring-red-500"
+                      : "border-gray-300 focus:ring-blue-600"
+                  }`}
                   placeholder="Re-enter your password"
                 />
                 <i
                   className={`absolute top-1/2 right-3 transform -translate-y-1/2 cursor-pointer text-gray-600 fas ${
-                    showConfirmPassword ?  "fa-eye" : "fa-eye-slash"
+                    showConfirmPassword ? "fa-eye" : "fa-eye-slash"
                   }`}
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 ></i>
               </div>
+              {errors.confirmPassword && (
+                <p className="text-red-500 text-sm">{errors.confirmPassword}</p>
+              )}
             </div>
 
-            {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+            {errors.apiError && (
+              <p className="text-red-500 text-sm mb-4">{errors.apiError}</p>
+            )}
 
-            {/* Submit Button */}
             <button
               type="submit"
-              onClick={()=>navigate('/')}
               className="w-full bg-blue-600 text-white font-medium py-2 rounded-lg hover:bg-blue-700 transition"
             >
               Set new password
@@ -108,24 +147,24 @@ function ResetPassword() {
 
           <div className="text-center">
             <p className="text-xs text-gray-500 mt-6">
-            By signing in or creating an account, you agree with our{" "}
-            <a href="#" className="text-blue-600 hover:underline">
-              Terms & conditions
-            </a>{" "}
-            and{" "}
-            <a href="#" className="text-blue-600 hover:underline">
-              Privacy statement
-            </a>
-            .
-          </p>
-          <p className="text-xs text-gray-500 mt-4">
-            Copyright © 2006 - 2024 - Booking.com™
-          </p>
+              By signing in or creating an account, you agree with our{" "}
+              <a href="#" className="text-blue-600 hover:underline">
+                Terms & conditions
+              </a>{" "}
+              and{" "}
+              <a href="#" className="text-blue-600 hover:underline">
+                Privacy statement
+              </a>
+              .
+            </p>
+            <p className="text-xs text-gray-500 mt-4">
+              Copyright © 2006 - 2024 - Booking.com™
+            </p>
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default ResetPassword
+export default ResetPassword;
