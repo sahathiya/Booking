@@ -25,6 +25,10 @@ import ContactSupport from './PartnerHub/ContactSupport';
 import PropertyDetails from './PartnerHub/Property/PropertyDetails';
 import ResetPassword from './PartnerHub/ResetPassword';
 import Checkinbox from './PartnerHub/Checkinbox';
+import Saved from './Components/Saved/Saved';
+import DetailesPage from './Components/DetailesProperty/DetailesPage';
+import SearchingProperty from './Components/Search/SearchingProperty';
+import SearchDetailes from './Components/Search/SearchDetailes';
 
 
 function App() {
@@ -43,6 +47,13 @@ function App() {
         <Route path='/login' element={<Login/>}/>
         <Route path='/personaldetailes' element={<PersonalDetails/>}/>
         <Route path='/profileimage' element={<ProfileImageUploader/>}/>
+
+<Route path='/saved' element={<Saved/>}/>
+<Route path='/detailespage/:id' element={<DetailesPage/>}/>
+
+<Route path='/searching' element={<SearchingProperty/>}/>
+<Route path='/searchdetailes' element={<SearchDetailes/>}/>
+
 
 
         <Route path='/homepartner' element={<PartnerHome/>}/>

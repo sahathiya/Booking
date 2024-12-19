@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userSlice from "../Features/userSlice";
 import partnerSlice from "../Features/partnerSlice";
+import savedSlice from"../Features/savedSlice"
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import propertySlice from "../Features/propertySlice";
@@ -20,6 +21,10 @@ const propertyPersistConfig = {
   storage,
 };
 
+// const savedPersisting={
+//   key:"saved",
+//   storage,
+// }
 const persistedUserReducer = persistReducer(userPersistConfig, userSlice);
 
 const persistedPartnerReducer = persistReducer(
@@ -31,11 +36,17 @@ const persistedPropertyReducer = persistReducer(
   propertySlice
 );
 
+// const persistedsavedReducer = persistReducer(
+//   savedPersisting,
+//   savedSlice
+// );
+
 export const store = configureStore({
   reducer: {
     user: persistedUserReducer,
     partner: persistedPartnerReducer,
     property: persistedPropertyReducer,
+    saved:savedSlice
   },
 });
 

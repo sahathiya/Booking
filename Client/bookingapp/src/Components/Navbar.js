@@ -8,6 +8,7 @@ import axiosInstance from "../Axios/axiosinstance";
 import { MdAccountCircle } from "react-icons/md";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { FaUserCircle } from "react-icons/fa";
+import { CiHeart } from "react-icons/ci";
 const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -116,6 +117,13 @@ const Navbar = () => {
                   >
                     <MdAccountCircle className="inline text-xl" />
                     My account
+                  </button>
+                  <button 
+                  className="block w-full px-4 py-2 text-left hover:bg-gray-100"
+                  onClick={()=>navigate('/saved')}
+                  >
+                  <CiHeart className="inline text-xl "/>
+                  Saved
                   </button>
                   <button
                     onClick={handleSignOut}
