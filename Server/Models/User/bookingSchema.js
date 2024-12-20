@@ -1,16 +1,15 @@
-const mongoose=require("mongoose")
+const mongoose = require("mongoose");
 
-
-const bookingSchema=new mongoose.Schema({
-   GuestDetailes:{type:mongoose.Schema.Types.ObjectId,ref:'Users'},
-   PropertyDetailes:{type:mongoose.Schema.Types.ObjectId,ref:'Property'},
-   adultCount: { type: Number, required: true },
-  childCount: { type: Number, required: true },
-   checkInDate: {
+const bookingSchema = new mongoose.Schema({
+  GuestDetailes: { type: mongoose.Schema.Types.ObjectId, ref: "Users" },
+  PropertyDetailes: { type: mongoose.Schema.Types.ObjectId, ref: "Property" },
+  adults: { type: Number, required: true },
+  children: { type: Number, required: true },
+  checkIn: {
     type: Date,
     required: true,
   },
-  checkOutDate: {
+  checkOut: {
     type: Date,
     required: true,
   },
@@ -18,6 +17,12 @@ const bookingSchema=new mongoose.Schema({
     type: Number,
     required: true,
   },
+ NumberOfRooms:{type:String},
+  Firstname: { type: String, required: false },
+  Lastname: { type: String, required: false },
+  Country: { type: String, required: false },
+  Phonenumber: { type: String, required: false },
+
   createdAt: {
     type: Date,
     default: Date.now,
@@ -32,6 +37,6 @@ const bookingSchema=new mongoose.Schema({
     enum: ["Pending", "Completed", "Failed"],
     default: "Pending",
   },
-})
+});
 
-module.exports=mongoose.model("Booking",bookingSchema)
+module.exports = mongoose.model("Booking", bookingSchema);

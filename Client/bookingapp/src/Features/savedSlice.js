@@ -53,6 +53,7 @@ const savedSlice = createSlice({
       state.savedProperties = action.payload; // Overwrite the savedProperties array
     },
     removeProperty: (state, action) => {
+      
             state.savedProperties = state.savedProperties.filter(item => item._id !== action.payload);
            },
   },

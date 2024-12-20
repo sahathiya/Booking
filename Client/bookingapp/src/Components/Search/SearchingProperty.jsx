@@ -175,10 +175,10 @@ import {
    
   
   } from "@fortawesome/free-solid-svg-icons";
-  
+  import { LuUserRound } from "react-icons/lu";
   import "react-date-range/dist/styles.css";
   import "react-date-range/dist/theme/default.css";
-  
+  import { IoBedOutline } from "react-icons/io5";
   import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
   import { DateRange } from "react-date-range";
   import { useState } from "react";
@@ -246,10 +246,10 @@ import {
   };
   
     return (
-      <div className="flex border-2 border-[#febb02]">
+      <div className="flex border-2 border-[#febb02] bg-[#febb02]">
     {/* Destination Input */}
-    <div className="flex-1 flex items-center gap-2 p-2 border-4 border-[#febb02] rounded-lg bg-white">
-      <FontAwesomeIcon icon={faBed} className="text-gray-400 "/>
+    <div className="flex-1 flex items-center gap-2 p-2 border-4 border-[#febb02] rounded-lg bg-white ">
+      <IoBedOutline className="text-gray-400 text-2xl " />
       <input
         type="text"
         placeholder="Where are you going?"
@@ -260,7 +260,7 @@ import {
   
     {/* Date Input */}
     <div className="flex-1 flex items-center gap-2 p-2 border-4 border-[#febb02] rounded-lg relative z-50 bg-white">
-      <FontAwesomeIcon icon={faCalendarDays} className="text-gray-400" />
+      <FontAwesomeIcon icon={faCalendarDays} className="text-gray-400 text-xl" />
       <span
         onClick={() => setOpenDate(!openDate)}
         className="text-gray-400 cursor-pointer"
@@ -284,7 +284,7 @@ import {
   
     {/* Options Input */}
     <div className="flex-1 flex items-center gap-2 p-2 border-4 border-[#febb02] rounded-lg relative z-50 bg-white">
-      <FontAwesomeIcon icon={faPerson} className="text-gray-400" />
+      <LuUserRound  className="text-gray-400 text-2xl" />
       <span
         onClick={() => setOpenOptions(!openOptions)}
         className="text-gray-400 cursor-pointer"

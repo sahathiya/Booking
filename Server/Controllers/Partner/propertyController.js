@@ -184,4 +184,34 @@ const propertyById=async(req,res)=>{
   }
   return res.json({message:'detailes',property})
 }
-module.exports = { AddProperty, PropertiesByPartner, DeleteProperty, EditProperty,AllProperties,propertyById };
+
+
+
+const viewProperty = async (req, res) => {
+  try {
+    const propertyId  = req.params.id;
+
+    const property = await Property.findById(propertyId);
+    if (!property) {
+      return res.status(404).json({ message: "Property not found" });
+    }
+
+    // Increment the view count (no user-specific check)
+    property.viewCount += 1;
+
+    await property.save();
+
+    res.status(200).json({
+      message: "Property viewed successfully",
+      property: {
+        name: property.Propertyname,
+        viewCount: property.viewCount,
+      },
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+module.exports = { AddProperty, PropertiesByPartner, DeleteProperty, EditProperty,AllProperties,propertyById,viewProperty };

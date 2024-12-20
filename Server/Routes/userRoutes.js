@@ -10,7 +10,7 @@ const { userAuthMiddleware } = require("../Middlewares/Authentication");
 const upload = require("../Middlewares/Imageupload");
 const tryCatch = require("../Middlewares/Trycatch");
 const{addToSaved,removeFromSaved,SavedProperties}=require("../Controllers/User/savedController")
-const {BookingProperty} =require("../Controllers/User/bookingController")
+const {BookingProperty,BookingDetailes} =require("../Controllers/User/bookingController")
 const {SearchProperty}=require("../Controllers/User/searchController")
 router
   .post("/register", tryCatch(registerUser))
@@ -32,6 +32,8 @@ router
 
   //booking
   .post("/booking/:id",userAuthMiddleware,tryCatch(BookingProperty))
+  .put("/detailesbooking/:id",userAuthMiddleware,tryCatch(BookingDetailes))
+
 
   //search
   .get("/search",userAuthMiddleware,tryCatch(SearchProperty))

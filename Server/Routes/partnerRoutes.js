@@ -16,6 +16,7 @@ const {
   EditProperty,
   AllProperties,
   propertyById,
+  viewProperty
 } = require("../Controllers/Partner/propertyController");
 const upload = require("../Middlewares/Imageupload");
 const tryCatch = require("../Middlewares/Trycatch");
@@ -35,6 +36,7 @@ router
   .post("/addproperty",partnerAuthMiddleware, upload.array("images", 4), tryCatch(AddProperty))
   .put("/editproperty/:id", upload.array("images", 4), tryCatch(EditProperty))
   .get("/allproperties", AllProperties)
-  .get("/propertyById/:id", propertyById);
+  .get("/propertyById/:id", propertyById)
+  .get("/viewed/:id",viewProperty)
 
 module.exports = router;

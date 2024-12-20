@@ -203,15 +203,13 @@ const BookingProperty = async (req, res) => {
   console.log("booking..........");
 
   try {
-    const {
-      adultCount,
-      childCount,
-      checkInDate,
-      checkOutDate,
-    } = req.body;
+    const { adults, children, checkIn, checkOut } = req.body;
 
-    // Step 1: Validate request body
-    if (!adultCount || !childCount || !checkInDate || !checkOutDate) {
+    
+console.log("req.bodyreq.body",req.body);
+
+    // // Step 1: Validate request body
+    if (!adults || !children || !checkIn || !checkOut) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
@@ -229,10 +227,10 @@ const BookingProperty = async (req, res) => {
     }
 
     // Step 3: Check if the property is available for the requested dates
-    const checkIn = new Date(checkInDate);
-    const checkOut = new Date(checkOutDate);
+    const checkIndate = new Date(checkIn);
+    const checkOutdate = new Date(checkOut);
 
-    if (checkIn >= checkOut) {
+    if (checkIndate >= checkOutdate) {
       return res
         .status(400)
         .json({ message: "Check-out date must be after check-in date" });
@@ -243,12 +241,12 @@ const BookingProperty = async (req, res) => {
       PropertyDetailes: propertyId,
       $or: [
         {
-          checkInDate: { $lt: checkOut },
-          checkOutDate: { $gt: checkIn },
+          checkIn: { $lt: checkOut },
+          checkOut: { $gt: checkIn },
         },
         {
-          checkInDate: { $gte: checkIn },
-          checkOutDate: { $lte: checkOut },
+          checkIn: { $gte: checkIn },
+          checkOut: { $lte: checkOut },
         },
       ],
     });
@@ -261,27 +259,28 @@ const BookingProperty = async (req, res) => {
 
     // Step 4: Calculate total price
     const durationInDays =
-      (checkOut.getTime() - checkIn.getTime()) / (1000 * 60 * 60 * 24);
+  (checkOutdate.getTime() - checkIndate.getTime()) / (1000 * 60 * 60 * 24);
+
     const totalPrice =
-      durationInDays * property.pricePerNight * (adultCount + childCount);
+      durationInDays * property.pricePerNight * (adults + children);
 
     // Step 5: Create and save booking
     const booking = new Booking({
       GuestDetailes: req.user.id,
       PropertyDetailes: propertyId,
-      adultCount,
-      childCount,
-      checkInDate,
-      checkOutDate,
+      adults,
+      children,
+      checkIn,
+      checkOut,
       totalPrice: totalPrice,
     });
 
     const savedBooking = await booking.save();
 
     // Step 6: Populate the booking with user and property details
-    const savedBookingPopulate = await savedBooking.populate('GuestDetailes').populate('PropertyDetailes'); // Populate Property details
+     // Populate Property details
 
-    console.log("savedBookingPopulate", savedBookingPopulate);
+   
 
     // Step 7: Update property with booking reference
     property.Bookings = savedBooking._id;
@@ -290,7 +289,7 @@ const BookingProperty = async (req, res) => {
     // Step 8: Respond to the client
     res.status(201).json({
       message: "Booking successful",
-      booking: savedBookingPopulate,
+      booking:savedBooking ,
     });
   } catch (error) {
     console.error("Error in BookingProperty:", error);
@@ -298,4 +297,26 @@ const BookingProperty = async (req, res) => {
   }
 };
 
-module.exports = { BookingProperty };
+
+
+
+const BookingDetailes=async(req,res)=>{
+  console.log("gggggggggggggggggg");
+  
+  const bookingid=req.params.id
+  const book=await Booking.findOne({_id:bookingid})
+  if(!book){
+    return res.status(404).json({message:'not found this id'})
+  }
+  const {Firstname,Lastname,Country,Phonenumber}=req.body
+
+ book.Firstname=Firstname
+ book.Lastname=Lastname
+ book.Country=Country
+ book.Phonenumber=Phonenumber
+
+  await book.save()
+
+  return res.status(200).json({message:'userdetailes',book})
+}
+module.exports = { BookingProperty ,BookingDetailes};

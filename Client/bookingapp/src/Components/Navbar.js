@@ -9,6 +9,8 @@ import { MdAccountCircle } from "react-icons/md";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { FaUserCircle } from "react-icons/fa";
 import { CiHeart } from "react-icons/ci";
+import { IoMdNotificationsOutline } from "react-icons/io";
+import { GoQuestion } from "react-icons/go";
 const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -54,12 +56,12 @@ const Navbar = () => {
   return (
     <div className="bg-blue-900 text-white">
       <div className="flex items-center justify-between px-4 py-3 max-w-7xl mx-auto">
-        <div onClick={() => navigate(`/`)} className="text-2xl font-semibold">
+        <div onClick={() => navigate(`/`)} className="text-2xl font-semibold ml-24">
           Booking.com
         </div>
 
         <div className="flex items-center space-x-4">
-          <div className="flex items-center space-x-1 cursor-pointer">
+          <div className="flex items-center space-x-1 cursor-pointer font-semibold">
             <span>INR</span>
           </div>
 
@@ -72,11 +74,11 @@ const Navbar = () => {
           </div>
 
           <div className="cursor-pointer">
-            <FaQuestionCircle size={20} />
+          <GoQuestion size={25}/>
           </div>
 
           <div className="cursor-pointer">
-            <FaBell size={20} />
+            <IoMdNotificationsOutline size={27} />
           </div>
 
           <button
