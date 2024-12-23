@@ -16,15 +16,19 @@ const propertySchema = new mongoose.Schema({
   facilities: [{ type: String, required: true }],
   pricePerNight: { type: Number, required: true },
   numberofRooms: { type: Number, required: true },
-  RoomType:[{
-    type: { type: String, required: true },   // Room Type (e.g., "Single", "Double")
-    numberOfRooms: { type: Number, required: true },
-    facilities:{type:String}
-  }],
-  viewCount: { type: Number, default: 0 }, 
+  RoomType: [
+    {
+      type: { type: String, required: true },
+      count: { type: Number, required: true },
+      about: { type: String },
+      facility: [{ type: String }],
+    },
+  ],
+  brand: { type: String },
+  viewCount: { type: Number, default: 0 },
   images: [{ type: String, required: true }],
   createdAt: { type: Date, default: Date.now },
-  Bookings:{type:mongoose.Schema.Types.ObjectId,ref:'Booking'}
+  Bookings: { type: mongoose.Schema.Types.ObjectId, ref: "Booking" },
 });
 
 module.exports = mongoose.model("Property", propertySchema);

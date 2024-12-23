@@ -44,7 +44,7 @@ function Availability() {
 
   return (
     <div className="p-4">
-      <h1 className="text-black font-bold text-xl mb-4">Availability</h1>
+      <h1 className="text-black font-bold text-xl mb-4 ">Availability</h1>
 
      
       <div className="w-[700px] h-10 border-2 border-yellow-500 mb-6 rounded-md">

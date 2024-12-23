@@ -246,14 +246,14 @@ import {
   };
   
     return (
-      <div className="flex border-2 border-[#febb02] bg-[#febb02]">
+      <div className="flex border-1 border-[#febb02] bg-[#febb02] rounded-lg  ">
     {/* Destination Input */}
     <div className="flex-1 flex items-center gap-2 p-2 border-4 border-[#febb02] rounded-lg bg-white ">
       <IoBedOutline className="text-gray-400 text-2xl " />
       <input
         type="text"
         placeholder="Where are you going?"
-        className="outline-none w-full"
+        className="outline-none w-full text-black"
         onChange={(e) => setDestination(e.target.value)}
       />
     </div>

@@ -9,9 +9,11 @@ import {
   } from "@fortawesome/free-solid-svg-icons";
   import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from 'react-router-dom';
+import SearchingProperty from '../Search/SearchingProperty';
 function Navbar2() {
     const navigate=useNavigate()
   return (
+    <>
     <div className="bg-blue-900 text-white flex justify-center relative">
        <div className="flex gap-10 mb-12">
                 <div className="flex items-center gap-2 p-2 hover:border border-white rounded-lg"
@@ -37,7 +39,12 @@ function Navbar2() {
                   <span>Airport taxis</span>
                 </div>
               </div>
+              
     </div>
+    <SearchingProperty/>
+    </>
+    
+    
   )
 }
 

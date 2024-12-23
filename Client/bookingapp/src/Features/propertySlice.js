@@ -81,7 +81,8 @@ const propertySlice = createSlice({
   name: "property",
   initialState: {
     property: [], // List of all properties
-    savedPropertyIDs: [], // List of saved property IDs
+    savedPropertyIDs: [], // List of saved property IDs,
+    filteredProperties:[]
   },
   reducers: {
     setProperty: (state, action) => {
@@ -98,6 +99,9 @@ const propertySlice = createSlice({
         (id) => id !== action.payload
       ); // Remove a property ID from saved
     },
+    setFilteredProperties:(state,action)=>{
+      state.filteredProperties=action.payload
+    }
   },
 });
 
@@ -106,5 +110,6 @@ export const {
   setSavedPropertyIDs,
   addSavedPropertyID,
   removeSavedPropertyID,
+  setFilteredProperties
 } = propertySlice.actions;
 export default propertySlice.reducer;

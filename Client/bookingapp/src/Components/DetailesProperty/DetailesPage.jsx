@@ -182,6 +182,7 @@ import {faCalendarDays,faPerson} from "@fortawesome/free-solid-svg-icons";
   import { setBooking } from "../../Features/bookingSlice";
 import Navbar2 from "../Navbars/Navbar2";
 import HouseRules from "./HouseRules";
+import Footer1 from "../Footers/Footer1";
   
 function DetailesPage() {
 const booking=useSelector((state)=>state.booking.booking)
@@ -246,25 +247,35 @@ const handleReserve=async(propertyId)=>{
     <>
     <Navbar/>
     <Navbar2/>
-    <BookingTracker />
-    <div className="p-6 bg-gray-100 min-h-screen">
+    {/* <BookingTracker /> */}
+    <div className="p-6 min-h-screen">
       {detailesproperty.map((pro) => (
         <div
           key={pro._id}
-          className="max-w-5xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden"
+          className="max-w-5xl mx-auto   overflow-hidden"
         >
           {/* Header */}
           <div className="p-6 border-b">
-            <h1 className="text-2xl font-bold text-gray-800">{pro.Propertyname}</h1>
-            <p className="text-gray-600">
-              {pro.city}, {pro.country}
-            </p>
-            <FaRegHeart />
-            <GoShareAndroid />
-            <button className="bg-blue-500 text-white font-semibold rounded-md  py-2 p-1"
-            onClick={()=>handleReserve(pro._id)}
-            >Reserve</button>
-          </div>
+  <div className="flex items-center justify-between">
+    <div>
+      <h1 className="text-2xl font-bold text-gray-800">{pro.Propertyname}</h1>
+      <p className="text-gray-600">
+        {pro.city}, {pro.country}
+      </p>
+    </div>
+    <div className="flex items-center gap-3">
+      <FaRegHeart className="text-gray-600 text-2xl" />
+      <GoShareAndroid className="text-blue-600 text-2xl" />
+      <button
+        className="bg-blue-500 text-white font-semibold rounded-md py-2 px-4"
+        onClick={() => handleReserve(pro._id)}
+      >
+        Reserve
+      </button>
+    </div>
+  </div>
+</div>
+
 
           {/* Images */}
           <div className="p-6 grid grid-cols-2 gap-4">
@@ -299,9 +310,10 @@ const handleReserve=async(propertyId)=>{
 
           {/* Facilities */}
           <div className="p-6">
-            <h2 className="text-xl font-semibold text-gray-800 mb-4">Facilities</h2>
+            <h2 className="text-xl font-semibold text-gray-800 mb-4">Most popular facilities</h2>
             <ul className="grid grid-cols-2 gap-4">
               {pro.facilities.map((facility, index) => (
+
                 <li
                   key={index}
                   className="flex items-center space-x-2 text-gray-600"
@@ -319,132 +331,140 @@ const handleReserve=async(propertyId)=>{
     </div>
 
   {/* <Availability/> */}
-
-  <h1 className="text-black font-bold text-xl mb-4">Availability</h1>
+<div className="max-w-5xl mx-auto">
+<h1 className="text-black font-bold text-xl mb-4">Availability</h1>
   
        
-        <div className="w-[700px] h-10 border-2 border-yellow-500 mb-6 rounded-md">
-    <div className="flex items-center justify-between h-full px-4 border-2 border-yellow-500  bg-yellow-500">
-      {/* Check-in and Check-out Section */}
-      <div className="flex items-center  rounded-md border-2 border-yellow-500 ">
-        <FontAwesomeIcon icon={faCalendarDays} className="text-gray-400" />
-        <span
-          onClick={() => setOpenDate(!openDate)}
-          className="text-gray-400 cursor-pointer"
-        >
-          {`${format(date[0].startDate, "MM/dd/yyyy")} to ${format(
-            date[0].endDate,
-            "MM/dd/yyyy"
-          )}`}
-        </span>
-        <div className="relative">
-    {openDate && (
-      <DateRange
-        editableDateInputs={true}
-        onChange={(item) => setDate([item.selection])}
-        moveRangeOnFirstSelection={false}
-        ranges={date}
-        minDate={new Date()}
-        className="absolute top-12 left-0 z-50 bg-white shadow-md p-3 rounded-lg"
-      />
-    )}
-  </div>
-  
-      </div>
-  
-      {/* Adult and Child Count Section */}
-      <div className="flex items-center gap-2 relative rounded-md border-2 border-yellow-500">
-        <FontAwesomeIcon icon={faPerson} className="text-gray-400" />
-        <span
-          onClick={() => setOpenOptions(!openOptions)}
-          className="text-gray-400 cursor-pointer"
-        >
-          {`${options.adult} adult · ${options.children} children`}
-        </span>
-        {openOptions && (
-          <div className="absolute top-12 left-0 w-64 bg-white text-gray-500 rounded-lg shadow-lg p-3 z-50">
-            {["Adult", "Children"].map((label, index) => (
-              <div key={index} className="flex justify-between mb-3">
-                <span className="text-sm">{label}</span>
-                <div className="flex items-center gap-2">
-                  <button
-                    disabled={options[label.toLowerCase()] <= 0}
-                    className="w-8 h-8 border border-[#0071c2] text-[#0071c2] rounded hover:bg-[#0071c2] hover:text-white"
-                    onClick={() => handleOption(label.toLowerCase(), "d")}
-                  >
-                    -
-                  </button>
-                  <span>{options[label.toLowerCase()]}</span>
-                  <button
-                    className="w-8 h-8 border border-[#0071c2] text-[#0071c2] rounded hover:bg-[#0071c2] hover:text-white"
-                    onClick={() => handleOption(label.toLowerCase(), "i")}
-                  >
-                    +
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-  
-      {/* Search Button */}
-      <button
-        className="bg-[#0071c2] text-white font-medium py-1 px-2  rounded"
-      //   onClick={() => handleSearch( date, options)}
-      >
-        Search
-      </button>
-    </div>
-  </div>
-  
-  
-        {/* Table */}
-        <table className="min-w-full table-auto border-collapse border border-gray-300">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="px-4 py-2 border border-gray-300">Room Type</th>
-              <th className="px-4 py-2 border border-gray-300">Number of Guests</th>
-              <th className="px-4 py-2 border border-gray-300">Today's Price</th>
-              <th className="px-4 py-2 border border-gray-300">Your Choices</th>
-              <th className="px-4 py-2 border border-gray-300">Select Room</th>
-              <th className="px-4 py-2 border border-gray-300"></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td className="px-4 py-2 border border-gray-300">Sample Room</td>
-              <td className="px-4 py-2 border border-gray-300">2 Guests</td>
-              <td className="px-4 py-2 border border-gray-300">$100</td>
-              <td className="px-4 py-2 border border-gray-300">Option 1</td>
-              <td className="px-4 py-2 border border-gray-300">
-                {/* Dropdown inside the table */}
-                <select className="px-4 py-2 border rounded w-full">
-                  <option value="0">0</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                </select>
-              </td>
-              <td className="px-4 py-2 border border-gray-300">
-                <button className="bg-blue-500 text-white px-4 py-2 rounded">I 'll Reserve</button>
-              </td>
-            </tr>
-            <tr>
-              <td className="px-4 py-2 border border-gray-300">1</td>
-              <td className="px-4 py-2 border border-gray-300">2</td>
-              <td className="px-4 py-2 border border-gray-300">3</td>
-              <td className="px-4 py-2 border border-gray-300">4</td>
-              <td className="px-4 py-2 border border-gray-300">5</td>
-              <td className="px-4 py-2 border border-gray-300">6</td>
-            </tr>
-            {/* Add more rows as needed */}
-          </tbody>
-        </table>
+  <div className="w-[800px] h-10 border-2 border-yellow-500 mb-6 rounded-md">
+<div className="flex items-center justify-between h-full px-4 border-2 border-yellow-500  bg-yellow-500">
+{/* Check-in and Check-out Section */}
+<div className="flex items-center  rounded-md border-2 border-yellow-500 ">
+  <FontAwesomeIcon icon={faCalendarDays} className="text-gray-400" />
+  <span
+    onClick={() => setOpenDate(!openDate)}
+    className="text-gray-400 cursor-pointer"
+  >
+    {`${format(date[0].startDate, "MM/dd/yyyy")} to ${format(
+      date[0].endDate,
+      "MM/dd/yyyy"
+    )}`}
+  </span>
+  <div className="relative">
+{openDate && (
+<DateRange
+  editableDateInputs={true}
+  onChange={(item) => setDate([item.selection])}
+  moveRangeOnFirstSelection={false}
+  ranges={date}
+  minDate={new Date()}
+  className="absolute top-12 left-0 z-50 bg-white shadow-md p-3 rounded-lg"
+/>
+)}
+</div>
 
+</div>
+
+{/* Adult and Child Count Section */}
+<div className="flex items-center gap-2 relative rounded-md border-2 border-yellow-500">
+  <FontAwesomeIcon icon={faPerson} className="text-gray-400" />
+  <span
+    onClick={() => setOpenOptions(!openOptions)}
+    className="text-gray-400 cursor-pointer"
+  >
+    {`${options.adult} adult · ${options.children} children`}
+  </span>
+  {openOptions && (
+    <div className="absolute top-12 left-0 w-64 bg-white text-gray-500 rounded-lg shadow-lg p-3 z-50">
+      {["Adult", "Children"].map((label, index) => (
+        <div key={index} className="flex justify-between mb-3">
+          <span className="text-sm">{label}</span>
+          <div className="flex items-center gap-2">
+            <button
+              disabled={options[label.toLowerCase()] <= 0}
+              className="w-8 h-8 border border-[#0071c2] text-[#0071c2] rounded hover:bg-[#0071c2] hover:text-white"
+              onClick={() => handleOption(label.toLowerCase(), "d")}
+            >
+              -
+            </button>
+            <span>{options[label.toLowerCase()]}</span>
+            <button
+              className="w-8 h-8 border border-[#0071c2] text-[#0071c2] rounded hover:bg-[#0071c2] hover:text-white"
+              onClick={() => handleOption(label.toLowerCase(), "i")}
+            >
+              +
+            </button>
+          </div>
+        </div>
+      ))}
+    </div>
+  )}
+</div>
+
+{/* Search Button */}
+<button
+  className="bg-[#0071c2] text-white font-medium py-1 px-2  rounded"
+//   onClick={() => handleSearch( date, options)}
+>
+  Search
+</button>
+</div>
+</div>
+{/* Table */}
+<table className="w-[800px] table-auto border-collapse border border-gray-300">
+  <thead className="bg-gray-100">
+    <tr>
+      <th className="px-4 py-2 border border-gray-300 bg-blue-500 text-white">Room Type</th>
+      <th className="px-4 py-2 border border-gray-300 bg-blue-500 text-white">Number of Guests</th>
+      <th className="px-4 py-2 border border-gray-300 bg-blue-500 text-white">Today's Price</th>
+      <th className="px-4 py-2 border border-gray-300 bg-blue-500 text-white">Your Choices</th>
+      <th className="px-4 py-2 border border-gray-300 bg-blue-500 text-white">Select Room</th>
+      <th className="px-4 py-2 border border-gray-300 bg-blue-500 text-white"></th>
+    </tr>
+  </thead>
+  {detailesproperty.map((item, index) => (
+    <tbody key={index}>
+      <tr>
+        <td className="px-4 py-2 border border-gray-300">
+          {/* Map over RoomType array and display the type */}
+          {item.RoomType ? item.RoomType.map((room, idx) => (
+            <div key={idx}>{room.type}</div>
+          )) : null}
+        </td>
+        <td className="px-4 py-2 border border-gray-300">2 Guests</td>
+        <td className="px-4 py-2 border border-gray-300">$100</td>
+        <td className="px-4 py-2 border border-gray-300">Option 1</td>
+        <td className="px-4 py-2 border border-gray-300">
+          {/* Dropdown inside the table */}
+          <select className="px-4 py-2 border rounded w-full">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+          </select>
+        </td>
+        <td className="px-4 py-2 border border-gray-300">
+          <button className="bg-blue-500 text-white px-4 py-2 rounded">I'll Reserve</button>
+        </td>
+      </tr>
+      {/* <tr>
+        <td className="px-4 py-2 border border-gray-300">1</td>
+        <td className="px-4 py-2 border border-gray-300">2</td>
+        <td className="px-4 py-2 border border-gray-300">3</td>
+        <td className="px-4 py-2 border border-gray-300">4</td>
+        <td className="px-4 py-2 border border-gray-300">5</td>
+        <td className="px-4 py-2 border border-gray-300">6</td>
+      </tr> */}
+      {/* Add more rows as needed */}
+    </tbody>
+  ))}
+</table>
+
+</div>
+  <br></br>
         <HouseRules/>
- 
+        <br/>
+ <Footer1/>
     </>
     
   );

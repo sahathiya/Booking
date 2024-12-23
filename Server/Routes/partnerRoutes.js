@@ -16,7 +16,13 @@ const {
   EditProperty,
   AllProperties,
   propertyById,
-  viewProperty
+  viewProperty,
+  PropertiesCountByCity,
+  filterPropertiesByPrice,
+  filterPropertiesByType,
+  filterPropertiesByBrand,
+  filterPropertiesByFacilities,
+  filterPropertiesByRoomType
 } = require("../Controllers/Partner/propertyController");
 const upload = require("../Middlewares/Imageupload");
 const tryCatch = require("../Middlewares/Trycatch");
@@ -38,5 +44,11 @@ router
   .get("/allproperties", AllProperties)
   .get("/propertyById/:id", propertyById)
   .get("/viewed/:id",viewProperty)
+  .get("/cityCount",PropertiesCountByCity)
+  .get("/price",filterPropertiesByPrice)
+  .get("/type",filterPropertiesByType)
+  .get("/brand",filterPropertiesByBrand)
+  .get("/facilities",filterPropertiesByFacilities)
+  .get("/roomtype",filterPropertiesByRoomType)
 
 module.exports = router;
