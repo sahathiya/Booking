@@ -1,6 +1,5 @@
 const Saved=require("../../Models/User/savedSchema")
 const Users=require("../../Models/User/userSchema")
-const {UnauthorizedError} =require("../../utils/CustomError")
 const addToSaved=async(req,res)=>{
 
 

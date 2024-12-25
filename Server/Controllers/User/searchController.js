@@ -15,7 +15,7 @@ const SearchProperty= async (req, res) => {
 
     // City filter
     if (city) {
-      query.city = city;
+      query.city = { $regex: new RegExp(city, 'i') };
     }
 console.log("query.city",query.city);
 
