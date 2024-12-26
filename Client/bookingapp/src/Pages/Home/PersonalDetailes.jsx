@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { LogUser, updateUser } from "../../Features/userSlice";
-import Navbar from "../../Components/Navbar";
+import Navbar from "../../Components/Navbars/Navbar";
 import axiosInstance from "../../Axios/axiosinstance";
 
 const PersonalDetails = () => {

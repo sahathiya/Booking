@@ -224,7 +224,10 @@ import {
         checkOutDate: format(date[0].endDate, "yyyy-MM-dd"),
         adultCount: options.adult,
         childCount: options.children,
+        numberofRooms: options.room,
       };
+      console.log("queryquery",query);
+      
   
       const params = new URLSearchParams(query).toString();
   

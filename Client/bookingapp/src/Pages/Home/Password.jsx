@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axiosInstance from "../../Axios/axiosinstance";
 import { useLocation, useNavigate } from "react-router-dom";
-import Header from "../../Components/Header";
+import Header from "../../Components/Navbars/Header";
 
 function PasswordForm() {
   const [password, setPassword] = useState("");

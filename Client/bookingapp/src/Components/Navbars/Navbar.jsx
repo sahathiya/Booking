@@ -3,8 +3,8 @@ import { FaBell, FaQuestionCircle, FaUser } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
-import { LogoutUser, LogUser } from "../Features/userSlice";
-import axiosInstance from "../Axios/axiosinstance";
+import { LogoutUser, LogUser } from "../../Features/userSlice";
+import axiosInstance from "../../Axios/axiosinstance";
 import { MdAccountCircle } from "react-icons/md";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { FaUserCircle } from "react-icons/fa";
@@ -112,7 +112,7 @@ const Navbar = () => {
                 <span>Your account</span>
               </button>
               {dropdownOpen && (
-                <div className="absolute right-0 mt-2 w-40 bg-white text-black rounded-md shadow-lg z-50">
+                <div className="absolute right-0 mt-2 w-40 bg-white text-black rounded-md shadow-lg z-30">
                   <button
                     onClick={() => navigate(`/personaldetailes`)}
                     className="block w-full px-4 py-2 text-left hover:bg-gray-100"

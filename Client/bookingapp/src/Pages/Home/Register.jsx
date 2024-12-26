@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../Axios/axiosinstance";
-import Header from "../../Components/Header";
+import Header from "../../Components/Navbars/Header";
 function RegistrationPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");

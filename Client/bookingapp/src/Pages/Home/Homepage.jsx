@@ -122,15 +122,19 @@
 
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import axiosInstance from "../Axios/axiosinstance";
-import { setProperty, addSavedPropertyID, removeSavedPropertyID, setSavedPropertyIDs } from "../Features/propertySlice";
+import axiosInstance from "../../Axios/axiosinstance";
+import { setProperty} from "../../Features/propertySlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import {useNavigate} from 'react-router-dom'
-
+import { setAllSaved } from "../../Features/savedSlice";
+import { FaHeart } from "react-icons/fa";
+import { FaRegHeart } from "react-icons/fa";
 const PropertyCard = () => {
   const property = useSelector((state) => state.property.property);
-  const savedPropertyIDs = useSelector((state) => state.property.savedPropertyIDs);
+  const savedProperties = useSelector((state) => state.saved.savedProperties);
+  console.log("savedProperties.....",savedProperties);
+  
 const navigate=useNavigate()
   const dispatch = useDispatch();
 
@@ -151,7 +155,9 @@ const navigate=useNavigate()
     const fetchSavedProperties = async () => {
       try {
         const savedResponse = await axiosInstance.get("/allsaved");
-        dispatch(setSavedPropertyIDs(savedResponse.data.allSaved.savedProperty || []));
+        console.log("savedResponse",savedResponse.data.allSaved.savedProperty);
+        
+        dispatch(setAllSaved(savedResponse.data.allSaved.savedProperty || []));
       } catch (error) {
         console.error("API Fetch Error:", error);
       }
@@ -160,35 +166,59 @@ const navigate=useNavigate()
     fetchSavedProperties();
   }, [dispatch]);
 
-  const handleSave = async (propertyID) => {
+  // const handleSave = async (propertyID) => {
+  //   try {
+  //  const addtoSave=   await axiosInstance.post(`/saved/${propertyID}`);
+  //  console.log("addtoSave",addtoSave);
+   
+  //     dispatch(setAllSaved(propertyID));
+  //   } catch (error) {
+  //     console.error("Error saving property:", error);
+  //   }
+  // };
+
+  // const handleRemove = async (propertyID) => {
+  //   try {
+  //   const removeresponse=  await axiosInstance.delete(`/remove/${propertyID}`);
+  //   console.log("removeresponse",removeresponse);
+    
+  //     dispatch(setAllSaved(removeresponse.data.deleted));
+  //   } catch (error) {
+  //     console.error("Error removing property:", error);
+  //   }
+  // };
+
+  const handleToggleSave = async (propertyID) => {
+    console.log("propertyID",propertyID);
+    
     try {
-      await axiosInstance.post(`/saved/${propertyID}`);
-      dispatch(addSavedPropertyID(propertyID));
+      console.log("savedProperties",savedProperties);
+      console.log("savedProperties.includes(propertyID)",savedProperties.includes(propertyID));
+      
+      if (savedProperties.some((item) => item._id === propertyID)) {
+        console.log("Property is already saved:", propertyID);
+      
+        // Remove property
+        const removeresponse = await axiosInstance.delete(`/remove/${propertyID}`);
+        console.log("removeresponse", removeresponse);
+      
+        dispatch(setAllSaved(savedProperties.filter((item) => item._id !== propertyID)));
+      } else {
+        console.log("Property is not saved:", propertyID);
+      
+        // Add property
+        const addResponse = await axiosInstance.post(`/saved/${ propertyID }`);
+        console.log("addResponse", addResponse);
+      
+        dispatch(setAllSaved([...savedProperties, { _id: propertyID }]));
+      }
+      
     } catch (error) {
-      console.error("Error saving property:", error);
+      console.error("Error toggling save:", error);
     }
   };
+  
 
-  const handleRemove = async (propertyID) => {
-    try {
-      await axiosInstance.delete(`/remove/${propertyID}`);
-      dispatch(removeSavedPropertyID(propertyID));
-    } catch (error) {
-      console.error("Error removing property:", error);
-    }
-  };
-
-  const handleToggleSave = (propertyID) => {
-    if (savedPropertyIDs.includes(propertyID)) {
-      handleRemove(propertyID);
-    } else {
-      handleSave(propertyID);
-    }
-  };
-
-  if (!Array.isArray(property)) {
-    return <p>Loading properties...</p>;
-  }
 
   return (
     <div className="px-4 sm:px-8 lg:px-16 py-8">
@@ -207,17 +237,45 @@ const navigate=useNavigate()
                 alt={item.Propertyname}
                 className="h-40 w-full object-cover"
               />
-              <button
+              {/* <button
                 onClick={() => handleToggleSave(item._id)}
                 className="absolute top-2 right-2 bg-white p-2 border-1 border-black rounded-full shadow-md hover:scale-110"
               >
                 <FontAwesomeIcon
                   icon={faHeart}
-                  className={`text-lg ${
-                    savedPropertyIDs.includes(item._id) ? "text-red-500" : "text-black"
-                  }`}
+                  // className={`text-lg ${
+                  //   savedProperties.includes(item._id) ? "text-red-500" : "text-black"
+                  // }`}
                 />
-              </button>
+              </button> */}
+
+{/* <button
+  onClick={() => handleToggleSave(item._id)}
+  className="absolute top-2 right-2 bg-white p-2 border-1 border-black rounded-full shadow-md hover:scale-110"
+>
+  <FontAwesomeIcon
+    icon={faHeart}
+    className={`text-lg ${
+      savedProperties.some((pro) => pro._id ===item._id  ) ? "text-red-500" : "text-black"
+    }`}
+  />
+</button> */}
+
+
+
+
+<button
+        onClick={() => handleToggleSave(item._id)}
+        className="absolute top-2 right-2 bg-white p-2 border rounded-full shadow-md hover:scale-110 transition"
+      >
+        {savedProperties.some((pro) => pro._id === item._id) ? (
+          <FaHeart className="text-red-500 text-lg" />
+        ) : (
+          <FaRegHeart className="text-black text-lg" />
+        )}
+      </button>
+
+
             </div>
             <div className="p-4">
               <h3 className="text-lg font-semibold mb-1">{item.Propertyname}</h3>

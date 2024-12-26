@@ -163,7 +163,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { SiTicktick } from "react-icons/si";
 import axiosInstance from '../../Axios/axiosinstance';
 import { setBooking } from '../../Features/bookingSlice';
-import Navbar from '../Navbar';
+import Navbar from '../Navbars/Navbar';
 
 function BookingDetailes() {
   const navigate = useNavigate();
@@ -257,7 +257,7 @@ console.log("details",details);
     <>
     <Navbar/>
     <div className="container mx-auto px-4 py-6 ">
-      <div className="flex flex-col md:flex-row gap-6">
+      <div className="flex flex-col md:flex-row gap-6 ">
         {/* Left Section */}
         <div className="md:w-1/2 flex flex-col gap-4">
           {/* First Div */}

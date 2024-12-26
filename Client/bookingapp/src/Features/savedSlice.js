@@ -49,15 +49,24 @@ const savedSlice = createSlice({
     savedProperties: [],
   },
   reducers: {
+    
     setAllSaved: (state, action) => {
-      state.savedProperties = action.payload; // Overwrite the savedProperties array
+      state.savedProperties = action.payload; 
     },
-    removeProperty: (state, action) => {
-      
-            state.savedProperties = state.savedProperties.filter(item => item._id !== action.payload);
-           },
+   
   },
 });
 
-export const { setAllSaved,removeProperty } = savedSlice.actions;
+export const {setAllSaved } = savedSlice.actions;
 export default savedSlice.reducer;
+
+
+
+
+// addToSave:(state,action)=>{
+    //   state.savedProperties.push(action.payload); 
+    // },
+ // removeProperty: (state, action) => {
+      
+    //         state.savedProperties = state.savedProperties.filter(item => item._id !== action.payload);
+    //        },

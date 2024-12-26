@@ -28,15 +28,45 @@ function ListProperty() {
     adultCount: 1,
     childCount: 0,
     facilities:"",
-    starRating: 1,
     pricePerNight: 0,
     numberofRooms: 0,
     images: [],
   });
+
+  const [roomType, setRoomType] = useState({
+    type: "",
+    count: 0,
+    about: "",
+    facility: "",
+  });
+
+  const [roomTypes, setRoomTypes] = useState([]);
+
+
+console.log("roomTypes",roomTypes);
+
+  const handleRoomTypeChange = (e) => {
+    setRoomType({
+      ...roomType,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  // Add a room type to the list
+  const addRoomType = () => {
+    setRoomTypes([...roomTypes, { ...roomType, facility: roomType.facility.split(",") }]);
+    setRoomType({ type: "", count: 0, about: "", facility: "" }); // Reset the room type form
+  };
+
+
+
+
+
+
 const allfacilities=[
   "Swimming Pool",
   "Free WiFi",
-  "Free Parking",
+  "Parking",
   "Pets Allowed",
   "Food",
   "Food & Accommodation",
@@ -102,7 +132,10 @@ const allfacilities=[
         );
       }
     });
+    formPayload.append("roomTypes", JSON.stringify(roomTypes));
 
+    console.log("formPayload",formPayload);
+    
     try {
       const response = await axiosInstance.post(
         `/addproperty`,
@@ -121,10 +154,10 @@ const allfacilities=[
         adultCount: 1,
         childCount: 0,
         facilities: "",
-        starRating: 1,
         pricePerNight: 0,
         numberofRooms: 0,
         images: [],
+        RoomType: [],
       });
     } catch (error) {
       console.error(
@@ -291,21 +324,6 @@ const allfacilities=[
             </div>
 
             <div className="flex items-center space-x-2">
-              <FaStar className="text-gray-600" />
-              <input
-                type="number"
-                name="starRating"
-                value={formData.starRating}
-                onChange={handleChange}
-                placeholder="Star Rating"
-                className="w-full border border-gray-300 rounded-lg px-4 py-2"
-                min={1}
-                max={5}
-                required
-              />
-            </div>
-
-            <div className="flex items-center space-x-2">
               <FaImages className="text-gray-600" />
               <input
                 type="file"
@@ -316,6 +334,57 @@ const allfacilities=[
                 required
               />
             </div>
+
+
+
+
+            <h3>Room Types</h3>
+        <div className="flex items-center space-x-2">
+          <label>Type:</label>
+          <input
+            type="text"
+            name="type"
+            value={roomType.type}
+            onChange={handleRoomTypeChange}
+            className="w-full border border-gray-300 rounded-lg px-4 py-2"
+            
+          />
+        </div>
+        <div className="flex items-center space-x-2">
+          <label>Count:</label>
+          <input
+            type="number"
+            name="count"
+            value={roomType.count}
+            onChange={handleRoomTypeChange}
+            className="w-full border border-gray-300 rounded-lg px-4 py-2"
+            
+          />
+        </div>
+        <div className="flex items-center space-x-2">
+          <label>About:</label>
+          <textarea
+            name="about"
+            value={roomType.about}
+            onChange={handleRoomTypeChange}
+            className="w-full border border-gray-300 rounded-lg px-4 py-2"
+           
+          ></textarea>
+        </div>
+        <div className="flex items-center space-x-2">
+          <label>Facilities (comma-separated):</label>
+          <input
+            type="text"
+            name="facility"
+            value={roomType.facility}
+            onChange={handleRoomTypeChange}
+            className="w-full border border-gray-300 rounded-lg px-4 py-2"
+            
+          />
+        </div>
+        <button type="button" onClick={addRoomType}>
+          Add Room Type
+        </button>
           </div>
 
           <div className="flex items-center justify-center space-x-4">
@@ -328,22 +397,7 @@ const allfacilities=[
 
             <button
               type="reset"
-              onClick={() =>
-                setFormData({
-                  name: "",
-                  description: "",
-                  city: "",
-                  country: "",
-                  type: "",
-                  adultCount: 1,
-                  childCount: 0,
-                  facilities: [],
-                  starRating: 1,
-                  pricePerNight: 0,
-                  numberofRooms: 0,
-                  images: null,
-                })
-              }
+              
               className="bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600"
             >
               Reset
@@ -363,3 +417,22 @@ const allfacilities=[
 }
 
 export default ListProperty;
+
+
+
+
+// onClick={() =>
+//   setFormData({
+//     name: "",
+//     description: "",
+//     city: "",
+//     country: "",
+//     type: "",
+//     adultCount: 1,
+//     childCount: 0,
+//     facilities: [],
+//     pricePerNight: 0,
+//     numberofRooms: 0,
+//     images: null,
+//   })
+// }

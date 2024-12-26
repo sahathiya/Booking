@@ -20,7 +20,10 @@ const propertyPersistConfig = {
   key: "property",
   storage,
 };
-
+const savedPersistConfig = {
+  key: "saved",
+  storage,
+};
 const bookingPersisting={
   key:"booking",
   storage,
@@ -35,6 +38,7 @@ const persistedPropertyReducer = persistReducer(
   propertyPersistConfig,
   propertySlice
 );
+const persistedSavedReducer = persistReducer(savedPersistConfig, savedSlice);
 
 const persistedbookingReducer = persistReducer(
   bookingPersisting,
@@ -46,7 +50,7 @@ export const store = configureStore({
     user: persistedUserReducer,
     partner: persistedPartnerReducer,
     property: persistedPropertyReducer,
-    saved:savedSlice,
+    saved: persistedSavedReducer,
     booking:persistedbookingReducer
   },
 });

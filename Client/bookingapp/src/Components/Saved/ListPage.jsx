@@ -1,11 +1,11 @@
 
 import { useParams } from "react-router-dom";
-import Navbar from "../Navbar";
+import Navbar from "../Navbars/Navbar";
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../../Axios/axiosinstance";
 import { FaHeart, FaPen, FaTrash } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { setAllSaved, removeProperty } from "../../Features/savedSlice";
+import { setAllSaved } from "../../Features/savedSlice";
 import { useNavigate } from "react-router-dom";
 function ListPage() {
   const { listName } = useParams();
@@ -45,7 +45,7 @@ function ListPage() {
   const handleRemove = async (propertyId) => {
     try {
       await axiosInstance.delete(`/remove/${propertyId}`);
-      dispatch(removeProperty(propertyId));
+      dispatch(setAllSaved(propertyId));
     } catch (error) {
       console.error("Error removing property:", error);
     }

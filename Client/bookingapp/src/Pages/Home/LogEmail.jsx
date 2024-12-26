@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "../../Components/Header";
+import Header from "../../Components/Navbars/Header";
 import axiosInstance from "../../Axios/axiosinstance";
 
 function LogEmail() {

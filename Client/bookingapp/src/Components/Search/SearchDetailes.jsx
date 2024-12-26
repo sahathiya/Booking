@@ -550,7 +550,7 @@ import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
-import Navbar from "../Navbar";
+import Navbar from "../Navbars/Navbar";
 import Navbar2 from "../Navbars/Navbar2";
 import axiosInstance from "../../Axios/axiosinstance";
 import { useDispatch, useSelector } from "react-redux";
@@ -583,7 +583,7 @@ function SearchDetailes() {
     "Swimming pool",
   ];
   const Roomtype = ["single room", "double room"];
-  const propertyType = ["Hotel", "House", "Apartment", "Resort", "Villas"];
+  const propertyType = ["Hotel", "House", "Apartment", "Resort", "Villa"];
 
   const filterByPropertyType = async (type) => {
     setIsSearching(true);
@@ -627,6 +627,7 @@ dispatch(setFilteredProperties(response.data.properties))
       <Navbar2 />
 
       <div className="flex flex-col md:flex-row container mx-auto p-6 ml-20">
+    
         {/* Left: Sidebar */}
         <div className="w-full md:w-1/3 lg:w-1/4 bg-gray-100 p-4 space-y-4 rounded-md shadow-md">
           <div className="bg-white p-4 rounded-md shadow">

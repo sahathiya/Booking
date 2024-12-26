@@ -1,11 +1,8 @@
-
-
 // import React, { useEffect,useState } from "react";
 // import axiosInstance from "../../Axios/axiosinstance";
 // import { FaHeart } from "react-icons/fa";
 // import { useDispatch, useSelector } from "react-redux";
 // import {  setAllSaved,removeProperty} from "../../Features/savedSlice";
-
 
 // function Saved() {
 //   const savedProperty = useSelector((state) => state.saved.savedProperties);
@@ -14,9 +11,6 @@
 //   const [showDialog, setShowDialog] = useState(false);
 //   const [url, setUrl] = useState(""); // This will hold the URL to share
 // console.log("showDialog",showDialog);
-
- 
-
 
 //   useEffect(() => {
 //     const fetchSaved = async () => {
@@ -41,7 +35,6 @@
 //     }
 //   };
 
-
 //    // This function will generate the URL to share (replace with your actual URL)
 //    const generateShareableUrl = () => {
 //     // Replace this with the actual URL logic of your saved properties page
@@ -49,9 +42,9 @@
 //   };
 
 //   const handleShareClick = () => {
-    
+
 //       setUrl(generateShareableUrl()); // Set the URL when the "Share the list" button is clicked
-   
+
 //     // Set the URL when the "Share the list" button is clicked
 //     setShowDialog(!showDialog); // Show the dialog
 //   };
@@ -100,11 +93,10 @@
 //                 Copy
 //               </button>
 //             </div>
-            
+
 //           </div>
 //         </div>
 //       ):null}
-
 
 //       {/* My Next Trip */}
 //       <h2 className="text-2xl font-bold mb-2">My next trip</h2>
@@ -165,25 +157,6 @@
 
 // export default Saved;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // import React, { useEffect, useState } from "react";
 // import axiosInstance from "../../Axios/axiosinstance";
 // import { FaHeart } from "react-icons/fa";
@@ -199,23 +172,16 @@
 //   const [showDialog, setShowDialog] = useState(false);
 //   const [url, setUrl] = useState(""); // This will hold the URL to share
 
-
-
-
-
-
 //   const [showDropdown, setShowDropdown] = useState(false); // Toggle dropdown
 //   const [nextTripText, setNextTripText] = useState("My next trip"); // Store text
- 
-
 
 //   const [newListName, setNewListName] = useState(""); // New list name
 //   const [savedLists, setSavedLists] = useState([ "My next trip" ]);
 //   console.log("savedLists",savedLists);
-  
+
 //   const [showCreateListDropdown, setShowCreateListDropdown] = useState(false);
 //   console.log("showCreateListDropdown",showCreateListDropdown);
-  
+
 //   const navigate=useNavigate()
 //   useEffect(() => {
 //     const fetchSaved = async () => {
@@ -256,10 +222,8 @@
 //     alert("Link copied to clipboard!"); // Show a simple message
 //   };
 
-
 //   //my next trip
 
-  
 //   const handleDropdownToggle = () => {
 //     setShowDropdown((prev) => !prev); // Toggle dropdown visibility
 //   };
@@ -278,8 +242,6 @@
 
 //   //create list
 
- 
-
 //   const handleCreateListToggle = () => {
 //     setShowCreateListDropdown((prev) => !prev); // Toggle the create list dropdown visibility
 //   };
@@ -293,21 +255,18 @@
 //       setShowCreateListDropdown(false); // Hide the dropdown
 //     }
 //   };
-  
 
 //   return (
 //     <>
 
-
-
 // <Navbar/>
-    
+
 //     <div className="ml-20 w-full max-w-screen-lg mx-auto p-4">
 //       {/* Header Row */}
 //       <div className="flex items-center space-x-4 mb-2">
 //         <span className="text-lg font-semibold">Saved</span>
 //         <div className="flex space-x-2">
-//           <button 
+//           <button
 //           onClick={handleDropdownToggle}
 //            className="bg-blue-600 text-white px-3 py-1 rounded">
 //             {nextTripText}
@@ -321,7 +280,7 @@
 //       <div className="flex items-center space-x-2">
 //         <div className="text-black text-sm">{nextTripText}</div>
 //         <div className=" text-black px-2 py-1 rounded-full text-xs">
-       
+
 //           {length}
 //         </div>
 //       </div>
@@ -382,8 +341,7 @@
 //         </div>
 //       )}
 
-
-//           <button 
+//           <button
 //           onClick={handleCreateListToggle}
 //           className="bg-blue-600 text-white px-3 py-1 rounded">
 //             Create a list
@@ -407,12 +365,7 @@
 //   )}
 //       </div>
 
-          
-       
-
 //       <hr className="my-2" />
-
-      
 
 //       {/* My Next Trip */}
 //       <h2 className="text-2xl font-bold mb-2">{nextTripText}</h2>
@@ -462,12 +415,11 @@
 //       )}
 //     </div>
 //     </>
-    
+
 //   );
 // }
 
 // export default Saved;
-
 
 // import React, { useEffect, useState } from "react";
 // import axiosInstance from "../../Axios/axiosinstance";
@@ -491,11 +443,11 @@
 //     // Retrieve saved lists from localStorage on initial load
 //     const storedLists = localStorage.getItem("savedLists");
 //     console.log("storedLists",storedLists);
-    
+
 //     return storedLists ? JSON.parse(storedLists) :[];
 //   }); // Saved lists
 //   console.log("savedLists",savedLists);
-  
+
 //   const [showCreateListDropdown, setShowCreateListDropdown] = useState(false);
 
 //   const navigate = useNavigate();
@@ -564,7 +516,7 @@
 //   useEffect(() => {
 //  const a=localStorage.setItem("savedLists", JSON.stringify(savedLists));
 //  console.log("aaa",a);
- 
+
 //   }, [savedLists]);
 //   return (
 //     <>
@@ -686,7 +638,6 @@
 
 //         <hr className="my-2" />
 
-        
 //         <h2 className="text-2xl font-bold mb-2">{nextTripText}</h2>
 //         <div className="flex items-center space-x-1 mb-4">
 //           <FaHeart className="text-red-500 text-xl" />
@@ -743,12 +694,15 @@ import React, { useEffect, useState } from "react";
 import axiosInstance from "../../Axios/axiosinstance";
 import { FaHeart, FaPen, FaTrash } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { setAllSaved, removeProperty } from "../../Features/savedSlice";
+import { setAllSaved } from "../../Features/savedSlice";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../Navbar";
+
+import Navbar from "../Navbars/Navbar";
 
 function Saved() {
   const savedProperty = useSelector((state) => state.saved.savedProperties);
+  console.log("saved page", savedProperty);
+
   const dispatch = useDispatch();
   const length = savedProperty.length;
 
@@ -756,6 +710,8 @@ function Saved() {
   const [url, setUrl] = useState(""); // Shareable URL
   const [showDropdown, setShowDropdown] = useState(false); // Toggle dropdown
   const [nextTripText, setNextTripText] = useState("My next trip"); // Store text
+  console.log("nextTripText",nextTripText);
+  
   const [newListName, setNewListName] = useState(""); // New list name
   const [savedLists, setSavedLists] = useState(() => {
     // Retrieve saved lists from localStorage on initial load
@@ -783,8 +739,12 @@ function Saved() {
 
   const handleRemove = async (propertyId) => {
     try {
-      await axiosInstance.delete(`/remove/${propertyId}`);
-      dispatch(removeProperty(propertyId));
+      const response = await axiosInstance.delete(`/remove/${propertyId}`);
+      console.log("responseremoooove", response);
+
+      dispatch(
+        setAllSaved(savedProperty.filter((item) => item._id !== propertyId))
+      );
     } catch (error) {
       console.error("Error removing property:", error);
     }
@@ -802,12 +762,10 @@ function Saved() {
     alert("Link copied to clipboard!");
   };
 
-  const handleDropdownToggle = () => setShowDropdown((prev) => !prev);
-
-  const handleEditClick = () => {
-    const newText = prompt("Enter new text for 'My next trip':", nextTripText);
-    if (newText) setNextTripText(newText);
-  };
+  const handleDropdownToggle = () =>{
+    setShowDropdown((prev) => !prev
+    
+  )} 
 
   // Add a function to handle list removal
   const handleRemoveList = (index) => {
@@ -819,6 +777,8 @@ function Saved() {
   // Add a function to handle list editing
   const handleEditList = (index) => {
     const newListName = prompt("Enter new list name:", savedLists[index]);
+    console.log("newListName",newListName);
+    
     if (newListName) {
       const updatedLists = [...savedLists];
       updatedLists[index] = newListName;
@@ -870,9 +830,12 @@ function Saved() {
                   >
                     {/* List Name and Length */}
                     <div className="flex items-center space-x-2">
-                      <div className="text-black text-sm"
-                      onClick={()=>navigate(`/saved/${list}`)}
-                      >{list}</div>
+                      <div
+                        className="text-black text-sm"
+                        onClick={() => navigate(`/saved/${list}`)}
+                      >
+                        {list}
+                      </div>
                       <div className="bg-gray-200 text-black px-2 py-1 rounded-full text-xs">
                         {length}
                       </div>
@@ -896,7 +859,9 @@ function Saved() {
                   </div>
                 ))}
                 {savedLists.length === 0 && (
-                  <div className="text-gray-500 text-center">No lists found</div>
+                  <div className="text-gray-500 text-center">
+                    No lists found
+                  </div>
                 )}
               </div>
             )}
@@ -973,7 +938,9 @@ function Saved() {
         </div>
 
         {length === 0 ? (
-          <p className="text-gray-500 text-center">No saved properties found.</p>
+          <p className="text-gray-500 text-center">
+            No saved properties found.
+          </p>
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {savedProperty.map((item) => (
@@ -982,11 +949,17 @@ function Saved() {
                 className="relative ml-4 border rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden bg-white"
               >
                 <div>
-                  <img
-                    src={item.images[0]}
-                    alt={item.Propertyname}
-                    className="w-full h-40 object-cover"
-                  />
+                  {item.images && Array.isArray(item.images) ? (
+                    <img
+                      src={item.images[0]} // Assuming the first image URL is the one to display
+                      alt={item.Propertyname}
+                      className="w-full h-40 object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-40 bg-gray-200 flex items-center justify-center">
+                      <span className="text-gray-500">No Image Available</span>
+                    </div>
+                  )}
                   <button
                     onClick={() => handleRemove(item._id)}
                     className="absolute top-2 right-2 bg-white text-gray-600 rounded-full shadow p-1 hover:bg-gray-200 transition"
@@ -994,18 +967,16 @@ function Saved() {
                     ✖
                   </button>
                 </div>
+
                 <div className="p-3">
                   <h3 className="font-semibold text-sm text-gray-800 truncate">
                     {item.Propertyname}
                   </h3>
-                  <div className="flex items-center space-x-2 mt-2">
-                    <span className="bg-blue-500 text-white px-2 py-0.5 text-xs rounded">
-                      {item.rating}
-                    </span>
-                    <span className="text-gray-500 text-xs">{item.reviews} reviews</span>
-                  </div>
-                  <p className="text-gray-500 text-xs mt-1 truncate">{item.location}</p>
-                  <p className="text-gray-500 text-xs truncate">{item.distance}</p>
+                  
+                  <p className="text-gray-500 text-xs mt-1 truncate">
+                    {item.city},{item.country}
+                  </p>
+                
                 </div>
               </div>
             ))}

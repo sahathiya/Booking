@@ -117,7 +117,7 @@ function Availability() {
       className="bg-[#0071c2] text-white font-medium py-1 px-2  rounded"
     //   onClick={() => handleSearch( date, options)}
     >
-      Search
+     Searchkkkk
     </button>
   </div>
 </div>
@@ -152,7 +152,9 @@ function Availability() {
               </select>
             </td>
             <td className="px-4 py-2 border border-gray-300">
-              <button className="bg-blue-500 text-white px-4 py-2 rounded">I 'll Reserve</button>
+              <button className="bg-blue-500 text-white px-4 py-2 rounded"
+             
+              >I 'll Reserve</button>
             </td>
           </tr>
           <tr>

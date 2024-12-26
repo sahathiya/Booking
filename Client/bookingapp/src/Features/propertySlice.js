@@ -81,24 +81,24 @@ const propertySlice = createSlice({
   name: "property",
   initialState: {
     property: [], // List of all properties
-    savedPropertyIDs: [], // List of saved property IDs,
+    // savedPropertyIDs: [], // List of saved property IDs,
     filteredProperties:[]
   },
   reducers: {
     setProperty: (state, action) => {
-      state.property = action.payload; // Set all properties
+      state.property = action.payload;
     },
-    setSavedPropertyIDs: (state, action) => {
-      state.savedPropertyIDs = action.payload; // Set saved property IDs
-    },
-    addSavedPropertyID: (state, action) => {
-      state.savedPropertyIDs.push(action.payload); // Add a property ID to saved
-    },
-    removeSavedPropertyID: (state, action) => {
-      state.savedPropertyIDs = state.savedPropertyIDs.filter(
-        (id) => id !== action.payload
-      ); // Remove a property ID from saved
-    },
+    // setSavedPropertyIDs: (state, action) => {
+    //   state.savedPropertyIDs = action.payload;
+    // },
+    // addSavedPropertyID: (state, action) => {
+    //   state.savedPropertyIDs.push(action.payload); 
+    // },
+    // removeSavedPropertyID: (state, action) => {
+    //   state.savedPropertyIDs = state.savedPropertyIDs.filter(
+    //     (id) => id !== action.payload
+    //   ); // Remove a property ID from saved
+    // },
     setFilteredProperties:(state,action)=>{
       state.filteredProperties=action.payload
     }
