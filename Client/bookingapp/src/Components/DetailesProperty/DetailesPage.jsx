@@ -1,161 +1,3 @@
-// // import React from 'react'
-// // import { useSelector } from 'react-redux'
-// // import { useParams } from 'react-router-dom'
-
-// // function DetailesPage() {
-// //   const {id}=useParams()
-// //   const property=useSelector(state=>state.property.property)
-// //   console.log("property detailess",property);
-// //   const detailesproperty=property.filter((item)=>item._id===id)
-// //   console.log("detailesproperty",detailesproperty);
-
-// //   return (
-// //     <div>
-// //       {detailesproperty.map((pro)=>(
-// //         <div key={pro._id}>
-// //           <h1>{pro.Propertyname}</h1>
-// //         </div>
-// //       ))}
-// //     </div>
-// //   )
-// // }
-
-// // export default DetailesPage
-
-// // import React from "react";
-// // import { useSelector } from "react-redux";
-// // import { useParams } from "react-router-dom";
-
-// // function DetailesPage() {
-// //   const { id } = useParams();
-// //   const property = useSelector((state) => state.property.property);
-// //   const detailesproperty = property.filter((item) => item._id === id);
-
-// //   return (
-// //     <div className="p-6 bg-gray-100">
-// //       {detailesproperty.map((pro) => (
-// //         <div
-// //           key={pro._id}
-// //           className="max-w-5xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden"
-// //         >
-// //           {/* Header */}
-// //           <div className="p-6 border-b">
-// //             <h1 className="text-2xl font-bold text-gray-800">{pro.Propertyname}</h1>
-// //             <p className="text-gray-600">
-// //               {pro.city}, {pro.country}
-// //             </p>
-// //           </div>
-
-// //           {/* Images */}
-// //           <div className="grid grid-cols-3 gap-2 p-6">
-// //             {pro.images.map((image, index) => (
-// //               <img
-// //               style={{width:'300px',height:'350px'}}
-// //                 key={index}
-// //                 src={image}
-// //                 alt={`Property ${index + 1}`}
-// //                 className="w-full h-40 object-cover rounded-lg shadow-sm"
-// //               />
-// //             ))}
-// //           </div>
-
-// //           {/* Description */}
-// //           <div className="p-6">
-// //             <p className="text-gray-700 text-lg">{pro.description}</p>
-// //           </div>
-
-// //           {/* Facilities */}
-// //           <div className="p-6">
-// //             <h2 className="text-xl font-semibold text-gray-800 mb-4">Facilities</h2>
-// //             <ul className="grid grid-cols-2 gap-4">
-// //               {pro.facilities.map((facility, index) => (
-// //                 <li
-// //                   key={index}
-// //                   className="flex items-center space-x-2 text-gray-600"
-// //                 >
-// //                   <span className="text-green-500">
-// //                     <i className="fas fa-check-circle"></i>
-// //                   </span>
-// //                   <span>{facility}</span>
-// //                 </li>
-// //               ))}
-// //             </ul>
-// //           </div>
-// //         </div>
-// //       ))}
-// //     </div>
-// //   );
-// // }
-
-// // export default DetailesPage;
-
-// import React from "react";
-// import { useSelector } from "react-redux";
-// import { useParams } from "react-router-dom";
-
-// function DetailesPage() {
-//   const { id } = useParams();
-//   const property = useSelector((state) => state.property.property);
-//   const detailesproperty = property.filter((item) => item._id === id);
-
-//   return (
-//     <div className="p-6 bg-gray-100 min-h-screen">
-//       {detailesproperty.map((pro) => (
-//         <div
-//           key={pro._id}
-//           className="max-w-5xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden"
-//         >
-//           {/* Header */}
-//           <div className="p-6 border-b">
-//             <h1 className="text-2xl font-bold text-gray-800">{pro.Propertyname}</h1>
-//             <p className="text-gray-600">
-//               {pro.city}, {pro.country}
-//             </p>
-//           </div>
-
-//           {/* Images */}
-//           <div className="p-6 grid grid-cols-2 gap-4">
-//             {pro.images.map((image, index) => (
-//               <img
-//                 key={index}
-//                 src={image}
-//                 alt={`Property ${index + 1}`}
-
-//                 className="w-full h-48 object-cover rounded-lg shadow-md"
-//               />
-//             ))}
-//           </div>
-
-//           {/* Description */}
-//           <div className="p-6">
-//             <p className="text-gray-700 text-lg">{pro.description}</p>
-//           </div>
-
-//           {/* Facilities */}
-//           <div className="p-6">
-//             <h2 className="text-xl font-semibold text-gray-800 mb-4">Facilities</h2>
-//             <ul className="grid grid-cols-2 gap-4">
-//               {pro.facilities.map((facility, index) => (
-//                 <li
-//                   key={index}
-//                   className="flex items-center space-x-2 text-gray-600"
-//                 >
-//                   <span className="text-green-500">
-//                     <i className="fas fa-check-circle"></i>
-//                   </span>
-//                   <span>{facility}</span>
-//                 </li>
-//               ))}
-//             </ul>
-//           </div>
-//         </div>
-//       ))}
-//     </div>
-//   );
-// }
-
-// export default DetailesPage;
-
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
@@ -183,7 +25,6 @@ import { FiCopy } from "react-icons/fi";
 import { FaFacebook } from "react-icons/fa";
 import { FacebookShareButton, FacebookIcon } from "react-share";
 function DetailesPage() {
-  
   const [numberOfRooms, setNumberOfRooms] = useState(1);
   const [showShareMenu, setShowShareMenu] = useState(false);
   const booking = useSelector((state) => state.booking.booking);
@@ -221,19 +62,12 @@ function DetailesPage() {
   const property = useSelector((state) => state.property.property);
   const detailesproperty = property.filter((item) => item._id === id);
   const roomtype = detailesproperty
-  .map((pro) => pro.RoomType.map((item) => item.type))
-  .flat();
+    .map((pro) => pro.RoomType.map((item) => item.type))
+    .flat();
 
-console.log("roomtype", roomtype);
+  console.log("roomtype", roomtype);
 
- 
- 
-  
-  
-  
-  
-  
-  const propertyCity=detailesproperty.map((item) => item.city);
+  const propertyCity = detailesproperty.map((item) => item.city);
   const propertyid = detailesproperty.map((pro) => pro._id);
   console.log("propertyName", propertyCity);
 
@@ -247,10 +81,8 @@ console.log("roomtype", roomtype);
       children: options.children,
       checkIn: date[0].startDate,
       checkOut: date[0].endDate,
-      NumberOfRooms:numberOfRooms,
-      roomType :roomtype
-
-      
+      NumberOfRooms: numberOfRooms,
+      roomType: roomtype,
     };
     console.log("reservationDetails", reservationDetails);
     try {
@@ -268,7 +100,7 @@ console.log("roomtype", roomtype);
         "Error booking property:",
         error.response ? error.response.data : error.message
       );
-      alert(error.response.data.message)
+      alert(error.response.data.message);
     }
   };
 
@@ -279,17 +111,14 @@ console.log("roomtype", roomtype);
         checkOutDate: format(date[0].endDate, "yyyy-MM-dd"),
         adultCount: options.adult,
         childCount: options.children,
-        city:propertyCity,
-        
-
+        city: propertyCity,
       };
 
       const params = new URLSearchParams(query).toString();
 
-      // Replace with your API URL
       const response = await axiosInstance.get(`/search?${params}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`, // Include token if needed
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
 
@@ -367,24 +196,20 @@ console.log("roomtype", roomtype);
     alert("Link copied to clipboard!");
   };
 
-
   const handleScrollToTable = () => {
-    // Find the table section by its ID
     const tableSection = document.getElementById("table-section");
     if (tableSection) {
-      // Scroll to the table section smoothly
       tableSection.scrollIntoView({ behavior: "smooth" });
     }
-  }
+  };
   return (
     <>
       <Navbar />
       <Navbar2 />
-      {/* <BookingTracker /> */}
+
       <div className="p-6 min-h-screen">
         {detailesproperty.map((pro) => (
           <div key={pro._id} className="max-w-5xl mx-auto   overflow-hidden">
-            {/* Header */}
             <div className="p-6 border-b">
               <div className="flex items-center justify-between">
                 <div>
@@ -435,7 +260,7 @@ console.log("roomtype", roomtype);
 
                   <button
                     className="bg-blue-500 text-white font-semibold rounded-md py-2 px-4"
-                   onClick={handleScrollToTable}
+                    onClick={handleScrollToTable}
                   >
                     Reserve
                   </button>
@@ -456,7 +281,6 @@ console.log("roomtype", roomtype);
                 ))}
               </div>
 
-              {/* Right Column: Large Single Image */}
               <div>
                 {pro.images[3] && (
                   <img
@@ -468,12 +292,10 @@ console.log("roomtype", roomtype);
               </div>
             </div>
 
-            {/* Description */}
             <div className="p-6">
               <p className="text-gray-700 text-lg">{pro.description}</p>
             </div>
 
-            {/* Facilities */}
             <div className="p-6">
               <h2 className="text-xl font-semibold text-gray-800 mb-4">
                 Most popular facilities
@@ -502,7 +324,6 @@ console.log("roomtype", roomtype);
 
         <div className="w-[800px] h-10 border-2 border-yellow-500 mb-6 rounded-md">
           <div className="flex items-center justify-between h-full px-4 border-2 border-yellow-500  bg-yellow-500">
-            {/* Check-in and Check-out Section */}
             <div className="flex items-center  rounded-md border-2 border-yellow-500 ">
               <FontAwesomeIcon
                 icon={faCalendarDays}
@@ -531,7 +352,6 @@ console.log("roomtype", roomtype);
               </div>
             </div>
 
-            {/* Adult and Child Count Section */}
             <div className="flex items-center gap-2 relative rounded-md border-2 border-yellow-500">
               <FontAwesomeIcon icon={faPerson} className="text-gray-400" />
               <span
@@ -567,7 +387,6 @@ console.log("roomtype", roomtype);
               )}
             </div>
 
-            {/* Search Button */}
             <button
               className="bg-[#0071c2] text-white font-medium py-1 px-2  rounded"
               onClick={() => handleSearch(date, options)}
@@ -578,93 +397,96 @@ console.log("roomtype", roomtype);
         </div>
         {/* Table */}
         <div id="table-section">
-        <table   className="w-[800px] table-auto border-collapse border border-gray-300">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="px-4 py-2 border border-gray-300 bg-blue-500 text-white">
-                Room Type
-              </th>
-              <th className="px-4 py-2 border border-gray-300 bg-blue-500 text-white">
-                Number of Guests
-              </th>
-              <th className="px-4 py-2 border border-gray-300 bg-blue-500 text-white">
-                Today's Price
-              </th>
-              <th className="px-4 py-2 border border-gray-300 bg-blue-500 text-white">
-                Your Choices
-              </th>
-              <th className="px-4 py-2 border border-gray-300 bg-blue-500 text-white">
-                Select Room
-              </th>
-              <th className="px-4 py-2 border border-gray-300 bg-blue-500 text-white"></th>
-            </tr>
-          </thead>
-          {detailesproperty.map((item, index) => (
-            <tbody key={index}>
-              {/* Map over RoomType array and display the type */}
-              {item.RoomType
-                ? item.RoomType.map((room, idx) => (
-                    <tr>
-                      <td
-                        key={idx}
-                        className="px-4 py-2 border border-gray-300"
-                      >
-                       <NavLink className='underline text-blue-500' to={`/roomdetailes/${item._id}/${room.type}`} 
-                       
-                       >{room.type}</NavLink> 
-                        {room.type == "single room" ? (
-                          <p>1 single bed</p>
-                        ) : (
-                          <p>1 double bed</p>
-                        )}
-                      </td>
-                      <td className="px-4 py-2 border border-gray-300">
-                        {room.type == "single room" ? (
-                          <FaUser />
-                        ) : (
-                          <IoMdPeople className="text-2xl" />
-                        )}
-                      </td>
-                      <td className="px-4 py-2 border border-gray-300">
-                        <strong>₹{item.pricePerNight}</strong>
-                      </td>
-                      <td className="px-4 py-2 border border-gray-300">
-                        <MdOutlineFreeBreakfast className="text-green-600" />
-                        <p className="text-green-600">
-                          Good breakfast included
-                        </p>
-                      </td>
-                      <td className="px-4 py-2 border border-gray-300">
-                        <select
-                          className="px-4 py-2 border rounded w-full"
-                          onChange={(e) => setNumberOfRooms(e.target.value)}
+          <table className="w-[800px] table-auto border-collapse border border-gray-300">
+            <thead className="bg-gray-100">
+              <tr>
+                <th className="px-4 py-2 border border-gray-300 bg-blue-500 text-white">
+                  Room Type
+                </th>
+                <th className="px-4 py-2 border border-gray-300 bg-blue-500 text-white">
+                  Number of Guests
+                </th>
+                <th className="px-4 py-2 border border-gray-300 bg-blue-500 text-white">
+                  Today's Price
+                </th>
+                <th className="px-4 py-2 border border-gray-300 bg-blue-500 text-white">
+                  Your Choices
+                </th>
+                <th className="px-4 py-2 border border-gray-300 bg-blue-500 text-white">
+                  Select Room
+                </th>
+                <th className="px-4 py-2 border border-gray-300 bg-blue-500 text-white"></th>
+              </tr>
+            </thead>
+            {detailesproperty.map((item, index) => (
+              <tbody key={index}>
+                {/* Map over RoomType array and display the type */}
+                {item.RoomType
+                  ? item.RoomType.map((room, idx) => (
+                      <tr>
+                        <td
+                          key={idx}
+                          className="px-4 py-2 border border-gray-300"
                         >
-                          <option value="0">0</option>
-                          {Array.from(
-                            { length: room.count },
-                            (_, i) => i + 1
-                          ).map((count) => (
-                            <option key={count} value={count}>
-                              {count}
-                            </option>
-                          ))}
-                        </select>
-                      </td>
-                      <td className="px-4 py-2 border border-gray-300">
-                        <button className="bg-blue-500 text-white px-4 py-2 rounded"
-                         onClick={() => handleReserve(item._id)}
-                        >
-                          I'll Reserve
-                        </button>
-                      </td>
-                    </tr>
-                  ))
-                : null}
-            </tbody>
-          ))}
-        </table>
+                          <NavLink
+                            className="underline text-blue-500"
+                            to={`/roomdetailes/${item._id}/${room.type}`}
+                          >
+                            {room.type}
+                          </NavLink>
+                          {room.type == "single room" ? (
+                            <p>1 single bed</p>
+                          ) : (
+                            <p>1 double bed</p>
+                          )}
+                        </td>
+                        <td className="px-4 py-2 border border-gray-300">
+                          {room.type == "single room" ? (
+                            <FaUser />
+                          ) : (
+                            <IoMdPeople className="text-2xl" />
+                          )}
+                        </td>
+                        <td className="px-4 py-2 border border-gray-300">
+                          <strong>₹{item.pricePerNight}</strong>
+                        </td>
+                        <td className="px-4 py-2 border border-gray-300">
+                          <MdOutlineFreeBreakfast className="text-green-600" />
+                          <p className="text-green-600">
+                            Good breakfast included
+                          </p>
+                        </td>
+                        <td className="px-4 py-2 border border-gray-300">
+                          <select
+                            className="px-4 py-2 border rounded w-full"
+                            onChange={(e) => setNumberOfRooms(e.target.value)}
+                          >
+                            <option value="0">0</option>
+                            {Array.from(
+                              { length: room.count },
+                              (_, i) => i + 1
+                            ).map((count) => (
+                              <option key={count} value={count}>
+                                {count}
+                              </option>
+                            ))}
+                          </select>
+                        </td>
+                        <td className="px-4 py-2 border border-gray-300">
+                          <button
+                            className="bg-blue-500 text-white px-4 py-2 rounded"
+                            onClick={() => handleReserve(item._id)}
+                          >
+                            I'll Reserve
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  : null}
+              </tbody>
+            ))}
+          </table>
         </div>
-        
       </div>
       <br></br>
       <HouseRules />

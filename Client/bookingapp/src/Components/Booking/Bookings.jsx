@@ -26,7 +26,7 @@ function Bookings() {
     setBookings((prevBookings) =>
       prevBookings.map((booking) =>
         booking._id === bookingid
-          ? { ...booking, BookingStatus: "Cancelled" } 
+          ? { ...booking, BookingStatus: "Cancelled" }
           : booking
       )
     );
@@ -47,7 +47,7 @@ function Bookings() {
               >
                 <div className="relative">
                   <img
-                    src={booking.PropertyDetailes.images[0]} 
+                    src={booking.PropertyDetailes.images[0]}
                     alt={booking.PropertyDetailes.Propertyname}
                     className="w-full h-56 object-cover"
                   />

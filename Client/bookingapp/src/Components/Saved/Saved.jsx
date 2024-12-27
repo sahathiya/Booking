@@ -270,11 +270,17 @@ function Saved() {
               >
                 <div>
                   {item.images && Array.isArray(item.images) ? (
-                    <img
-                      src={item.images[0]}
-                      alt={item.Propertyname}
-                      className="w-full h-40 object-cover"
-                    />
+                    <div
+                    onClick={()=>navigate(`/detailespage/${item._id}`)}
+                    >
+                   <img
+                    
+                    src={item.images[0]}
+                    alt={item.Propertyname}
+                    className="w-full h-40 object-cover"
+                  />
+                    </div>
+                    
                   ) : (
                     <div className="w-full h-40 bg-gray-200 flex items-center justify-center">
                       <span className="text-gray-500">No Image Available</span>

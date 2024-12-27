@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { setAllSaved } from "../../Features/savedSlice";
 import { FaHeart } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
-import { PiSuitcaseSimpleLight } from "react-icons/pi";
+
 const PropertyCard = () => {
   const property = useSelector((state) => state.property.property);
   const savedProperties = useSelector((state) => state.saved.savedProperties);
@@ -67,7 +67,6 @@ const PropertyCard = () => {
       } else {
         console.log("Property is not saved:", propertyID);
 
-        
         const addResponse = await axiosInstance.post(`/saved/${propertyID}`);
         console.log("addResponse", addResponse);
 

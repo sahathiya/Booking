@@ -51,25 +51,17 @@ function App() {
         <Route path='/login' element={<Login/>}/>
         <Route path='/personaldetailes' element={<PersonalDetails/>}/>
         <Route path='/profileimage' element={<ProfileImageUploader/>}/>
+        
 
 <Route path='/saved' element={<Saved/>}/>
 <Route path='/saved/:listName' element={<ListPage/>}/>
-
-
 <Route path='/detailespage/:id' element={<DetailesPage/>}/>
 <Route path='/roomdetailes/:id/:type' element={<RoomDetails/>}/>
 <Route path='/bookings' element={<Bookings/>}/>
 <Route path='/bookingdetailes/:id/:bookingId' element={<BookingDetailes/>}/>
 <Route path='/bookingfinish' element={<BookingFinish/>}/>
-
-
-
-
 <Route path='/searching' element={<SearchingProperty/>}/>
 <Route path='/searchdetailes' element={<SearchDetailes/>}/>
-
-{/* 
-<Route path="/list/:listName" element={<ListPage />} /> */}
 
 
         <Route path='/homepartner' element={<PartnerHome/>}/>

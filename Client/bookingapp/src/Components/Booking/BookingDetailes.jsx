@@ -84,43 +84,42 @@ function BookingDetailes() {
 
   const handleDetails = async (e) => {
     e.preventDefault();
-  
+
     const { Firstname, Lastname, Country, Phonenumber, paperless } = details;
-  
+
     if (!Firstname || !Lastname || !Country || !Phonenumber) {
       alert("All fields are required");
       return;
     }
-  
+
     try {
-      const response = await axiosInstance.put(`/detailesbooking/${bookingId}`, {
-        Firstname,
-        Lastname,
-        email: user.email,
-        Country,
-        Phonenumber,
-        paperless,
-      });
-  
-      // Check the response for success
+      const response = await axiosInstance.put(
+        `/detailesbooking/${bookingId}`,
+        {
+          Firstname,
+          Lastname,
+          email: user.email,
+          Country,
+          Phonenumber,
+          paperless,
+        }
+      );
+
       if (response.data?.message) {
-        alert(response.data.message); // Display the success message
+        alert(response.data.message);
       }
-  
-      // Dispatch and navigate if needed
+
       dispatch(setBooking(response.data.book));
       navigate("/bookingfinish");
     } catch (error) {
       if (error.response?.data?.message) {
-        // Show the error message from the backend
         alert(error.response.data.message);
       } else {
-        // Generic fallback for unexpected errors
         alert("Something went wrong, please try again later.");
       }
     }
   };
-  
+
   return (
     <>
       <Navbar />
@@ -152,7 +151,8 @@ function BookingDetailes() {
               <p>{totalDays} night</p>
               <hr />
               <p>
-              <strong>{booking.NumberOfRooms}</strong> room for <strong>{booking.adults}</strong> adults and{" "}
+                <strong>{booking.NumberOfRooms}</strong> room for{" "}
+                <strong>{booking.adults}</strong> adults and{" "}
                 <strong>{booking.children}</strong> children
               </p>
             </div>

@@ -12,8 +12,10 @@ function Header2() {
           </p>
         </div>
         
+        <br/>
+        <SearchingProperty/>
       </div>
-      <SearchingProperty/>
+      
     </div>
   )
 }
