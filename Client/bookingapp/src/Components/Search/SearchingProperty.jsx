@@ -231,10 +231,10 @@ import {
   
       const params = new URLSearchParams(query).toString();
   
-      // Replace with your API URL
+      
       const response = await axiosInstance.get(`/search?${params}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`, // Include token if needed
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
   
@@ -246,10 +246,13 @@ import {
       console.error("Error searching for properties:", error.response?.data || error.message);
       alert(error.response?.data.message || "Something went wrong!");
     }
+
+   
+
   };
   
     return (
-      <div className="flex border-1 border-[#febb02] bg-[#febb02] rounded-lg  ">
+      <div className="flex items-center border-1 border-[#febb02] bg-[#febb02] rounded-lg w-[1000px] ml-20 ">
     {/* Destination Input */}
     <div className="flex-1 flex items-center gap-2 p-2 border-4 border-[#febb02] rounded-lg bg-white ">
       <IoBedOutline className="text-gray-400 text-2xl " />

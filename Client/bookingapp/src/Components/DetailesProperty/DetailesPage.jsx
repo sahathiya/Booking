@@ -156,9 +156,9 @@
 
 // export default DetailesPage;
 
-import React, { useState ,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import Navbar from "../Navbars/Navbar";
 import { GoShareAndroid } from "react-icons/go";
 import axiosInstance from "../../Axios/axiosinstance";
@@ -183,12 +183,14 @@ import { FiCopy } from "react-icons/fi";
 import { FaFacebook } from "react-icons/fa";
 import { FacebookShareButton, FacebookIcon } from "react-share";
 function DetailesPage() {
+  
+  const [numberOfRooms, setNumberOfRooms] = useState(1);
   const [showShareMenu, setShowShareMenu] = useState(false);
   const booking = useSelector((state) => state.booking.booking);
   console.log("bookingbooking", booking);
   const dispatch = useDispatch();
-const savedProperties=useSelector((state) => state.saved.savedProperties);
-console.log("ccccc",savedProperties);
+  const savedProperties = useSelector((state) => state.saved.savedProperties);
+  console.log("ccccc", savedProperties);
 
   const [openDate, setOpenDate] = useState(false);
 
@@ -218,9 +220,23 @@ console.log("ccccc",savedProperties);
   const { id } = useParams();
   const property = useSelector((state) => state.property.property);
   const detailesproperty = property.filter((item) => item._id === id);
-  const propertyid=detailesproperty.map((pro)=>pro._id)
-  console.log("propertyid",propertyid);
+  const roomtype = detailesproperty
+  .map((pro) => pro.RoomType.map((item) => item.type))
+  .flat();
+
+console.log("roomtype", roomtype);
+
+ 
+ 
   
+  
+  
+  
+  
+  const propertyCity=detailesproperty.map((item) => item.city);
+  const propertyid = detailesproperty.map((pro) => pro._id);
+  console.log("propertyName", propertyCity);
+
   console.log("detailesproperty", detailesproperty);
 
   const navigate = useNavigate();
@@ -231,6 +247,10 @@ console.log("ccccc",savedProperties);
       children: options.children,
       checkIn: date[0].startDate,
       checkOut: date[0].endDate,
+      NumberOfRooms:numberOfRooms,
+      roomType :roomtype
+
+      
     };
     console.log("reservationDetails", reservationDetails);
     try {
@@ -248,6 +268,7 @@ console.log("ccccc",savedProperties);
         "Error booking property:",
         error.response ? error.response.data : error.message
       );
+      alert(error.response.data.message)
     }
   };
 
@@ -258,6 +279,9 @@ console.log("ccccc",savedProperties);
         checkOutDate: format(date[0].endDate, "yyyy-MM-dd"),
         adultCount: options.adult,
         childCount: options.children,
+        city:propertyCity,
+        
+
       };
 
       const params = new URLSearchParams(query).toString();
@@ -282,13 +306,12 @@ console.log("ccccc",savedProperties);
     }
   };
 
-
   useEffect(() => {
     const fetchSavedProperties = async () => {
       try {
         const savedResponse = await axiosInstance.get("/allsaved");
-        console.log("savedResponse",savedResponse.data.allSaved.savedProperty);
-        
+        console.log("savedResponse", savedResponse.data.allSaved.savedProperty);
+
         dispatch(setAllSaved(savedResponse.data.allSaved.savedProperty || []));
       } catch (error) {
         console.error("API Fetch Error:", error);
@@ -299,35 +322,40 @@ console.log("ccccc",savedProperties);
   }, [dispatch]);
 
   const handleToggleSave = async (propertyID) => {
-    console.log("propertyID",propertyID);
-    
+    console.log("propertyID", propertyID);
+
     try {
-      console.log("savedProperties",savedProperties);
-      console.log("savedProperties.includes(propertyID)",savedProperties.includes(propertyID));
-      
+      console.log("savedProperties", savedProperties);
+      console.log(
+        "savedProperties.includes(propertyID)",
+        savedProperties.includes(propertyID)
+      );
+
       if (savedProperties.some((item) => item._id === propertyID)) {
         console.log("Property is already saved:", propertyID);
-      
+
         // Remove property
-        const removeresponse = await axiosInstance.delete(`/remove/${propertyID}`);
+        const removeresponse = await axiosInstance.delete(
+          `/remove/${propertyID}`
+        );
         console.log("removeresponse", removeresponse);
-      
-        dispatch(setAllSaved(savedProperties.filter((item) => item._id !== propertyID)));
+
+        dispatch(
+          setAllSaved(savedProperties.filter((item) => item._id !== propertyID))
+        );
       } else {
         console.log("Property is not saved:", propertyID);
-      
+
         // Add property
-        const addResponse = await axiosInstance.post(`/saved/${ propertyID }`);
+        const addResponse = await axiosInstance.post(`/saved/${propertyID}`);
         console.log("addResponse", addResponse);
-      
+
         dispatch(setAllSaved([...savedProperties, { _id: propertyID }]));
       }
-      
     } catch (error) {
       console.error("Error toggling save:", error);
     }
   };
-  
 
   const toggleShareMenu = () => {
     setShowShareMenu((prev) => !prev);
@@ -338,6 +366,16 @@ console.log("ccccc",savedProperties);
     navigator.clipboard.writeText(link);
     alert("Link copied to clipboard!");
   };
+
+
+  const handleScrollToTable = () => {
+    // Find the table section by its ID
+    const tableSection = document.getElementById("table-section");
+    if (tableSection) {
+      // Scroll to the table section smoothly
+      tableSection.scrollIntoView({ behavior: "smooth" });
+    }
+  }
   return (
     <>
       <Navbar />
@@ -358,48 +396,46 @@ console.log("ccccc",savedProperties);
                   </p>
                 </div>
                 <div className="flex items-center gap-3">
-                  <button
-                          onClick={() => handleToggleSave(pro._id)}
-                          
+                  <button onClick={() => handleToggleSave(pro._id)}>
+                    {savedProperties.some((item) => item._id === pro._id) ? (
+                      <FaHeart className="text-red-500 text-lg" />
+                    ) : (
+                      <FaRegHeart className="text-black text-lg" />
+                    )}
+                  </button>
+                  <div className="relative z-50">
+                    <button onClick={toggleShareMenu}>
+                      <GoShareAndroid className="text-blue-600 text-2xl" />
+                    </button>
+                    {showShareMenu && (
+                      <div className="absolute top-10  right-0 bg-white shadow-lg p-4 rounded-lg z-10 w-48 ">
+                        <h3 className="font-semibold mb-3 text-gray-700">
+                          Share this property
+                        </h3>
+                        <div
+                          className="flex items-center gap-2 cursor-pointer"
+                          onClick={handleCopyLink}
                         >
-                          {savedProperties.some((item) => item._id === pro._id) ? (
-                            <FaHeart className="text-red-500 text-lg" />
-                          ) : (
-                            <FaRegHeart className="text-black text-lg" />
-                          )}
-                        </button>
-                        <div className="relative z-50">
-
-                        <button onClick={toggleShareMenu}>
-        <GoShareAndroid className="text-blue-600 text-2xl" />
-      </button>
-      {showShareMenu && (
-        <div className="absolute top-10 left-0 bg-white shadow-lg p-4 rounded-lg z-10 w-48">
-          <h3 className="font-semibold mb-3 text-gray-700">Share this property</h3>
-          <div className="flex items-center gap-2 cursor-pointer" onClick={handleCopyLink}>
-            <FiCopy className="text-gray-600" />
-            <span className="text-gray-700">Copy link</span>
-          </div>
-          <FacebookShareButton
-            url={`https://yourwebsite.com/property/${pro._id}`}
-            quote="Check out this amazing property!"
-            hashtag="#RealEstate"
-          >
-            <div className="flex items-center gap-2 mt-2 cursor-pointer">
-          <FacebookIcon size={32} round />
-          <span className="text-gray-700">Facebook</span>
-          </div>
-
-          </FacebookShareButton>
-          
-          
-        </div>
-      )}
+                          <FiCopy className="text-gray-600" />
+                          <span className="text-gray-700">Copy link</span>
                         </div>
-                        
+                        <FacebookShareButton
+                          url={`http://localhost:3000/detailespage/${pro._id}`}
+                          quote="Check out this amazing property!"
+                          hashtag="#RealEstate"
+                        >
+                          <div className="flex items-center gap-2 mt-2 cursor-pointer">
+                            <FacebookIcon size={32} round />
+                            <span className="text-gray-700">Facebook</span>
+                          </div>
+                        </FacebookShareButton>
+                      </div>
+                    )}
+                  </div>
+
                   <button
                     className="bg-blue-500 text-white font-semibold rounded-md py-2 px-4"
-                    onClick={() => handleReserve(pro._id)}
+                   onClick={handleScrollToTable}
                   >
                     Reserve
                   </button>
@@ -409,7 +445,6 @@ console.log("ccccc",savedProperties);
 
             {/* Images */}
             <div className="p-6 grid grid-cols-2 gap-4">
-              {/* Left Column: Stacked Images */}
               <div className=" space-y-4">
                 {pro.images.slice(0, 3).map((image, index) => (
                   <img
@@ -542,7 +577,8 @@ console.log("ccccc",savedProperties);
           </div>
         </div>
         {/* Table */}
-        <table className="w-[800px] table-auto border-collapse border border-gray-300">
+        <div id="table-section">
+        <table   className="w-[800px] table-auto border-collapse border border-gray-300">
           <thead className="bg-gray-100">
             <tr>
               <th className="px-4 py-2 border border-gray-300 bg-blue-500 text-white">
@@ -573,7 +609,9 @@ console.log("ccccc",savedProperties);
                         key={idx}
                         className="px-4 py-2 border border-gray-300"
                       >
-                        {room.type}
+                       <NavLink className='underline text-blue-500' to={`/roomdetailes/${item._id}/${room.type}`} 
+                       
+                       >{room.type}</NavLink> 
                         {room.type == "single room" ? (
                           <p>1 single bed</p>
                         ) : (
@@ -599,7 +637,7 @@ console.log("ccccc",savedProperties);
                       <td className="px-4 py-2 border border-gray-300">
                         <select
                           className="px-4 py-2 border rounded w-full"
-                          // onChange={(e) => handleBooking(index, Number(e.target.value))}
+                          onChange={(e) => setNumberOfRooms(e.target.value)}
                         >
                           <option value="0">0</option>
                           {Array.from(
@@ -613,26 +651,20 @@ console.log("ccccc",savedProperties);
                         </select>
                       </td>
                       <td className="px-4 py-2 border border-gray-300">
-                        <button className="bg-blue-500 text-white px-4 py-2 rounded">
+                        <button className="bg-blue-500 text-white px-4 py-2 rounded"
+                         onClick={() => handleReserve(item._id)}
+                        >
                           I'll Reserve
                         </button>
                       </td>
                     </tr>
                   ))
                 : null}
-
-              {/* <tr>
-        <td className="px-4 py-2 border border-gray-300">1</td>
-        <td className="px-4 py-2 border border-gray-300">2</td>
-        <td className="px-4 py-2 border border-gray-300">3</td>
-        <td className="px-4 py-2 border border-gray-300">4</td>
-        <td className="px-4 py-2 border border-gray-300">5</td>
-        <td className="px-4 py-2 border border-gray-300">6</td>
-      </tr> */}
-              {/* Add more rows as needed */}
             </tbody>
           ))}
         </table>
+        </div>
+        
       </div>
       <br></br>
       <HouseRules />

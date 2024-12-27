@@ -11,6 +11,7 @@ import { FaUserCircle } from "react-icons/fa";
 import { CiHeart } from "react-icons/ci";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { GoQuestion } from "react-icons/go";
+import { PiSuitcaseSimpleLight } from "react-icons/pi";
 const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -112,13 +113,21 @@ const Navbar = () => {
                 <span>Your account</span>
               </button>
               {dropdownOpen && (
-                <div className="absolute right-0 mt-2 w-40 bg-white text-black rounded-md shadow-lg z-30">
+                <div className="absolute right-0 mt-2 w-40 bg-white text-black rounded-md shadow-lg z-50 overflow-hidden">
                   <button
                     onClick={() => navigate(`/personaldetailes`)}
                     className="block w-full px-4 py-2 text-left hover:bg-gray-100"
                   >
                     <MdAccountCircle className="inline text-xl" />
                     My account
+                  </button>
+                  <button 
+                  className="block w-full px-4 py-2 text-left hover:bg-gray-100"
+                  onClick={()=>navigate('/bookings')}
+                  >
+                   
+                  <PiSuitcaseSimpleLight className="inline text-xl "/>
+                  Bookings
                   </button>
                   <button 
                   className="block w-full px-4 py-2 text-left hover:bg-gray-100"

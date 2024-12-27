@@ -2,11 +2,15 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const bookingSlice = createSlice({
   name: "Booking",
-  initialState: { booking:null },
+  initialState: { booking:null ,cancel:'pending'},
   reducers: {
     setBooking: (state, action) => {
       state.booking = action.payload;
+    },
+    setCancelled:(state,action)=>{
+        
     }
+
   },
 });
 

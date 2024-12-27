@@ -32,6 +32,8 @@ import SearchingProperty from './Components/Search/SearchingProperty';
 import SearchDetailes from './Components/Search/SearchDetailes';
 import ListPage from './Components/Saved/ListPage';
 import BookingFinish from './Components/Booking/BookingFinish';
+import RoomDetails from './Components/DetailesProperty/RoomDetailes';
+import Bookings from './Components/Booking/Bookings';
 
 function App() {
   
@@ -55,6 +57,8 @@ function App() {
 
 
 <Route path='/detailespage/:id' element={<DetailesPage/>}/>
+<Route path='/roomdetailes/:id/:type' element={<RoomDetails/>}/>
+<Route path='/bookings' element={<Bookings/>}/>
 <Route path='/bookingdetailes/:id/:bookingId' element={<BookingDetailes/>}/>
 <Route path='/bookingfinish' element={<BookingFinish/>}/>
 

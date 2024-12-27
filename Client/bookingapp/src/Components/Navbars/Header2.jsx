@@ -11,6 +11,7 @@ function Header2() {
             Search low prices on hotels for your dream vacation...
           </p>
         </div>
+        
       </div>
       <SearchingProperty/>
     </div>

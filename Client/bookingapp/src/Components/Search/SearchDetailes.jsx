@@ -561,12 +561,19 @@ function SearchDetailes() {
   const filteredProperties = useSelector(
     (state) => state.property.filteredProperties
   );
+  // console.log("filteredProperties",filteredProperties);
+  
   const dispatch = useDispatch();
   const location = useLocation();
   const [selectedPropertyType, setSelectedPropertyType] = useState("");
   const [isSearching, setIsSearching] = useState(false);
 
   const properties = location.state?.properties || [];
+  console.log("location",location);
+  
+  const cityname=properties.map((item)=>item.city)
+  console.log("propertiesbbbbbbb",cityname);
+  
   const priceRanges = [
     { min: 300, max: 500 },
     { min: 300, max: 800 },
@@ -684,7 +691,7 @@ dispatch(setFilteredProperties(response.data.properties))
                 <li key={index} className="flex items-center space-x-2 mt-2">
                   <input
                     type="radio"
-                    name="brand" // Ensures only one radio button in the group can be selected
+                    name="brand" 
                     id={`brand-type-${index}`}
                     className="form-radio text-blue-600"
                     onChange={() => filterByPropertyBrand(brand)}
@@ -707,7 +714,7 @@ dispatch(setFilteredProperties(response.data.properties))
                 <li key={index} className="flex items-center space-x-2 mt-2">
                   <input
                     type="radio"
-                    name="facility" // Ensures only one radio button in the group can be selected
+                    name="facility"
                     id={`Facilities-type-${index}`}
                     className="form-radio text-blue-600"
                     onChange={()=>filterByPropertyFacilities(facility)}
@@ -730,7 +737,7 @@ dispatch(setFilteredProperties(response.data.properties))
                 <li key={index} className="flex items-center space-x-2 mt-2">
                   <input
                     type="radio"
-                    name="facility" // Ensures only one radio button in the group can be selected
+                    name="facility" 
                     id={`Facilities-type-${index}`}
                     className="form-radio text-blue-600"
                     onChange={()=>filterByPropertyRoomType(type)}
@@ -747,15 +754,17 @@ dispatch(setFilteredProperties(response.data.properties))
           </div>
         </div>
 
-        {/* Right: Property Details */}
+        
         <div className="w-full md:w-2/3 lg:w-3/4 ml-0 md:ml-4">
+        <h1 className="text-xl font-semibold">{cityname} properties found</h1>
+        <br/>
           {(isSearching ? filteredProperties : properties).map(
             (item, index) => (
               <div
                 key={index}
                 className="flex flex-col md:flex-row items-start border-2 border-blue-500 shadow-lg rounded-lg overflow-hidden mb-6 bg-white w-[700px]"
               >
-                {/* Left: Image and Button */}
+                
                 <div className="relative w-full md:w-1/3">
                   <img
                     src={item.images[0]}
@@ -770,7 +779,7 @@ dispatch(setFilteredProperties(response.data.properties))
                   </button>
                 </div>
 
-                {/* Right: Details */}
+                
                 <div className="w-full md:w-2/3 p-4">
                   <h1 className="text-xl font-bold text-blue-600 mb-2">
                     {item.Propertyname}
