@@ -10,8 +10,8 @@ import { useNavigate } from "react-router-dom";
 function Header3() {
   const navigate = useNavigate();
   return (
-    <div className="bg-blue-900 text-white flex justify-center relative">
-      <div className="flex gap-10 mb-12 mr-32">
+    <div className="bg-blue-900 text-white flex justify-center relative ">
+      <div className="flex gap-10 mb-12 mx-auto ">
         <div
           className="flex items-center gap-2 p-2 hover:border border-white rounded-lg"
           onClick={() => navigate("/")}

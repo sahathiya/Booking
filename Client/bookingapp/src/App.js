@@ -34,6 +34,7 @@ import ListPage from './Components/Saved/ListPage';
 import BookingFinish from './Components/Booking/BookingFinish';
 import RoomDetails from './Components/DetailesProperty/RoomDetailes';
 import Bookings from './Components/Booking/Bookings';
+import ConformPage from './Components/Booking/ConformPage';
 
 function App() {
   
@@ -60,6 +61,7 @@ function App() {
 <Route path='/bookings' element={<Bookings/>}/>
 <Route path='/bookingdetailes/:id/:bookingId' element={<BookingDetailes/>}/>
 <Route path='/bookingfinish' element={<BookingFinish/>}/>
+<Route path='/conform-page/:id' element={<ConformPage/>}/>
 <Route path='/searching' element={<SearchingProperty/>}/>
 <Route path='/searchdetailes' element={<SearchDetailes/>}/>
 

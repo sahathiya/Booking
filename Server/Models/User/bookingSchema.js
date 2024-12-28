@@ -17,6 +17,8 @@ const bookingSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  sessionId: { type: String},
+ 
  NumberOfRooms:{type:Number},
   Firstname: { type: String, required: false },
   Lastname: { type: String, required: false },

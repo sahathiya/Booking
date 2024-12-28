@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { SiTicktick } from "react-icons/si";
 import axiosInstance from "../../Axios/axiosinstance";
-import { setBooking } from "../../Features/bookingSlice";
+import { setBooking, setClientSecretkey } from "../../Features/bookingSlice";
 import Navbar from "../Navbars/Navbar";
 
 function BookingDetailes() {
@@ -110,6 +110,8 @@ function BookingDetailes() {
       }
 
       dispatch(setBooking(response.data.book));
+      const res=await axiosInstance.patch(`/payment/${id}/${bookingId}`)
+     dispatch(setClientSecretkey(res.data.clientsecret))
       navigate("/bookingfinish");
     } catch (error) {
       if (error.response?.data?.message) {
@@ -118,6 +120,11 @@ function BookingDetailes() {
         alert("Something went wrong, please try again later.");
       }
     }
+
+
+    
+    
+
   };
 
   return (

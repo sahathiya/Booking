@@ -16,6 +16,7 @@ const userAuthMiddleware = async (req, res, next) => {
                 res.send(err)
             }else{
                 req.user=user
+                
                 console.log(req.user);
                 
                 next()

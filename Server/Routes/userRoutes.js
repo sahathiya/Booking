@@ -10,8 +10,9 @@ const { userAuthMiddleware } = require("../Middlewares/Authentication");
 const upload = require("../Middlewares/Imageupload");
 const tryCatch = require("../Middlewares/Trycatch");
 const{addToSaved,removeFromSaved,SavedProperties}=require("../Controllers/User/savedController")
-const {BookingProperty,BookingDetailes,bookingByPropertyId,bookingsByUser,cancelBooking} =require("../Controllers/User/bookingController")
+const {BookingProperty,BookingDetailes,bookingByPropertyId,bookingsByUser,cancelBooking,bookingFinish,verifyBooking} =require("../Controllers/User/bookingController")
 const {SearchProperty}=require("../Controllers/User/searchController")
+const{createReview,getReviewsbypropertyId}=require("../Controllers/User/reviewController")
 router
   .post("/register", tryCatch(registerUser))
   .post("/login", tryCatch(loginUser))
@@ -36,7 +37,14 @@ router
   .get("/bookingbyId/:id",userAuthMiddleware,tryCatch(bookingByPropertyId))
    .get("/bookings",userAuthMiddleware,tryCatch(bookingsByUser))
    .patch("/cancel/:id",userAuthMiddleware,tryCatch(cancelBooking))
+   .patch("/payment/:id/:bookingid",tryCatch(bookingFinish))
+   .patch("/verify/:id/:bookingid",userAuthMiddleware,tryCatch(verifyBooking))
 
   //search
   .get("/search",tryCatch(SearchProperty))
+
+
+  //review
+  .post("/review",userAuthMiddleware,tryCatch(createReview))
+  .get("/allreview/:id",getReviewsbypropertyId)
 module.exports = router;

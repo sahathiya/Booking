@@ -1,9 +1,11 @@
 const Booking = require("../../Models/User/bookingSchema");
 const Property = require("../../Models/User/propertySchema");
 const User = require("../../Models/User/userSchema");
-
+const stripe = require("stripe");
+const mongoose=require("mongoose")
+const nodemailer = require('nodemailer');
 const BookingProperty = async (req, res) => {
-  
+ 
 
   
     const { adults, children, checkIn, checkOut, roomType, NumberOfRooms } = req.body;
@@ -132,6 +134,134 @@ const BookingDetailes=async(req,res)=>{
 }
 
 
+const bookingFinish=async(req,res)=>{
+  
+console.log("bbbbbbbbbbbbbbbbbb");
+
+    // const {PropertyDetailes}  = req.body
+
+    const propertyid=req.params.id
+console.log("req.body",req.body);
+
+    const property = await Property.findById(propertyid);
+    console.log("property",property);
+    
+    if (!property) {
+        return res.status(404).json({message:"property not found"})
+    }
+    const bookingid=req.params.bookingid
+    console.log("bookingid",bookingid);
+    
+  const book=await Booking.findOne({_id:bookingid})
+  console.log("book",book);
+  
+  if(!book){
+    return res.status(404).json({message:'not found this id'})
+  }
+  if (!mongoose.Types.ObjectId.isValid(bookingid)) {
+    return res.status(400).json({ message: "Invalid booking ID" });
+}
+    const lineItems = [
+        {
+            price_data: {
+                currency: "INR",
+                product_data: {
+                    name: property.Propertyname,
+                    images: [property.images[0]],
+                   
+                },
+                unit_amount: Math.round(book.totalPrice * 100),
+            },
+            quantity: book.adults+book.children,
+        },
+    ];
+
+    const Stripeclient = stripe(process.env.STRIPE_KEY);
+    const session = await Stripeclient.checkout.sessions.create({
+        payment_method_types: ["card"],
+        line_items: lineItems,
+        mode: "payment",
+        ui_mode: "embedded",
+        return_url: `${process.env.URL_FRONTEND}/conform-page/{CHECKOUT_SESSION_ID}`,
+    });
+
+  
+
+    
+ 
+  book.sessionId=session.id
+// book.BookingStatus='Confirmed'
+// book.paymentStatus='Completed'
+    await book.save();
+
+    res.status(201).json({
+        success: true,
+        message: "Booking initiated",
+        data: book,
+        clientsecret: session.client_secret,
+        linedata: lineItems,
+    });
+
+
+};
+
+
+const verifyBooking=async(req,res)=>{
+  console.log("verifyyyyyyyyyyyyyy");
+  const useremail=req.user.email
+  console.log("useriduserid",useremail);
+  
+  const sessionid=req.params.id
+const bookingid=req.params.bookingid
+
+
+try {
+  const book = await Booking.findOne({ sessionId: sessionid });
+
+  if (!book) {
+   return  res.status(404).json({ message: 'No booking found with this ID' });
+  }
+
+  if (book.paymentStatus === 'Completed') {
+  return  res.status(400).json({ message: 'Booking already verified' });
+  }
+
+  // Update booking status
+  book.paymentStatus = 'Completed';
+  book.BookingStatus = 'Confirmed';
+  await book.save();
+
+  
+
+
+  // Send confirmation email
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.MY_EMAIL,
+      pass: process.env.MY_PASSWRD,
+    },
+  });
+
+  const mailOptions = {
+    from: process.env.MY_EMAIL,
+    to: useremail,
+    subject: "Booking Confirmation",
+    text: `Dear user, your booking has been successfully confirmed. Booking ID: ${bookingid}. Use this ID to share your reviews about your stay.`,
+  };
+
+  await transporter.sendMail(mailOptions);
+  console.log('Confirmation email sent successfully');
+  res.status(200).json({ message: 'Booking successfully verified', book });
+} catch (error) {
+  console.error('Error in booking verification:', error.message, error.stack);
+  
+  res.status(500).json({ message: 'Internal server error', error: error.message });
+}
+}
+
+
+
 
 const bookingsByUser = async (req, res) => {
   
@@ -216,4 +346,4 @@ const bookingByPropertyId=async(req,res)=>{
   }
   return res.status(200).json({message:'all booking',booking})
 }
-module.exports = { BookingProperty ,BookingDetailes,bookingByPropertyId,bookingsByUser,cancelBooking};
+module.exports = { BookingProperty ,BookingDetailes,bookingByPropertyId,bookingsByUser,cancelBooking,bookingFinish,verifyBooking};

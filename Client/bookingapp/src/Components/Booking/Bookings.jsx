@@ -79,7 +79,9 @@ function Bookings() {
                       className={
                         booking.BookingStatus === "Cancelled"
                           ? "text-red-500"
-                          : "text-yellow-600"
+                          :booking.BookingStatus==='Pending'?
+                           "text-yellow-600"
+                           :"text-green-600"
                       }
                     >
                       <strong>Booking status:</strong> {booking.BookingStatus}
@@ -88,7 +90,9 @@ function Bookings() {
                       className={
                         booking.paymentStatus === "Failed"
                           ? "text-red-500"
-                          : "text-yellow-600"
+                          :booking.paymentStatus === "Pending"?
+                          "text-yellow-600"
+                          :"text-green-600"
                       }
                     >
                       <strong>Payment status:</strong> {booking.paymentStatus}
@@ -106,9 +110,9 @@ function Bookings() {
                       onClick={() => handleCancel(booking._id)}
                       className="px-6 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
                     >
-                      {booking.BookingStatus === "Pending"
+                      {booking.BookingStatus === "Pending"||booking.BookingStatus==="Confirmed"
                         ? "Cancel booking"
-                        : "Cancelled"}
+                        :"Cancelled"}
                     </button>
                   </div>
                 </div>
