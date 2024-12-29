@@ -330,7 +330,12 @@ const cancelBooking = async (req, res) => {
 };
 
 
-
+const AllBookings=async(req,res)=>{
+  const AllBookings=await Booking.find()
+  console.log("AllBookings",AllBookings);
+  return res.status(200).json({message:'all',AllBookings})
+  
+}
 
 
 
@@ -346,4 +351,4 @@ const bookingByPropertyId=async(req,res)=>{
   }
   return res.status(200).json({message:'all booking',booking})
 }
-module.exports = { BookingProperty ,BookingDetailes,bookingByPropertyId,bookingsByUser,cancelBooking,bookingFinish,verifyBooking};
+module.exports = { BookingProperty ,BookingDetailes,bookingByPropertyId,bookingsByUser,cancelBooking,bookingFinish,verifyBooking,AllBookings};

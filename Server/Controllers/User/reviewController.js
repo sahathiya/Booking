@@ -3,10 +3,10 @@ const Review=require("../../Models/User/reviewSchema")
 const createReview= async(req,res)=>{
 
     console.log("createReview");
-    
-    const {bookedproperty,rating,comment,property}= req.body
+    const propertyid=req.params.id
+    const {bookedproperty,rating,comment}= req.body
 
-    if (!bookedproperty||!rating||!property){
+    if (!bookedproperty||!rating){
         return res.status(400).json({message:'all fields are required'})
     }
 
@@ -16,9 +16,9 @@ const createReview= async(req,res)=>{
     reviewLabel = "Excellent";
   } else if (rating >= 4) {
     reviewLabel = "Really enjoyed";
-  } else if (rating === 3) {
+  } else if (rating >= 3) {
     reviewLabel = "Average";
-  } else if (rating === 2) {
+  } else if (rating >= 2) {
     reviewLabel = "Disappointing";
   } else {
     reviewLabel = "Bad";
@@ -29,7 +29,7 @@ const createReview= async(req,res)=>{
         bookedproperty,
         rating,
         comment,
-        property,
+        property:propertyid,
         reviewLabel
     })
     await newReview.save()

@@ -10,7 +10,7 @@ const { userAuthMiddleware } = require("../Middlewares/Authentication");
 const upload = require("../Middlewares/Imageupload");
 const tryCatch = require("../Middlewares/Trycatch");
 const{addToSaved,removeFromSaved,SavedProperties}=require("../Controllers/User/savedController")
-const {BookingProperty,BookingDetailes,bookingByPropertyId,bookingsByUser,cancelBooking,bookingFinish,verifyBooking} =require("../Controllers/User/bookingController")
+const {BookingProperty,BookingDetailes,bookingByPropertyId,bookingsByUser,cancelBooking,bookingFinish,verifyBooking,AllBookings} =require("../Controllers/User/bookingController")
 const {SearchProperty}=require("../Controllers/User/searchController")
 const{createReview,getReviewsbypropertyId}=require("../Controllers/User/reviewController")
 router
@@ -39,12 +39,13 @@ router
    .patch("/cancel/:id",userAuthMiddleware,tryCatch(cancelBooking))
    .patch("/payment/:id/:bookingid",tryCatch(bookingFinish))
    .patch("/verify/:id/:bookingid",userAuthMiddleware,tryCatch(verifyBooking))
+   .get("/allbookings",AllBookings)
 
   //search
   .get("/search",tryCatch(SearchProperty))
 
 
   //review
-  .post("/review",userAuthMiddleware,tryCatch(createReview))
+  .post("/review/:id",userAuthMiddleware,tryCatch(createReview))
   .get("/allreview/:id",getReviewsbypropertyId)
 module.exports = router;

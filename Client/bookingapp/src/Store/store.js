@@ -1,11 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userSlice from "../Features/userSlice";
 import partnerSlice from "../Features/partnerSlice";
-import savedSlice from"../Features/savedSlice"
+import savedSlice from "../Features/savedSlice";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import propertySlice from "../Features/propertySlice";
-import bookingSlice from "../Features/bookingSlice"
+import bookingSlice from "../Features/bookingSlice";
+import reviewSlice from "../Features/reviewSlice";
 const userPersistConfig = {
   key: "user",
   storage,
@@ -24,10 +25,17 @@ const savedPersistConfig = {
   key: "saved",
   storage,
 };
-const bookingPersisting={
-  key:"booking",
+const bookingPersisting = {
+  key: "booking",
   storage,
-}
+};
+
+const reviewPersisting = {
+  key: "review",
+  storage,
+};
+
+const persistedReviewReducer = persistReducer(reviewPersisting, reviewSlice);
 const persistedUserReducer = persistReducer(userPersistConfig, userSlice);
 
 const persistedPartnerReducer = persistReducer(
@@ -40,10 +48,7 @@ const persistedPropertyReducer = persistReducer(
 );
 const persistedSavedReducer = persistReducer(savedPersistConfig, savedSlice);
 
-const persistedbookingReducer = persistReducer(
-  bookingPersisting,
-  bookingSlice
-);
+const persistedbookingReducer = persistReducer(bookingPersisting, bookingSlice);
 
 export const store = configureStore({
   reducer: {
@@ -51,7 +56,8 @@ export const store = configureStore({
     partner: persistedPartnerReducer,
     property: persistedPropertyReducer,
     saved: persistedSavedReducer,
-    booking:persistedbookingReducer
+    booking: persistedbookingReducer,
+    review: persistedReviewReducer,
   },
 });
 

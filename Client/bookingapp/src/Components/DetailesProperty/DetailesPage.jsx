@@ -13,7 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { DateRange } from "react-date-range";
 import { LuBedSingle } from "react-icons/lu";
 import { format } from "date-fns";
-import { setBooking } from "../../Features/bookingSlice";
+import { setBooking ,setAllBooking} from "../../Features/bookingSlice";
 import Navbar2 from "../Navbars/Navbar2";
 import HouseRules from "./HouseRules";
 import Footer1 from "../Footers/Footer1";
@@ -24,10 +24,44 @@ import { FaRegHeart } from "react-icons/fa";
 import { FiCopy } from "react-icons/fi";
 import { FaFacebook } from "react-icons/fa";
 import { FacebookShareButton, FacebookIcon } from "react-share";
+import ReviewModal from "../Review/ReviewModal";
+import { setReviews } from "../../Features/reviewSlice";
 function DetailesPage() {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [showWriteReviewModal, setShowWriteReviewModal] = useState(false);
+  const[writeModal,setWriteModal]=useState(false)
+ const[bookingId,setBookingId]=useState("")
+
+
+ const [comment,setComment]=useState("")
+
+  const [rating,setRating]=useState(1)
+ console.log("bookingIdbookingId",bookingId.length);
+ const [error, setError] = useState("");
+ 
+  const handleOpenModal = () => setIsModalVisible(true);
+  const handleCloseModal = () => setIsModalVisible(false);
+
+
+  const handleOpenWriteReviewModal = () => setShowWriteReviewModal(true);
+  const handleCloseWriteReviewModal = () => setShowWriteReviewModal(false);
+
+
+  // const WriteReviewModal = () => setWriteModal(true);
+  const CloseWriteReviewModal = () => setWriteModal(false);
+
+ const allbookings=useSelector(state=>state.booking.bookings)
+ console.log("allbookings",allbookings);
+ 
+
   const [numberOfRooms, setNumberOfRooms] = useState(1);
   const [showShareMenu, setShowShareMenu] = useState(false);
   const booking = useSelector((state) => state.booking.booking);
+  
+  
+  // const checkBooking=booking._id===bookingId
+  // console.log("checkBooking",checkBooking);
+  
   console.log("bookingbooking", booking);
   const dispatch = useDispatch();
   const savedProperties = useSelector((state) => state.saved.savedProperties);
@@ -61,6 +95,10 @@ function DetailesPage() {
   const { id } = useParams();
   const property = useSelector((state) => state.property.property);
   const detailesproperty = property.filter((item) => item._id === id);
+  const propertyName=detailesproperty.map((item)=>item.Propertyname)
+  const propertyId=detailesproperty.map((item)=>item._id)
+  console.log("propertyName",propertyName);
+  
   const roomtype = detailesproperty
     .map((pro) => pro.RoomType.map((item) => item.type))
     .flat();
@@ -202,10 +240,153 @@ function DetailesPage() {
       tableSection.scrollIntoView({ behavior: "smooth" });
     }
   };
+
+  if (bookingId.length !== 24 && error !== "Booking ID must be exactly 24 characters long.") {
+    setError("Booking ID must be exactly 24 characters long.");
+  } else if (bookingId.length === 24 && error !== "") {
+    setError(""); // Clear error if valid
+  }
+
+  const handleallBookings=async()=>{
+    const res=await axiosInstance.get(`/allbookings`)
+    dispatch(setAllBooking(res.data.AllBookings))
+  const all=  allbookings.filter((item)=>item._id===bookingId)
+  console.log("all",all);
+  setWriteModal(true);
+  
+  }
+
+  const handleSubmitReview=async()=>{
+
+    const reviewdata= {
+      bookedproperty:bookingId,
+      rating:rating,
+      comment:comment
+    }
+
+
+    const response=await axiosInstance.post(`/review/${propertyId}`,reviewdata)
+    console.log("response................",response);
+   dispatch(setReviews(response.data.review)) 
+    navigate(`/`)
+  }
   return (
     <>
       <Navbar />
       <Navbar2 />
+      <div class="flex space-x-16 justify-center ">
+  <button className=" hover:bg-gray-300 active:border-b-4 active:border-blue-500 px-4 py-2 rounded;">Overview</button>
+  <button className=" hover:bg-gray-300 active:border-b-4 active:border-blue-500 px-4 py-2 rounded;">Info&prices</button>
+  <button className=" hover:bg-gray-300 active:border-b-4 active:border-blue-500 px-4 py-2 rounded;">Facilities</button>
+  <button className=" hover:bg-gray-300 active:border-b-4 active:border-blue-500 px-4 py-2 rounded;">House rules</button>
+  <button className=" hover:bg-gray-300 active:border-b-4 active:border-blue-500 px-4 py-2 rounded;"
+  onClick={handleOpenModal}
+  >Guest reviews</button>
+
+
+</div>
+{/* Modal */}
+      <ReviewModal isVisible={isModalVisible} onClose={handleCloseModal}>
+        {/* <p>This is the guest reviews section. Add your content here!</p> */}
+        <h1 className="text-2xl font-bold">Guest reviews for {propertyName}</h1>
+        <button className="border-2 p-1 rounded-md border-blue-500 text-blue-500 font-semibold bg-white"
+       onClick={handleOpenWriteReviewModal}>Write a review</button>
+      </ReviewModal>
+
+
+      {showWriteReviewModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-3/4 max-w-lg relative">
+            <button
+              className="absolute top-4 right-4 text-gray-500 hover:text-black"
+              onClick={CloseWriteReviewModal}
+            >
+              &#x2715;
+            </button>
+            <h2 className="text-xl font-semibold mb-4">Enter your booking details</h2>
+            <p>Check your booking confirmation email to find your booking Id</p>
+            {/* <textarea
+              className="w-full border rounded p-2 mb-4"
+              rows="5"
+              placeholder="Share your experience..."
+            ></textarea> */}
+            {error && (
+        <div className="text-red-500 text-sm mb-2">{error}</div>
+      )}
+            <label className="font-bold">Booking Id</label>
+            <input
+            type="text"
+            className="w-full border rounded p-2 mb-4"
+            value={bookingId}
+            onChange={(e)=>setBookingId(e.target.value)}
+
+            />
+            <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            onClick={handleallBookings}>
+              Rate your stay
+            </button>
+          </div>
+        </div>
+      )}
+
+
+{
+  writeModal&&
+  (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+      <div className="bg-white p-6 rounded-lg shadow-lg w-3/4 max-w-lg relative">
+        <button
+          className="absolute top-4 right-4 text-gray-500 hover:text-black"
+          onClick={handleCloseWriteReviewModal}
+        >
+          &#x2715;
+        </button>
+        <h2 className="text-xl font-semibold mb-4">Write your review</h2>
+        
+        <textarea
+          className="w-full border rounded p-2 mb-4"
+          rows="5"
+          value={comment}
+          onChange={(e)=>setComment(e.target.value)}
+          placeholder="Share your experience..."
+        ></textarea>
+  
+      <label className="font-bold">Booking Id</label>
+        <input
+        type="text"
+        className="w-full border rounded p-2 mb-4"
+        value={bookingId}
+        onChange={(e)=>setBookingId(e.target.value)}
+
+        />
+
+<label className="font-bold">Rating</label>
+        <input
+        type="number"
+        className="w-full border rounded p-2 mb-4"
+        value={rating}
+        min={1}
+        max={5}
+        onChange={(e)=>setRating(e.target.value)}
+
+        />
+        <button 
+        type="submit"
+        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        onClick={handleSubmitReview}
+
+       >
+        
+          Submit review
+        </button>
+      </div>
+    </div>
+  )}
+
+
+
+
+
 
       <div className="p-6 min-h-screen">
         {detailesproperty.map((pro) => (
