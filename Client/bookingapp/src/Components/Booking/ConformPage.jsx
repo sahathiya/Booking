@@ -3,12 +3,14 @@ import axiosInstance from '../../Axios/axiosinstance';
 import { useParams } from 'react-router-dom';
 import { setBooking } from '../../Features/bookingSlice';
 function ConformPage() {
-    const{id}=useParams()
+    const{id,bookingid}=useParams()
+    console.log("id..........",bookingid);
+    
   
   useEffect(() => {
     const verify=async()=>{
         try {
-            const response=await axiosInstance.patch(`/verify/${id}`)
+            const response=await axiosInstance.patch(`/verify/${id}/${bookingid}`)
         console.log("response of verify booking",response);
         setBooking(response.data.book)
         } catch (error) {

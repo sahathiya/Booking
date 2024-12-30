@@ -68,6 +68,10 @@ function BookingDetailes() {
   console.log("details", details);
 
   const { id, bookingId } = useParams();
+  console.log("id",id);
+  
+  console.log("bookingId",bookingId);
+  
   const property = useSelector((state) => state.property.property);
   console.log("propertypropertypropertypropertyproperty", property);
 
@@ -112,7 +116,7 @@ function BookingDetailes() {
       dispatch(setBooking(response.data.book));
       const res=await axiosInstance.patch(`/payment/${id}/${bookingId}`)
      dispatch(setClientSecretkey(res.data.clientsecret))
-      navigate("/bookingfinish");
+      navigate(`/bookingfinish/${id}/${bookingId}`);
     } catch (error) {
       if (error.response?.data?.message) {
         alert(error.response.data.message);

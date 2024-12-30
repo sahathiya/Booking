@@ -117,6 +117,8 @@ const BookingDetailes=async(req,res)=>{
   console.log("gggggggggggggggggg");
   
   const bookingid=req.params.id
+  console.log("bookingid",bookingid);
+  
   const book=await Booking.findOne({_id:bookingid})
   if(!book){
     return res.status(404).json({message:'not found this id'})
@@ -141,7 +143,8 @@ console.log("bbbbbbbbbbbbbbbbbb");
     // const {PropertyDetailes}  = req.body
 
     const propertyid=req.params.id
-console.log("req.body",req.body);
+
+console.log("propertyid",propertyid);
 
     const property = await Property.findById(propertyid);
     console.log("property",property);
@@ -182,7 +185,7 @@ console.log("req.body",req.body);
         line_items: lineItems,
         mode: "payment",
         ui_mode: "embedded",
-        return_url: `${process.env.URL_FRONTEND}/conform-page/{CHECKOUT_SESSION_ID}`,
+        return_url: `${process.env.URL_FRONTEND}/conform-page/{CHECKOUT_SESSION_ID}/${book._id}`,
     });
 
   

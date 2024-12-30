@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const reviewSchema = new mongoose.Schema({
   guest: { type: mongoose.Schema.Types.ObjectId, ref: "Users"},
   bookedproperty: {type: mongoose.Schema.Types.ObjectId,ref: "Booking"},
-  property:{type: mongoose.Schema.Types.ObjectId,ref: "Property"},
+  property:{type:String},
   rating: { type: Number, required: true, min: 1, max: 5 },
   reviewLabel:{
  type: String,
@@ -12,6 +12,9 @@ const reviewSchema = new mongoose.Schema({
 }, 
   comment: { type: String, default: "" },
   createdAt: { type: Date, default: Date.now },
+
+  likes: { type: [mongoose.Schema.Types.ObjectId], ref: "Users", default: [] },
+  dislikes: { type: [mongoose.Schema.Types.ObjectId], ref: "Users", default: [] }, 
 });
 
 module.exports=mongoose.model("Review",reviewSchema)

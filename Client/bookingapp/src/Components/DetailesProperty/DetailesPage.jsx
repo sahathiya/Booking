@@ -25,8 +25,27 @@ import { FiCopy } from "react-icons/fi";
 import { FaFacebook } from "react-icons/fa";
 import { FacebookShareButton, FacebookIcon } from "react-share";
 import ReviewModal from "../Review/ReviewModal";
-import { setReviews } from "../../Features/reviewSlice";
+import { LikeReview, setAllReviews, setReviews,DislikeReview } from "../../Features/reviewSlice";
+import ReviewCard from "../Review/ReviewCard";
+import indiaimage from "../../Images/india.png"
+import { LuBedDouble } from "react-icons/lu";
+import { CiCalendar } from "react-icons/ci";
+import { LuThumbsUp } from "react-icons/lu";
+import { LuThumbsDown } from "react-icons/lu";
+import { MdThumbUp } from "react-icons/md";
+import { MdThumbDown } from "react-icons/md";
 function DetailesPage() {
+  const [liked, setLiked] = useState(false);
+  const [dislike,setDislike]=useState(false)
+  const likes=useSelector(state=>state.review.likes)
+  console.log("likes",likes);
+  const dislikes=useSelector(state=>state.review.dislikes)
+  console.log("dislikes",dislikes);
+  
+  
+  const currentuser=useSelector(state=>state.user.user)
+  console.log("currentuser",currentuser);
+  
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [showWriteReviewModal, setShowWriteReviewModal] = useState(false);
   const[writeModal,setWriteModal]=useState(false)
@@ -38,7 +57,40 @@ function DetailesPage() {
   const [rating,setRating]=useState(1)
  console.log("bookingIdbookingId",bookingId.length);
  const [error, setError] = useState("");
+ const allReviews=useSelector(state=>state.review.allreviews)
+ console.log("allReviews",allReviews);
+
+ const reviewscheckIn=allReviews.map((review)=>review.bookedproperty.checkIn)
+ const reviewscheckOut=allReviews.map((review)=>review.bookedproperty.checkOut)
+ console.log("reviews...........",reviewscheckIn);
  
+// Calculate stay length for each review
+const stayLengths = reviewscheckIn.map((checkIn, index) => {
+  const checkOut = reviewscheckOut[index];
+  console.log("Parsed CheckIn:", new Date(checkIn));
+  console.log("Parsed CheckOut:", new Date(checkOut));
+  const stayLength = (new Date(checkOut) - new Date(checkIn)) / (1000 * 60 * 60 * 24); // Convert to days
+  console.log("bbbbbbbbbbbbbbbbbbb",stayLength);
+  
+  return stayLength;
+});
+
+console.log("stayLengths",stayLengths);
+const checkInDates = reviewscheckIn.map((checkIn) => {
+  const date = new Date(checkIn);
+  const month = date.toLocaleString("default", { month: "long" }); // Get full month name
+  const year = date.getFullYear(); // Get the year
+  return `${month} ${year}`; // Format as "Month Year"
+});
+ console.log("checkInDates",checkInDates);
+ 
+ const formatCreatedAt = (dateString) => {
+  const date = new Date(dateString);
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = date.toLocaleString("default", { month: "long" });
+  const year = date.getFullYear();
+  return `${day} ${month} ${year}`;
+};
   const handleOpenModal = () => setIsModalVisible(true);
   const handleCloseModal = () => setIsModalVisible(false);
 
@@ -236,6 +288,7 @@ function DetailesPage() {
 
   const handleScrollToTable = () => {
     const tableSection = document.getElementById("table-section");
+    const houseruleSection=document.getElementById("houserule-section")
     if (tableSection) {
       tableSection.scrollIntoView({ behavior: "smooth" });
     }
@@ -265,10 +318,43 @@ function DetailesPage() {
     }
 
 
-    const response=await axiosInstance.post(`/review/${propertyId}`,reviewdata)
+    const response=await axiosInstance.post(`/review`,reviewdata)
     console.log("response................",response);
    dispatch(setReviews(response.data.review)) 
     navigate(`/`)
+  }
+
+  useEffect(()=>{
+    const fetchReviews=async()=>{
+      const response=await axiosInstance.get(`/allreview/${propertyid}`)
+      console.log("responseof reviewsssssssss",response);
+      dispatch(setAllReviews(response.data.review))
+      
+    }
+    fetchReviews()
+  },[])
+
+  const handleLike=async(reviewid)=>{
+    const userId={
+      userId:currentuser._id
+    }
+ const response=await axiosInstance.post(`/like/${reviewid}`,userId)
+ console.log("response of like",response);
+ setLiked(true)
+ setDislike(false);
+ dispatch(LikeReview(response.data.review))
+  }
+
+  const handleDislike=async(reviewid)=>{
+    const userId={
+      userId:currentuser._id
+    }
+    const response=await axiosInstance.post(`/dislike/${reviewid}`,userId)
+
+    console.log("response of dislike",response);
+    setDislike(true);    
+    setLiked(false); 
+    dispatch(DislikeReview(response.data.review))
   }
   return (
     <>
@@ -278,28 +364,130 @@ function DetailesPage() {
   <button className=" hover:bg-gray-300 active:border-b-4 active:border-blue-500 px-4 py-2 rounded;">Overview</button>
   <button className=" hover:bg-gray-300 active:border-b-4 active:border-blue-500 px-4 py-2 rounded;">Info&prices</button>
   <button className=" hover:bg-gray-300 active:border-b-4 active:border-blue-500 px-4 py-2 rounded;">Facilities</button>
-  <button className=" hover:bg-gray-300 active:border-b-4 active:border-blue-500 px-4 py-2 rounded;">House rules</button>
+  <button className=" hover:bg-gray-300 active:border-b-4 active:border-blue-500 px-4 py-2 rounded;"
+  // onClick={}
+  >House rules</button>
   <button className=" hover:bg-gray-300 active:border-b-4 active:border-blue-500 px-4 py-2 rounded;"
   onClick={handleOpenModal}
-  >Guest reviews</button>
+  >Guest reviews({allReviews.length})</button>
 
 
 </div>
 {/* Modal */}
-      <ReviewModal isVisible={isModalVisible} onClose={handleCloseModal}>
+      <ReviewModal isVisible={isModalVisible} onClose={handleCloseModal} length={allReviews.length}>
         {/* <p>This is the guest reviews section. Add your content here!</p> */}
         <h1 className="text-2xl font-bold">Guest reviews for {propertyName}</h1>
         <button className="border-2 p-1 rounded-md border-blue-500 text-blue-500 font-semibold bg-white"
        onClick={handleOpenWriteReviewModal}>Write a review</button>
-      </ReviewModal>
+       <div className="p-4 bg-white shadow-md rounded-lg max-w-3xl mx-auto">
+      {allReviews.map((review, index) => (
+        <div className="flex space-x-8">
+          {/* Left Side (Header & Room/Stay Info) */}
+          <div className="w-1/3">
+            {/* Guest Info */}
+            <div className="flex items-center space-x-4">
+              {review.guest.profileImage ? (
+                <div>
+                  <img
+                    src={review.guest.profileImage}
+                    className="w-12 h-12 rounded-full flex items-center justify-center"
+                    alt="Guest"
+                  />
+                </div>
+              ) : (
+                <div>
+                  <div className="w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                    {review.guest.firstname.slice(0, 1)}
+                  </div>
+                </div>
+              )}
+              <div>
+                <h3 className="text-lg font-semibold">
+                  {review.guest.firstname} {review.guest.lastname}
+                </h3>
+                <p className="text-sm text-gray-500 flex items-center">
+                  <img src={indiaimage} className="w-4" alt="India" /> India
+                </p>
+              </div>
+            </div>
+
+            {/* Room and Stay Info */}
+            <div className="mt-4 text-gray-700">
+              <p className="flex items-center space-x-2">
+                <LuBedDouble className="text-gray-600" /> <span>Standard Double Room</span>
+              </p>
+              <p className="flex items-center space-x-2 mt-2">
+                <CiCalendar className="text-gray-600" />{" "}
+                <span>{stayLengths[index]} night · {checkInDates[index]}</span>
+              </p>
+            </div>
+            
+          </div>
+         
+
+          {/* Right Side (Review Content & Footer) */}
+          <div className="w-2/3 relative">
+          <div className=" absolute top-4 right-4 text-lg font-bold bg-blue-900 text-white px-3 py-1 rounded-md">
+                {review.rating}
+              </div>
+            {/* Review Content */}
+            <div className="mt-6">
+              <p className="mt-2 text-gray-700">{formatCreatedAt(review.createdAt)}</p>
+              <p className="text-xl font-bold">{review.reviewLabel}</p>
+              <p className="mt-2 text-gray-700">{review.comment}</p>
+              
+            </div>
+
+            {/* Footer */}
+            <div className="mt-6 flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+        {!liked && !dislike&& (
+          <>
+            <button
+              className="text-sm flex items-center text-blue-500 hover:bg-blue-100 p-2 rounded-md"
+              onClick={() => handleLike(review._id)}
+            >
+              <LuThumbsUp /> Helpful
+            </button>
+            <button className="text-sm flex items-center text-blue-500 hover:bg-blue-100 p-2 rounded-md"
+            onClick={()=>handleDislike(review._id)}>
+              <LuThumbsDown /> Not helpful
+            </button>
+          </>
+        )}
+
+        
+      </div>
+      {liked && (
+        <p className="text-gray-500 flex items-center space-x-2">
+          <LuThumbsUp className="text-gray-500" />
+          <span>You found this review helpful</span>
+        </p>
+      )}
+
+{dislike && (
+        <p className="text-gray-500 flex items-center space-x-2">
+          <LuThumbsDown className="text-gray-500" />
+          <span>You found this review not helpful</span>
+        </p>
+      )}
+              
+              
+            </div>
+            
+          </div>
+        </div>
+      ))}
+    </div>
+      </ReviewModal >
 
 
       {showWriteReviewModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[9999]">
           <div className="bg-white p-6 rounded-lg shadow-lg w-3/4 max-w-lg relative">
             <button
               className="absolute top-4 right-4 text-gray-500 hover:text-black"
-              onClick={CloseWriteReviewModal}
+              onClick={handleCloseWriteReviewModal}
             >
               &#x2715;
             </button>
@@ -333,11 +521,11 @@ function DetailesPage() {
 {
   writeModal&&
   (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[9999]">
       <div className="bg-white p-6 rounded-lg shadow-lg w-3/4 max-w-lg relative">
         <button
           className="absolute top-4 right-4 text-gray-500 hover:text-black"
-          onClick={handleCloseWriteReviewModal}
+          onClick={CloseWriteReviewModal}
         >
           &#x2715;
         </button>
@@ -409,9 +597,9 @@ function DetailesPage() {
                       <FaRegHeart className="text-black text-lg" />
                     )}
                   </button>
-                  <div className="relative z-50">
-                    <button onClick={toggleShareMenu}>
-                      <GoShareAndroid className="text-blue-600 text-2xl" />
+                  <div className="relative">
+                    <button onClick={toggleShareMenu} className="relative z-10">
+                      <GoShareAndroid className="text-blue-600 text-2xl " />
                     </button>
                     {showShareMenu && (
                       <div className="absolute top-10  right-0 bg-white shadow-lg p-4 rounded-lg z-10 w-48 ">
@@ -670,7 +858,16 @@ function DetailesPage() {
         </div>
       </div>
       <br></br>
-      <HouseRules />
+      {/* <HouseRules /> */}
+
+
+
+
+
+
+
+
+
       <br />
       <Footer1 />
     </>

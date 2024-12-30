@@ -60,8 +60,8 @@ function App() {
 <Route path='/roomdetailes/:id/:type' element={<RoomDetails/>}/>
 <Route path='/bookings' element={<Bookings/>}/>
 <Route path='/bookingdetailes/:id/:bookingId' element={<BookingDetailes/>}/>
-<Route path='/bookingfinish' element={<BookingFinish/>}/>
-<Route path='/conform-page/:id' element={<ConformPage/>}/>
+<Route path='/bookingfinish/:id/:bookingId' element={<BookingFinish/>}/>
+<Route path='/conform-page/:id/:bookingid' element={<ConformPage/>}/>
 <Route path='/searching' element={<SearchingProperty/>}/>
 <Route path='/searchdetailes' element={<SearchDetailes/>}/>
 
