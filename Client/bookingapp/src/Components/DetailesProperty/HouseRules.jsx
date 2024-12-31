@@ -1,134 +1,112 @@
-import React from 'react'
-import { CiLogin } from "react-icons/ci";
-import { CiLogout } from "react-icons/ci";
-import { CiCircleInfo } from "react-icons/ci";
+import React from "react";
+import { CiLogin, CiLogout, CiCircleInfo, CiCreditCard1 } from "react-icons/ci";
 import { FaChildren } from "react-icons/fa6";
-import { CiCreditCard1 } from "react-icons/ci";
-function HouseRules() {
+
+function HouseRules({ propertyname }) {
   return (
-    <div>
-      <div class="p-6 bg-white border rounded-lg shadow-md max-w-5xl mx-auto">
-  <h2 class="text-2xl font-semibold mb-4">House rules</h2>
-  {/* <p class="text-sm text-gray-600 mb-6">
-    ibis New Delhi Aerocity - An Accor Brand takes special requests - add in the next step!
-  </p> */}
-<div className='border-1 border-gray-400'>
-  {/* <!-- Check-in --> */}
-  <div className="mb-4 flex items-start">
-  <div className="text-black text-2xl mr-3">
-    <CiLogin />
-  </div>
-  <div className="flex items-center">
-    <h3 className="font-bold mr-6">Check-in</h3>
-    
-    
-    <p className="text-sm text-gray-600 mr-2">From 14:00</p>
-     
-   
-  </div>
-</div>
-<hr/>
-
-  {/* <!-- Check-out --> */}
-  <div class="mb-4 flex items-start">
-    <div class="text-black text-2xl mr-3">
-    <CiLogout />
-    </div>
-    <div className='flex items-center'>
-      <h3 class="font-bold ">Check-out</h3>
-      <p class="text-sm text-gray-600 ml-24">Until 12:00</p>
-    </div>
-  </div>
-<hr/>
-  {/* <!-- Cancellation/Prepayment --> */}
-  <div class="mb-4 flex items-start">
-    <div class="text-black text-2xl mr-3">
-    <CiCircleInfo />
-    </div>
-    <div className='flex items-center '>
-      <h3 class="font-bold">Cancellation/ prepayment</h3>
-      <p class="text-sm text-gray-600 ml-10">
-        Cancellation and prepayment policies vary according to accommodation type. Please check what
-        <a href="#" class="text-blue-500 underline">conditions</a> may apply to each option when making your selection.
+    <div className="p-6 bg-white border rounded-lg shadow-md max-w-5xl mx-auto">
+      <h2 className="text-2xl font-semibold mb-4">House rules</h2>
+      <p className="text-sm text-gray-600 mb-6">
+        {propertyname} takes special requests - add in the next step!
       </p>
-    </div>
-  </div>
-<hr/>
-  {/* <!-- Children and beds --> */}
-  <div class="mb-4 flex items-start">
-    <div class="text-black text-2xl mr-3">
-    <FaChildren />
-    </div>
-    <div className='flex items-center'>
-      <h3 class="font-bold">Children and beds</h3>
-      <p class="text-sm text-gray-600">
-        Children of any age are welcome.
-      
-        To see correct prices and occupancy information, please make sure you have added the correct number of children
-        and their ages in your search.Cots and extra beds are not available at this property.
-      </p>
-      
-    </div>
-  </div>
-  <hr/>
-
-  {/* <!-- Age restriction --> */}
-  <div class="mb-4 flex items-start">
-    <div class="text-black text-2xl mr-3">
-      <i class="fas fa-user-lock"></i>
-    </div>
-    <div className='flex items-center'>
-      <h3 class="font-bold">Age restriction</h3>
-      <p class="text-sm text-gray-600">The minimum age for check-in is 18.</p>
-    </div>
-  </div>
-  <hr/>
-{/* 
-  <!-- Pets --> */}
-  <div class="mb-4 flex items-start">
-    <div class="text-balck text-2xl mr-3">
-      <i class="fas fa-paw"></i>
-    </div>
-    <div className='flex items-center'>
-      <h3 class="font-bold">Pets</h3>
-      <p class="text-sm text-gray-600">Pets are allowed. Charges may be applicable.</p>
-    </div>
-  </div>
-<hr/>
-  {/* <!-- Groups --> */}
-  <div class="mb-4 flex items-start">
-    <div class="text-black text-2xl mr-3">
-      <i class="fas fa-users"></i>
-    </div>
-    <div className='flex items-center'>
-      <h3 class="font-bold">Groups</h3>
-      <p class="text-sm text-gray-600">
-        When booking more than 7 rooms, different policies and additional supplements may apply.
-      </p>
-    </div>
-  </div>
-<hr />
-  {/* <!-- Accepted payment methods --> */}
-  <div class="flex items-start">
-    <div class="text-black text-2xl mr-3">
-    <CiCreditCard1 />
-    </div>
-    <div className='flex items-center'>
-      <h3 class="font-bold">Accepted payment methods</h3>
-      <div class="flex space-x-2 mt-2  ">
-        <img src="https://www.visa.co.in/dam/VCOM/regional/ap/india/global-elements/images/in-visa-classic-card-498x280.png" alt="Visa" class="h-6" />
-        <img src="https://www.visa.co.in/dam/VCOM/regional/ap/india/global-elements/images/in-visa-gold-card-498x280.png" alt="MasterCard" class="h-6" />
-        <span class="text-sm  bg-green-600 rounded-md">Cash</span>
+      <div className="border border-gray-400 p-4 overflow-x-auto">
+        <table className="w-full text-left border-collapse">
+          <tbody>
+            {/* Check-in */}
+            <tr className="border-b">
+              <td className="p-2 w-10">
+                <CiLogin className="text-2xl" />
+              </td>
+              <td className="p-2 font-bold">Check-in</td>
+              <td className="p-2 text-sm text-gray-600">From 14:00</td>
+            </tr>
+            {/* Check-out */}
+            <tr className="border-b">
+              <td className="p-2 w-10">
+                <CiLogout className="text-2xl" />
+              </td>
+              <td className="p-2 font-bold">Check-out</td>
+              <td className="p-2 text-sm text-gray-600">Until 12:00</td>
+            </tr>
+            {/* Cancellation/Prepayment */}
+            <tr className="border-b">
+              <td className="p-2 w-10">
+                <CiCircleInfo className="text-2xl" />
+              </td>
+              <td className="p-2 font-bold">Cancellation/Prepayment</td>
+              <td className="p-2 text-sm text-gray-600">
+                Cancellation and prepayment policies vary according to accommodation type. Please check what{" "}
+                <a href="#" className="text-blue-500 underline">
+                  conditions
+                </a>{" "}
+                may apply to each option when making your selection.
+              </td>
+            </tr>
+            {/* Children and Beds */}
+            <tr className="border-b">
+              <td className="p-2 w-10">
+                <FaChildren className="text-2xl" />
+              </td>
+              <td className="p-2 font-bold">Children and beds</td>
+              <td className="p-2 text-sm text-gray-600">
+                Children of any age are welcome. To see correct prices and occupancy information, please make sure you
+                have added the correct number of children and their ages in your search. Cots and extra beds are not
+                available at this property.
+              </td>
+            </tr>
+            {/* Age Restriction */}
+            <tr className="border-b">
+              <td className="p-2 w-10">
+                <i className="fas fa-user-lock text-2xl"></i>
+              </td>
+              <td className="p-2 font-bold">Age restriction</td>
+              <td className="p-2 text-sm text-gray-600">The minimum age for check-in is 18.</td>
+            </tr>
+            {/* Pets */}
+            <tr className="border-b">
+              <td className="p-2 w-10">
+                <i className="fas fa-paw text-2xl"></i>
+              </td>
+              <td className="p-2 font-bold">Pets</td>
+              <td className="p-2 text-sm text-gray-600">Pets are allowed. Charges may be applicable.</td>
+            </tr>
+            {/* Groups */}
+            <tr className="border-b">
+              <td className="p-2 w-10">
+                <i className="fas fa-users text-2xl"></i>
+              </td>
+              <td className="p-2 font-bold">Groups</td>
+              <td className="p-2 text-sm text-gray-600">
+                When booking more than 7 rooms, different policies and additional supplements may apply.
+              </td>
+            </tr>
+            {/* Accepted Payment Methods */}
+            <tr>
+              <td className="p-2 w-10">
+                <CiCreditCard1 className="text-2xl" />
+              </td>
+              <td className="p-2 font-bold">Accepted payment methods</td>
+              <td className="p-2 text-sm text-gray-600">
+                <div className="flex flex-wrap space-x-2 items-center">
+                  <img
+                    src="https://www.visa.co.in/dam/VCOM/regional/ap/india/global-elements/images/in-visa-classic-card-498x280.png"
+                    alt="Visa"
+                    className="h-6"
+                  />
+                  <img
+                    src="https://www.visa.co.in/dam/VCOM/regional/ap/india/global-elements/images/in-visa-gold-card-498x280.png"
+                    alt="MasterCard"
+                    className="h-6"
+                  />
+                  <span className="text-sm bg-green-600 text-white px-2 py-1 rounded-md">Cash</span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
-  </div>
-  
-</div>
-  
-</div>
-
-    </div>
-  )
+  );
 }
 
-export default HouseRules
+export default HouseRules;

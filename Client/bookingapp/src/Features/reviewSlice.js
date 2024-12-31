@@ -6,7 +6,8 @@ const reviewSlice = createSlice({
     reviews: [],
     allreviews:[],
     likes:[],
-    dislikes:[]
+    dislikes:[],
+    progress:[],
   },
   reducers: {
     setReviews: (state, action) => {
@@ -21,10 +22,13 @@ state.likes=action.payload
     },
     DislikeReview:(state,action)=>{
       state.dislikes=action.payload
+    },
+    setProgress:(state,action)=>{
+      state.progress=action.payload
     }
 
   },
 });
 
-export const { setReviews ,setAllReviews,LikeReview,DislikeReview} = reviewSlice.actions;
+export const { setReviews ,setAllReviews,LikeReview,DislikeReview,setProgress} = reviewSlice.actions;
 export default reviewSlice.reducer;

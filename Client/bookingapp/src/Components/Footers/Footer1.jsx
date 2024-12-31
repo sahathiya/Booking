@@ -4,9 +4,9 @@ function Footer1() {
   return (
     <div>
       <footer class="bg-gray-100 py-8">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
     {/* <!-- Footer Top Section --> */}
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 ">
       {/* <!-- Support Column --> */}
       <div>
         <h3 class="text-lg font-semibold text-gray-800 mb-4">Support</h3>

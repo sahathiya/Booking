@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect,useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axiosInstance from "../../Axios/axiosinstance";
 import { setProperty } from "../../Features/propertySlice";
@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { setAllSaved } from "../../Features/savedSlice";
 import { FaHeart } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
+import SaveModal from "../../Components/Saved/SaveModal";
 
 const PropertyCard = () => {
   const property = useSelector((state) => state.property.property);
@@ -14,6 +15,8 @@ const PropertyCard = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [isaddModalOpen, setaddModalOpen] = useState(false);
+  const [isremoveModalOpen, setremoveModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchProperties = async () => {
@@ -45,6 +48,7 @@ const PropertyCard = () => {
 
   const handleToggleSave = async (propertyID) => {
     console.log("propertyID", propertyID);
+    
 
     try {
       console.log("savedProperties", savedProperties);
@@ -64,6 +68,7 @@ const PropertyCard = () => {
         dispatch(
           setAllSaved(savedProperties.filter((item) => item._id !== propertyID))
         );
+       setremoveModalOpen({isOpen: true, propertyID})
       } else {
         console.log("Property is not saved:", propertyID);
 
@@ -71,11 +76,18 @@ const PropertyCard = () => {
         console.log("addResponse", addResponse);
 
         dispatch(setAllSaved([...savedProperties, { _id: propertyID }]));
+        setaddModalOpen(true)
       }
     } catch (error) {
       console.error("Error toggling save:", error);
     }
   };
+
+  const handleCloseModal = () => {
+    setaddModalOpen(false); 
+    setremoveModalOpen(false);// Close the modal
+  };
+
 
   return (
     <div className="px-4 sm:px-8 lg:px-16 py-8">
@@ -96,6 +108,7 @@ const PropertyCard = () => {
                 className="h-40 w-full object-cover"
               />
 
+              
               <button
                 onClick={() => handleToggleSave(item._id)}
                 className="absolute top-2 right-2 bg-white p-2 border rounded-full shadow-md hover:scale-110 transition"
@@ -106,6 +119,23 @@ const PropertyCard = () => {
                   <FaRegHeart className="text-black text-lg" />
                 )}
               </button>
+
+              {/* Modal for Add */}
+      <SaveModal
+        isOpen={isaddModalOpen}
+        onClose={handleCloseModal}
+        title="Property Added"
+        message={`The property "${item.name}" has been added to your saved list.`}
+      />
+
+      {/* Modal for Remove */}
+      <SaveModal
+        isOpen={isremoveModalOpen}
+        onClose={handleCloseModal}
+        title="Property Removed"
+        // message={`The property "${item.name}" has been removed from your saved list.`}
+      />
+              
             </div>
             <div className="p-4">
               <h3 className="text-lg font-semibold mb-1">

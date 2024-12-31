@@ -12,7 +12,7 @@ const tryCatch = require("../Middlewares/Trycatch");
 const{addToSaved,removeFromSaved,SavedProperties}=require("../Controllers/User/savedController")
 const {BookingProperty,BookingDetailes,bookingByPropertyId,bookingsByUser,cancelBooking,bookingFinish,verifyBooking,AllBookings} =require("../Controllers/User/bookingController")
 const {SearchProperty}=require("../Controllers/User/searchController")
-const{createReview,getReviewsbypropertyId,LikeReview,DislikeReview}=require("../Controllers/User/reviewController")
+const{createReview,calculateFacilityRating,getReviewsbypropertyId,LikeReview,DislikeReview}=require("../Controllers/User/reviewController")
 router
   .post("/register", tryCatch(registerUser))
   .post("/login", tryCatch(loginUser))
@@ -47,6 +47,7 @@ router
 
   //review
   .post("/review",userAuthMiddleware,tryCatch(createReview))
+  .get("/totalfacility",calculateFacilityRating)
   .get("/allreview/:id",getReviewsbypropertyId)
   .post("/like/:id",LikeReview)
   .post("/dislike/:id",DislikeReview)

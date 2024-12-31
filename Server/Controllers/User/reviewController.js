@@ -4,7 +4,9 @@ const createReview= async(req,res)=>{
 
     console.log("createReview");
     // const propertyid=req.params.id
-    const {bookedproperty,rating,comment}= req.body
+    const {bookedproperty,rating,comment,Staffrating,
+      Facilitiesrating,
+      Cleanlinessrating,}= req.body
 
     if (!bookedproperty||!rating){
         return res.status(400).json({message:'all fields are required'})
@@ -30,6 +32,9 @@ const createReview= async(req,res)=>{
         guest:req.user.id,
         bookedproperty,
         rating,
+        Staffrating,
+        Facilitiesrating,
+        Cleanlinessrating,
         comment,
         property:booking.PropertyDetailes,
         reviewLabel
@@ -45,6 +50,51 @@ const createReview= async(req,res)=>{
     
     
 }
+
+
+
+const calculateFacilityRating = async (req, res) => {
+  try {
+    // Aggregate to calculate average ratings grouped by property
+    const result = await Review.aggregate([
+      {
+        $group: {
+          _id: "$property", // Group by property field
+          averageFacilityRating: { $avg: "$Facilitiesrating" },
+          averageStaffRating: { $avg: "$Staffrating" },
+          averageCleanlinessRating: { $avg: "$Cleanlinessrating" },
+        },
+      },
+    ]);
+
+    console.log("result", result);
+
+    if (!result.length) {
+      return res.status(200).json({
+        message: "No reviews found",
+        properties: [],
+      });
+    }
+
+    // Format the response
+    const formattedResult = result.map((group) => ({
+      property: group._id,
+      averageFacilityRating: group.averageFacilityRating.toFixed(1),
+      averageStaffRating: group.averageStaffRating.toFixed(1),
+      averageCleanlinessRating: group.averageCleanlinessRating.toFixed(1),
+    }));
+
+    res.status(200).json({
+      success: true,
+      properties: formattedResult,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error calculating ratings", error });
+  }
+};
+
+
 
 const getReviewsbypropertyId= async(req,res)=>{
     
@@ -111,4 +161,4 @@ const DislikeReview=async(req,res)=>{
     res.status(500).json({ message: "Something went wrong" });
   }
 }
-module.exports={createReview,getReviewsbypropertyId,LikeReview,DislikeReview}
+module.exports={createReview,getReviewsbypropertyId,LikeReview,DislikeReview,calculateFacilityRating}

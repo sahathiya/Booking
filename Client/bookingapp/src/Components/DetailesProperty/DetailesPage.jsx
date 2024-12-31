@@ -13,7 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { DateRange } from "react-date-range";
 import { LuBedSingle } from "react-icons/lu";
 import { format } from "date-fns";
-import { setBooking ,setAllBooking} from "../../Features/bookingSlice";
+import { setBooking, setAllBooking } from "../../Features/bookingSlice";
 import Navbar2 from "../Navbars/Navbar2";
 import HouseRules from "./HouseRules";
 import Footer1 from "../Footers/Footer1";
@@ -25,99 +25,96 @@ import { FiCopy } from "react-icons/fi";
 import { FaFacebook } from "react-icons/fa";
 import { FacebookShareButton, FacebookIcon } from "react-share";
 import ReviewModal from "../Review/ReviewModal";
-import { LikeReview, setAllReviews, setReviews,DislikeReview } from "../../Features/reviewSlice";
+import {
+  LikeReview,
+  setAllReviews,
+  setReviews,
+  DislikeReview,
+  setProgress,
+} from "../../Features/reviewSlice";
 import ReviewCard from "../Review/ReviewCard";
-import indiaimage from "../../Images/india.png"
+import indiaimage from "../../Images/india.png";
 import { LuBedDouble } from "react-icons/lu";
 import { CiCalendar } from "react-icons/ci";
 import { LuThumbsUp } from "react-icons/lu";
 import { LuThumbsDown } from "react-icons/lu";
 import { MdThumbUp } from "react-icons/md";
 import { MdThumbDown } from "react-icons/md";
+import Header3 from "../Navbars/Header3";
+import SearchingProperty from "../Search/SearchingProperty";
 function DetailesPage() {
+  const { id } = useParams();
+  const progress = useSelector((state) => state.review.progress);
+
   const [liked, setLiked] = useState(false);
-  const [dislike,setDislike]=useState(false)
-  const likes=useSelector(state=>state.review.likes)
-  console.log("likes",likes);
-  const dislikes=useSelector(state=>state.review.dislikes)
-  console.log("dislikes",dislikes);
-  
-  
-  const currentuser=useSelector(state=>state.user.user)
-  console.log("currentuser",currentuser);
-  
+  const [dislike, setDislike] = useState(false);
+  const likes = useSelector((state) => state.review.likes);
+  const dislikes = useSelector((state) => state.review.dislikes);
+
+  const currentuser = useSelector((state) => state.user.user);
+
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [showWriteReviewModal, setShowWriteReviewModal] = useState(false);
-  const[writeModal,setWriteModal]=useState(false)
- const[bookingId,setBookingId]=useState("")
+  const [writeModal, setWriteModal] = useState(false);
+  const [bookingId, setBookingId] = useState("");
 
+  const [comment, setComment] = useState("");
 
- const [comment,setComment]=useState("")
+  const [rating, setRating] = useState(1);
+  const [Staffrating, setStaffrating] = useState(1);
+  const [Facilitiesrating, setFacilitiesrating] = useState(1);
+  const [Cleanlinessrating, setCleanlinessrating] = useState(1);
 
-  const [rating,setRating]=useState(1)
- console.log("bookingIdbookingId",bookingId.length);
- const [error, setError] = useState("");
- const allReviews=useSelector(state=>state.review.allreviews)
- console.log("allReviews",allReviews);
+  const [error, setError] = useState("");
+  const allReviews = useSelector((state) => state.review.allreviews);
 
- const reviewscheckIn=allReviews.map((review)=>review.bookedproperty.checkIn)
- const reviewscheckOut=allReviews.map((review)=>review.bookedproperty.checkOut)
- console.log("reviews...........",reviewscheckIn);
- 
-// Calculate stay length for each review
-const stayLengths = reviewscheckIn.map((checkIn, index) => {
-  const checkOut = reviewscheckOut[index];
-  console.log("Parsed CheckIn:", new Date(checkIn));
-  console.log("Parsed CheckOut:", new Date(checkOut));
-  const stayLength = (new Date(checkOut) - new Date(checkIn)) / (1000 * 60 * 60 * 24); // Convert to days
-  console.log("bbbbbbbbbbbbbbbbbbb",stayLength);
-  
-  return stayLength;
-});
+  const reviewscheckIn = allReviews.map(
+    (review) => review.bookedproperty.checkIn
+  );
+  const reviewscheckOut = allReviews.map(
+    (review) => review.bookedproperty.checkOut
+  );
 
-console.log("stayLengths",stayLengths);
-const checkInDates = reviewscheckIn.map((checkIn) => {
-  const date = new Date(checkIn);
-  const month = date.toLocaleString("default", { month: "long" }); // Get full month name
-  const year = date.getFullYear(); // Get the year
-  return `${month} ${year}`; // Format as "Month Year"
-});
- console.log("checkInDates",checkInDates);
- 
- const formatCreatedAt = (dateString) => {
-  const date = new Date(dateString);
-  const day = String(date.getDate()).padStart(2, "0");
-  const month = date.toLocaleString("default", { month: "long" });
-  const year = date.getFullYear();
-  return `${day} ${month} ${year}`;
-};
+  // Calculate stay length for each review
+  const stayLengths = reviewscheckIn.map((checkIn, index) => {
+    const checkOut = reviewscheckOut[index];
+
+    const stayLength =
+      (new Date(checkOut) - new Date(checkIn)) / (1000 * 60 * 60 * 24); // Convert to days
+
+    return stayLength;
+  });
+
+  const checkInDates = reviewscheckIn.map((checkIn) => {
+    const date = new Date(checkIn);
+    const month = date.toLocaleString("default", { month: "long" });
+    const year = date.getFullYear();
+    return `${month} ${year}`;
+  });
+
+  const formatCreatedAt = (dateString) => {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = date.toLocaleString("default", { month: "long" });
+    const year = date.getFullYear();
+    return `${day} ${month} ${year}`;
+  };
   const handleOpenModal = () => setIsModalVisible(true);
   const handleCloseModal = () => setIsModalVisible(false);
-
 
   const handleOpenWriteReviewModal = () => setShowWriteReviewModal(true);
   const handleCloseWriteReviewModal = () => setShowWriteReviewModal(false);
 
-
-  // const WriteReviewModal = () => setWriteModal(true);
   const CloseWriteReviewModal = () => setWriteModal(false);
 
- const allbookings=useSelector(state=>state.booking.bookings)
- console.log("allbookings",allbookings);
- 
+  const allbookings = useSelector((state) => state.booking.bookings);
 
   const [numberOfRooms, setNumberOfRooms] = useState(1);
   const [showShareMenu, setShowShareMenu] = useState(false);
   const booking = useSelector((state) => state.booking.booking);
-  
-  
-  // const checkBooking=booking._id===bookingId
-  // console.log("checkBooking",checkBooking);
-  
-  console.log("bookingbooking", booking);
+
   const dispatch = useDispatch();
   const savedProperties = useSelector((state) => state.saved.savedProperties);
-  console.log("ccccc", savedProperties);
 
   const [openDate, setOpenDate] = useState(false);
 
@@ -144,13 +141,11 @@ const checkInDates = reviewscheckIn.map((checkIn) => {
     });
   };
 
-  const { id } = useParams();
   const property = useSelector((state) => state.property.property);
   const detailesproperty = property.filter((item) => item._id === id);
-  const propertyName=detailesproperty.map((item)=>item.Propertyname)
-  const propertyId=detailesproperty.map((item)=>item._id)
-  console.log("propertyName",propertyName);
-  
+  const propertyName = detailesproperty.map((item) => item.Propertyname);
+  const propertyId = detailesproperty.map((item) => item._id);
+
   const roomtype = detailesproperty
     .map((pro) => pro.RoomType.map((item) => item.type))
     .flat();
@@ -174,7 +169,7 @@ const checkInDates = reviewscheckIn.map((checkIn) => {
       NumberOfRooms: numberOfRooms,
       roomType: roomtype,
     };
-    console.log("reservationDetails", reservationDetails);
+
     try {
       const response = await axiosInstance.post(
         `/booking/${propertyId}`,
@@ -182,7 +177,7 @@ const checkInDates = reviewscheckIn.map((checkIn) => {
       );
       console.log("response booking", response);
       const bookingId = response.data.booking._id;
-      console.log("bookingId", bookingId);
+
       dispatch(setBooking(response.data.booking));
       navigate(`/bookingdetailes/${propertyId}/${bookingId}`);
     } catch (error) {
@@ -288,198 +283,288 @@ const checkInDates = reviewscheckIn.map((checkIn) => {
 
   const handleScrollToTable = () => {
     const tableSection = document.getElementById("table-section");
-    const houseruleSection=document.getElementById("houserule-section")
+    const houseruleSection = document.getElementById("houserule-section");
     if (tableSection) {
       tableSection.scrollIntoView({ behavior: "smooth" });
     }
   };
 
-  if (bookingId.length !== 24 && error !== "Booking ID must be exactly 24 characters long.") {
+  if (
+    bookingId.length !== 24 &&
+    error !== "Booking ID must be exactly 24 characters long."
+  ) {
     setError("Booking ID must be exactly 24 characters long.");
   } else if (bookingId.length === 24 && error !== "") {
     setError(""); // Clear error if valid
   }
 
-  const handleallBookings=async()=>{
-    const res=await axiosInstance.get(`/allbookings`)
-    dispatch(setAllBooking(res.data.AllBookings))
-  const all=  allbookings.filter((item)=>item._id===bookingId)
-  console.log("all",all);
-  setWriteModal(true);
-  
-  }
+  const handleallBookings = async () => {
+    const res = await axiosInstance.get(`/allbookings`);
+    dispatch(setAllBooking(res.data.AllBookings));
+    const all = allbookings.filter((item) => item._id === bookingId);
+    console.log("all", all);
+    setWriteModal(true);
+  };
 
-  const handleSubmitReview=async()=>{
+  const handleSubmitReview = async () => {
+    const reviewdata = {
+      bookedproperty: bookingId,
+      rating: rating,
+      Staffrating: Staffrating,
+      Facilitiesrating: Facilitiesrating,
+      Cleanlinessrating: Cleanlinessrating,
+      comment: comment,
+    };
 
-    const reviewdata= {
-      bookedproperty:bookingId,
-      rating:rating,
-      comment:comment
-    }
+    const response = await axiosInstance.post(`/review`, reviewdata);
+    dispatch(setReviews(response.data.review));
+    navigate(`/`);
+  };
 
+  useEffect(() => {
+    const fetchReviews = async () => {
+      const response = await axiosInstance.get(`/allreview/${propertyid}`);
 
-    const response=await axiosInstance.post(`/review`,reviewdata)
-    console.log("response................",response);
-   dispatch(setReviews(response.data.review)) 
-    navigate(`/`)
-  }
+      dispatch(setAllReviews(response.data.review));
+    };
+    fetchReviews();
+  }, []);
 
-  useEffect(()=>{
-    const fetchReviews=async()=>{
-      const response=await axiosInstance.get(`/allreview/${propertyid}`)
-      console.log("responseof reviewsssssssss",response);
-      dispatch(setAllReviews(response.data.review))
-      
-    }
-    fetchReviews()
-  },[])
+  const handleLike = async (reviewid) => {
+    const userId = {
+      userId: currentuser._id,
+    };
+    const response = await axiosInstance.post(`/like/${reviewid}`, userId);
+    console.log("response of like", response);
+    setLiked(true);
+    setDislike(false);
+    dispatch(LikeReview(response.data.review));
+  };
 
-  const handleLike=async(reviewid)=>{
-    const userId={
-      userId:currentuser._id
-    }
- const response=await axiosInstance.post(`/like/${reviewid}`,userId)
- console.log("response of like",response);
- setLiked(true)
- setDislike(false);
- dispatch(LikeReview(response.data.review))
-  }
+  const handleDislike = async (reviewid) => {
+    const userId = {
+      userId: currentuser._id,
+    };
+    const response = await axiosInstance.post(`/dislike/${reviewid}`, userId);
 
-  const handleDislike=async(reviewid)=>{
-    const userId={
-      userId:currentuser._id
-    }
-    const response=await axiosInstance.post(`/dislike/${reviewid}`,userId)
+    setDislike(true);
+    setLiked(false);
+    dispatch(DislikeReview(response.data.review));
+  };
 
-    console.log("response of dislike",response);
-    setDislike(true);    
-    setLiked(false); 
-    dispatch(DislikeReview(response.data.review))
-  }
+  useEffect(() => {
+    const handleprogress = async () => {
+      const res = await axiosInstance.get(`/totalfacility`);
+
+      dispatch(setProgress(res.data.properties));
+    };
+    handleprogress();
+  }, [dispatch]);
+  const propertyprogress = progress.find((item) => item.property === id);
+
+  const staffWidth = propertyprogress
+    ? `${(propertyprogress.averageStaffRating / 5) * 100}%`
+    : "0%";
+  const facilityWidth = propertyprogress
+    ? `${(propertyprogress.averageFacilityRating / 5) * 100}%`
+    : "0%";
+  const cleanWidth = propertyprogress
+    ? `${(propertyprogress.averageCleanlinessRating / 5) * 100}%`
+    : "0%";
   return (
     <>
       <Navbar />
-      <Navbar2 />
-      <div class="flex space-x-16 justify-center ">
-  <button className=" hover:bg-gray-300 active:border-b-4 active:border-blue-500 px-4 py-2 rounded;">Overview</button>
-  <button className=" hover:bg-gray-300 active:border-b-4 active:border-blue-500 px-4 py-2 rounded;">Info&prices</button>
-  <button className=" hover:bg-gray-300 active:border-b-4 active:border-blue-500 px-4 py-2 rounded;">Facilities</button>
-  <button className=" hover:bg-gray-300 active:border-b-4 active:border-blue-500 px-4 py-2 rounded;"
-  // onClick={}
-  >House rules</button>
-  <button className=" hover:bg-gray-300 active:border-b-4 active:border-blue-500 px-4 py-2 rounded;"
-  onClick={handleOpenModal}
-  >Guest reviews({allReviews.length})</button>
+      {/* <Navbar2 /> */}
+      <Header3/>
+      <SearchingProperty/>
+      <div className="flex flex-wrap justify-center gap-4">
+        <button className="hover:bg-gray-300 active:border-b-4 active:border-blue-500 px-4 py-2 rounded w-full sm:w-auto">
+          Overview
+        </button>
+        <button className="hover:bg-gray-300 active:border-b-4 active:border-blue-500 px-4 py-2 rounded w-full sm:w-auto">
+          Info & Prices
+        </button>
+        <button className="hover:bg-gray-300 active:border-b-4 active:border-blue-500 px-4 py-2 rounded w-full sm:w-auto">
+          Facilities
+        </button>
+        <button className="hover:bg-gray-300 active:border-b-4 active:border-blue-500 px-4 py-2 rounded w-full sm:w-auto">
+          House rules
+        </button>
+        <button
+          className="hover:bg-gray-300 active:border-b-4 active:border-blue-500 px-4 py-2 rounded w-full sm:w-auto"
+          onClick={handleOpenModal}
+        >
+          Guest reviews({allReviews.length})
+        </button>
+      </div>
 
+      {/* Modal */}
+<ReviewModal
+  isVisible={isModalVisible}
+  onClose={handleCloseModal}
+  length={allReviews.length}
+>
+<h1 className="text-2xl font-bold">Guest reviews for {propertyName}</h1>
+<button
+  className="border-2 p-1 rounded-md border-blue-500 text-blue-500 font-semibold bg-white"
+  onClick={handleOpenWriteReviewModal}
+>
+  Write a review
+</button>
+
+{/* Rating Section */}
+<div className="flex flex-wrap justify-between items-center mt-4 sm:mt-6 md:mt-8">
+  {/* Staff Rating */}
+  <div className="flex flex-col items-center w-full sm:w-1/3 lg:w-1/4 mb-4 sm:mb-0">
+    <div className="w-full flex justify-between mb-1">
+      <h1 className="text-black font-semibold text-sm">Staff</h1>
+      <h1 className="text-black font-semibold text-sm">
+        {propertyprogress ? propertyprogress.averageStaffRating : ""}
+      </h1>
+    </div>
+    <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-400 relative">
+      <div
+        className={`${
+          parseFloat(staffWidth) >= 70
+            ? "bg-green-600"
+            : parseFloat(staffWidth) >= 50
+            ? "bg-blue-900"
+            : parseFloat(staffWidth) >= 10
+            ? "bg-red-500"
+            : "bg-gray-200"
+        } h-2.5 rounded-full`}
+        style={{ width: staffWidth }}
+      ></div>
+    </div>
+  </div>
+
+  {/* Facilities Rating */}
+  <div className="flex flex-col items-center w-full sm:w-1/3 lg:w-1/4 mb-4 sm:mb-0">
+    <div className="w-full flex justify-between mb-1">
+      <h1 className="text-black font-semibold text-sm">Facilities</h1>
+      <h1 className="text-black font-semibold text-sm">
+        {propertyprogress ? propertyprogress.averageFacilityRating : ""}
+      </h1>
+    </div>
+    <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-400">
+      <div
+        className={`${
+          parseFloat(facilityWidth) >= 70
+            ? "bg-green-600"
+            : parseFloat(facilityWidth) >= 50
+            ? "bg-blue-900"
+            : parseFloat(facilityWidth) >= 10
+            ? "bg-red-500"
+            : "bg-gray-200"
+        } h-2.5 rounded-full`}
+        style={{ width: facilityWidth }}
+      ></div>
+    </div>
+  </div>
+
+  {/* Cleanliness Rating */}
+<div className="flex flex-col items-center w-full sm:w-1/3 lg:w-1/4 mb-4 sm:mb-0">
+  <div className="w-full flex justify-between mb-1">
+    <h1 className="text-black font-semibold text-sm">Cleanliness</h1>
+    <h1 className="text-black font-semibold text-sm">
+      {propertyprogress ? propertyprogress.averageCleanlinessRating : ""}
+    </h1>
+  </div>
+  <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-400">
+    <div
+      className={`${
+        parseFloat(cleanWidth) >= 70
+          ? "bg-green-600"
+          : parseFloat(cleanWidth) >= 50
+          ? "bg-blue-900"
+          : parseFloat(cleanWidth) >= 10
+          ? "bg-red-500"
+          : "bg-gray-200"
+      } h-2.5 rounded-full`}
+      style={{ width: cleanWidth }}
+    ></div>
+  </div>
+</div>
 
 </div>
-{/* Modal */}
-      <ReviewModal isVisible={isModalVisible} onClose={handleCloseModal} length={allReviews.length}>
-        {/* <p>This is the guest reviews section. Add your content here!</p> */}
-        <h1 className="text-2xl font-bold">Guest reviews for {propertyName}</h1>
-        <button className="border-2 p-1 rounded-md border-blue-500 text-blue-500 font-semibold bg-white"
-       onClick={handleOpenWriteReviewModal}>Write a review</button>
-       <div className="p-4 bg-white shadow-md rounded-lg max-w-3xl mx-auto">
-      {allReviews.map((review, index) => (
-        <div className="flex space-x-8">
-          {/* Left Side (Header & Room/Stay Info) */}
-          <div className="w-1/3">
-            {/* Guest Info */}
-            <div className="flex items-center space-x-4">
-              {review.guest.profileImage ? (
-                <div>
-                  <img
-                    src={review.guest.profileImage}
-                    className="w-12 h-12 rounded-full flex items-center justify-center"
-                    alt="Guest"
-                  />
-                </div>
-              ) : (
-                <div>
-                  <div className="w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center text-white font-bold text-lg">
-                    {review.guest.firstname.slice(0, 1)}
-                  </div>
-                </div>
-              )}
-              <div>
-                <h3 className="text-lg font-semibold">
-                  {review.guest.firstname} {review.guest.lastname}
-                </h3>
-                <p className="text-sm text-gray-500 flex items-center">
-                  <img src={indiaimage} className="w-4" alt="India" /> India
-                </p>
-              </div>
+
+  {/* Reviews */}
+  <div className="p-4 bg-white shadow-md rounded-lg max-w-3xl mx-auto mt-6">
+    {allReviews.map((review, index) => (
+      <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-8 mb-4" key={review._id}>
+        {/* Left Side (Header & Room/Stay Info) */}
+        <div className="flex items-center w-full sm:w-1/3 space-x-4">
+          {review.guest.profileImage ? (
+            <div>
+              <img
+                src={review.guest.profileImage}
+                className="w-12 h-12 rounded-full"
+                alt="Guest"
+              />
             </div>
-
-            {/* Room and Stay Info */}
-            <div className="mt-4 text-gray-700">
-              <p className="flex items-center space-x-2">
-                <LuBedDouble className="text-gray-600" /> <span>Standard Double Room</span>
-              </p>
-              <p className="flex items-center space-x-2 mt-2">
-                <CiCalendar className="text-gray-600" />{" "}
-                <span>{stayLengths[index]} night · {checkInDates[index]}</span>
-              </p>
+          ) : (
+            <div className="w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center text-white font-bold text-lg">
+              {review.guest.firstname.slice(0, 1)}
             </div>
-            
-          </div>
-         
-
-          {/* Right Side (Review Content & Footer) */}
-          <div className="w-2/3 relative">
-          <div className=" absolute top-4 right-4 text-lg font-bold bg-blue-900 text-white px-3 py-1 rounded-md">
-                {review.rating}
-              </div>
-            {/* Review Content */}
-            <div className="mt-6">
-              <p className="mt-2 text-gray-700">{formatCreatedAt(review.createdAt)}</p>
-              <p className="text-xl font-bold">{review.reviewLabel}</p>
-              <p className="mt-2 text-gray-700">{review.comment}</p>
-              
-            </div>
-
-            {/* Footer */}
-            <div className="mt-6 flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-        {!liked && !dislike&& (
-          <>
-            <button
-              className="text-sm flex items-center text-blue-500 hover:bg-blue-100 p-2 rounded-md"
-              onClick={() => handleLike(review._id)}
-            >
-              <LuThumbsUp /> Helpful
-            </button>
-            <button className="text-sm flex items-center text-blue-500 hover:bg-blue-100 p-2 rounded-md"
-            onClick={()=>handleDislike(review._id)}>
-              <LuThumbsDown /> Not helpful
-            </button>
-          </>
-        )}
-
-        
-      </div>
-      {liked && (
-        <p className="text-gray-500 flex items-center space-x-2">
-          <LuThumbsUp className="text-gray-500" />
-          <span>You found this review helpful</span>
-        </p>
-      )}
-
-{dislike && (
-        <p className="text-gray-500 flex items-center space-x-2">
-          <LuThumbsDown className="text-gray-500" />
-          <span>You found this review not helpful</span>
-        </p>
-      )}
-              
-              
-            </div>
-            
+          )}
+          <div>
+            <h3 className="text-lg font-semibold">{review.guest.firstname} {review.guest.lastname}</h3>
+            <p className="text-sm text-gray-500 flex items-center">
+              <img src={indiaimage} className="w-4" alt="India" /> India
+            </p>
           </div>
         </div>
-      ))}
-    </div>
-      </ReviewModal >
+
+        {/* Right Side (Review Content & Footer) */}
+        <div className="w-full sm:w-2/3">
+          <div className="absolute top-4 right-4 text-lg font-bold bg-blue-900 text-white px-3 py-1 rounded-md">
+            {review.rating}
+          </div>
+          {/* Review Content */}
+          <div className="mt-6">
+            <p className="mt-2 text-gray-700">{formatCreatedAt(review.createdAt)}</p>
+            <p className="text-xl font-bold">{review.reviewLabel}</p>
+            <p className="mt-2 text-gray-700">{review.comment}</p>
+          </div>
+
+          {/* Footer */}
+          <div className="mt-6 flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              {!liked && !dislike && (
+                <>
+                  <button
+                    className="text-sm flex items-center text-blue-500 hover:bg-blue-100 p-2 rounded-md"
+                    onClick={() => handleLike(review._id)}
+                  >
+                    <LuThumbsUp /> Helpful
+                  </button>
+                  <button
+                    className="text-sm flex items-center text-blue-500 hover:bg-blue-100 p-2 rounded-md"
+                    onClick={() => handleDislike(review._id)}
+                  >
+                    <LuThumbsDown /> Not helpful
+                  </button>
+                </>
+              )}
+            </div>
+            {liked && (
+              <p className="text-gray-500 flex items-center space-x-2">
+                <LuThumbsUp className="text-gray-500" />
+                <span>You found this review helpful</span>
+              </p>
+            )}
+            {dislike && (
+              <p className="text-gray-500 flex items-center space-x-2">
+                <LuThumbsDown className="text-gray-500" />
+                <span>You found this review not helpful</span>
+              </p>
+            )}
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</ReviewModal>
 
 
       {showWriteReviewModal && (
@@ -491,90 +576,124 @@ const checkInDates = reviewscheckIn.map((checkIn) => {
             >
               &#x2715;
             </button>
-            <h2 className="text-xl font-semibold mb-4">Enter your booking details</h2>
+            <h2 className="text-xl font-semibold mb-4">
+              Enter your booking details
+            </h2>
             <p>Check your booking confirmation email to find your booking Id</p>
             {/* <textarea
               className="w-full border rounded p-2 mb-4"
               rows="5"
               placeholder="Share your experience..."
             ></textarea> */}
-            {error && (
-        <div className="text-red-500 text-sm mb-2">{error}</div>
-      )}
+            {error && <div className="text-red-500 text-sm mb-2">{error}</div>}
             <label className="font-bold">Booking Id</label>
             <input
-            type="text"
-            className="w-full border rounded p-2 mb-4"
-            value={bookingId}
-            onChange={(e)=>setBookingId(e.target.value)}
-
+              type="text"
+              className="w-full border rounded p-2 mb-4"
+              value={bookingId}
+              onChange={(e) => setBookingId(e.target.value)}
             />
-            <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-            onClick={handleallBookings}>
+            <button
+              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+              onClick={handleallBookings}
+            >
               Rate your stay
             </button>
           </div>
         </div>
       )}
 
+      {writeModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[9999]">
+          <div className="bg-white p-4 rounded-lg shadow-lg w-3/4 max-w-lg relative">
+            <button
+              className="absolute top-2 right-2 text-gray-500 hover:text-black"
+              onClick={CloseWriteReviewModal}
+            >
+              &#x2715;
+            </button>
+            <h2 className="text-lg font-semibold mb-3">Write your review</h2>
 
-{
-  writeModal&&
-  (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[9999]">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-3/4 max-w-lg relative">
-        <button
-          className="absolute top-4 right-4 text-gray-500 hover:text-black"
-          onClick={CloseWriteReviewModal}
-        >
-          &#x2715;
-        </button>
-        <h2 className="text-xl font-semibold mb-4">Write your review</h2>
-        
-        <textarea
-          className="w-full border rounded p-2 mb-4"
-          rows="5"
-          value={comment}
-          onChange={(e)=>setComment(e.target.value)}
-          placeholder="Share your experience..."
-        ></textarea>
-  
-      <label className="font-bold">Booking Id</label>
-        <input
-        type="text"
-        className="w-full border rounded p-2 mb-4"
-        value={bookingId}
-        onChange={(e)=>setBookingId(e.target.value)}
+            <div className="flex flex-wrap">
+              {/* Left Section */}
+              <div className="w-full md:w-1/2 pr-2">
+                <textarea
+                  className="w-full border rounded p-1 mb-3 text-sm"
+                  rows="4"
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                  placeholder="Share your experience..."
+                ></textarea>
 
-        />
+                <label className="font-bold text-sm mb-1 block">
+                  Booking Id
+                </label>
+                <input
+                  type="text"
+                  className="w-full border rounded p-1 mb-3 text-sm"
+                  value={bookingId}
+                  onChange={(e) => setBookingId(e.target.value)}
+                />
+              </div>
 
-<label className="font-bold">Rating</label>
-        <input
-        type="number"
-        className="w-full border rounded p-2 mb-4"
-        value={rating}
-        min={1}
-        max={5}
-        onChange={(e)=>setRating(e.target.value)}
+              {/* Right Section */}
+              <div className="w-full md:w-1/2 pl-2">
+                <label className="font-bold text-sm mb-1 block">Rating</label>
+                <input
+                  type="number"
+                  className="w-full border rounded p-1 mb-3 text-sm"
+                  value={rating}
+                  min={1}
+                  max={5}
+                  onChange={(e) => setRating(e.target.value)}
+                />
 
-        />
-        <button 
-        type="submit"
-        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-        onClick={handleSubmitReview}
+                <label className="font-bold text-sm mb-1 block">Staff</label>
+                <input
+                  type="number"
+                  className="w-full border rounded p-1 mb-3 text-sm"
+                  value={Staffrating}
+                  min={1}
+                  max={5}
+                  onChange={(e) => setStaffrating(e.target.value)}
+                />
 
-       >
-        
-          Submit review
-        </button>
-      </div>
-    </div>
-  )}
+                <label className="font-bold text-sm mb-1 block">
+                  Cleanliness
+                </label>
+                <input
+                  type="number"
+                  className="w-full border rounded p-1 mb-3 text-sm"
+                  value={Cleanlinessrating}
+                  min={1}
+                  max={5}
+                  onChange={(e) => setCleanlinessrating(e.target.value)}
+                />
 
+                <label className="font-bold text-sm mb-1 block">
+                  Facilities
+                </label>
+                <input
+                  type="number"
+                  className="w-full border rounded p-1 mb-3 text-sm"
+                  value={Facilitiesrating}
+                  min={1}
+                  max={5}
+                  onChange={(e) => setFacilitiesrating(e.target.value)}
+                />
+              </div>
+            </div>
 
-
-
-
+            <button
+              type="submit"
+              className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 text-sm mt-3"
+              onClick={handleSubmitReview}
+            >
+              Submit review
+            </button>
+          </div>
+        </div>
+      )}
 
       <div className="p-6 min-h-screen">
         {detailesproperty.map((pro) => (
@@ -691,16 +810,16 @@ const checkInDates = reviewscheckIn.map((checkIn) => {
       <div className="max-w-5xl mx-auto">
         <h1 className="text-black font-bold text-xl mb-4">Availability</h1>
 
-        <div className="w-[800px] h-10 border-2 border-yellow-500 mb-6 rounded-md">
-          <div className="flex items-center justify-between h-full px-4 border-2 border-yellow-500  bg-yellow-500">
-            <div className="flex items-center  rounded-md border-2 border-yellow-500 ">
+        <div className="w-full sm:w-[800px] max-w-full h-auto border-2 border-yellow-500 mb-6 rounded-md overflow-x-auto">
+          <div className="flex flex-col sm:flex-row items-center justify-between h-full px-4  ">
+            <div className="flex items-center   w-full sm:w-auto mb-3 sm:mb-0">
               <FontAwesomeIcon
                 icon={faCalendarDays}
                 className="text-gray-400"
               />
               <span
                 onClick={() => setOpenDate(!openDate)}
-                className="text-gray-400 cursor-pointer"
+                className="text-gray-400 cursor-pointer ml-2"
               >
                 {`${format(date[0].startDate, "MM/dd/yyyy")} to ${format(
                   date[0].endDate,
@@ -721,7 +840,7 @@ const checkInDates = reviewscheckIn.map((checkIn) => {
               </div>
             </div>
 
-            <div className="flex items-center gap-2 relative rounded-md border-2 border-yellow-500">
+            <div className="flex items-center gap-2 relative  w-full sm:w-auto mb-3 sm:mb-0">
               <FontAwesomeIcon icon={faPerson} className="text-gray-400" />
               <span
                 onClick={() => setOpenOptions(!openOptions)}
@@ -755,118 +874,112 @@ const checkInDates = reviewscheckIn.map((checkIn) => {
                 </div>
               )}
             </div>
-
-            <button
-              className="bg-[#0071c2] text-white font-medium py-1 px-2  rounded"
-              onClick={() => handleSearch(date, options)}
-            >
-              Change search
-            </button>
+            <div className="w-full md:w-auto border-2 border-[#febb02] rounded-lg">
+              <button
+                className="bg-[#0071c2] text-white font-medium py-2 px-4 rounded cursor-pointer w-full md:w-auto "
+                onClick={() => handleSearch(date, options)}
+              >
+                Change search
+              </button>
+            </div>
           </div>
         </div>
+
         {/* Table */}
         <div id="table-section">
-          <table className="w-[800px] table-auto border-collapse border border-gray-300">
-            <thead className="bg-gray-100">
-              <tr>
-                <th className="px-4 py-2 border border-gray-300 bg-blue-500 text-white">
-                  Room Type
-                </th>
-                <th className="px-4 py-2 border border-gray-300 bg-blue-500 text-white">
-                  Number of Guests
-                </th>
-                <th className="px-4 py-2 border border-gray-300 bg-blue-500 text-white">
-                  Today's Price
-                </th>
-                <th className="px-4 py-2 border border-gray-300 bg-blue-500 text-white">
-                  Your Choices
-                </th>
-                <th className="px-4 py-2 border border-gray-300 bg-blue-500 text-white">
-                  Select Room
-                </th>
-                <th className="px-4 py-2 border border-gray-300 bg-blue-500 text-white"></th>
-              </tr>
-            </thead>
-            {detailesproperty.map((item, index) => (
-              <tbody key={index}>
-                {/* Map over RoomType array and display the type */}
-                {item.RoomType
-                  ? item.RoomType.map((room, idx) => (
-                      <tr>
-                        <td
-                          key={idx}
-                          className="px-4 py-2 border border-gray-300"
-                        >
-                          <NavLink
-                            className="underline text-blue-500"
-                            to={`/roomdetailes/${item._id}/${room.type}`}
-                          >
-                            {room.type}
-                          </NavLink>
-                          {room.type == "single room" ? (
-                            <p>1 single bed</p>
-                          ) : (
-                            <p>1 double bed</p>
-                          )}
-                        </td>
-                        <td className="px-4 py-2 border border-gray-300">
-                          {room.type == "single room" ? (
-                            <FaUser />
-                          ) : (
-                            <IoMdPeople className="text-2xl" />
-                          )}
-                        </td>
-                        <td className="px-4 py-2 border border-gray-300">
-                          <strong>₹{item.pricePerNight}</strong>
-                        </td>
-                        <td className="px-4 py-2 border border-gray-300">
-                          <MdOutlineFreeBreakfast className="text-green-600" />
-                          <p className="text-green-600">
-                            Good breakfast included
-                          </p>
-                        </td>
-                        <td className="px-4 py-2 border border-gray-300">
-                          <select
-                            className="px-4 py-2 border rounded w-full"
-                            onChange={(e) => setNumberOfRooms(e.target.value)}
-                          >
-                            <option value="0">0</option>
-                            {Array.from(
-                              { length: room.count },
-                              (_, i) => i + 1
-                            ).map((count) => (
-                              <option key={count} value={count}>
-                                {count}
-                              </option>
-                            ))}
-                          </select>
-                        </td>
-                        <td className="px-4 py-2 border border-gray-300">
-                          <button
-                            className="bg-blue-500 text-white px-4 py-2 rounded"
-                            onClick={() => handleReserve(item._id)}
-                          >
-                            I'll Reserve
-                          </button>
-                        </td>
-                      </tr>
-                    ))
-                  : null}
-              </tbody>
-            ))}
-          </table>
+          <div className="overflow-x-auto">
+            <table className="w-full sm:w-[800px] table-auto border-collapse border border-gray-300">
+              <thead className="bg-gray-100">
+                <tr>
+                  <th className="px-4 py-2 border border-gray-300 bg-blue-900 text-white">
+                    Room Type
+                  </th>
+                  <th className="px-4 py-2 border border-gray-300 bg-blue-900 text-white">
+                    Number of Guests
+                  </th>
+                  <th className="px-4 py-2 border border-gray-300 bg-blue-900 text-white">
+                    Today's Price
+                  </th>
+                  <th className="px-4 py-2 border border-gray-300 bg-blue-900 text-white">
+                    Your Choices
+                  </th>
+                  <th className="px-4 py-2 border border-gray-300 bg-blue-900 text-white">
+                    Select Room
+                  </th>
+                  <th className="px-4 py-2 border border-gray-300 bg-blue-900 text-white"></th>
+                </tr>
+              </thead>
+              {detailesproperty.map((item, index) => (
+                <tbody key={index}>
+                  {/* Map over RoomType array and display the type */}
+                  {item.RoomType
+                    ? item.RoomType.map((room, idx) => (
+                        <tr key={idx}>
+                          <td className="px-4 py-2 border border-gray-300">
+                            <NavLink
+                              className="underline text-blue-500"
+                              to={`/roomdetailes/${item._id}/${room.type}`}
+                            >
+                              {room.type}
+                            </NavLink>
+                            {room.type === "single room" ? (
+                              <p>1 single bed</p>
+                            ) : (
+                              <p>1 double bed</p>
+                            )}
+                          </td>
+                          <td className="px-4 py-2 border border-gray-300">
+                            {room.type === "single room" ? (
+                              <FaUser />
+                            ) : (
+                              <IoMdPeople className="text-2xl" />
+                            )}
+                          </td>
+                          <td className="px-4 py-2 border border-gray-300">
+                            <strong>₹{item.pricePerNight}</strong>
+                          </td>
+                          <td className="px-4 py-2 border border-gray-300">
+                            <MdOutlineFreeBreakfast className="text-green-600" />
+                            <p className="text-green-600">
+                              Good breakfast included
+                            </p>
+                          </td>
+                          <td className="px-4 py-2 border border-gray-300">
+                            <select
+                              className="px-4 py-2 border rounded w-full"
+                              onChange={(e) => setNumberOfRooms(e.target.value)}
+                            >
+                              <option value="0">0</option>
+                              {Array.from(
+                                { length: room.count },
+                                (_, i) => i + 1
+                              ).map((count) => (
+                                <option key={count} value={count}>
+                                  {count}
+                                </option>
+                              ))}
+                            </select>
+                          </td>
+                          <td className="px-4 py-2 border border-gray-300">
+                            <button
+                              className="bg-blue-500 text-white px-4 py-2 rounded"
+                              onClick={() => handleReserve(item._id)}
+                            >
+                              I'll Reserve
+                            </button>
+                          </td>
+                        </tr>
+                      ))
+                    : null}
+                </tbody>
+              ))}
+            </table>
+          </div>
         </div>
       </div>
+
       <br></br>
-      {/* <HouseRules /> */}
-
-
-
-
-
-
-
-
+      <HouseRules propertyname={propertyName} />
 
       <br />
       <Footer1 />

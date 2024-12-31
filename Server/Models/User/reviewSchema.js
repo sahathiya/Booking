@@ -15,6 +15,9 @@ const reviewSchema = new mongoose.Schema({
 
   likes: { type: [mongoose.Schema.Types.ObjectId], ref: "Users", default: [] },
   dislikes: { type: [mongoose.Schema.Types.ObjectId], ref: "Users", default: [] }, 
+  Staffrating: { type: Number, required: true, min: 1, max: 5 },
+  Facilitiesrating: { type: Number, required: true, min: 1, max: 5 },
+  Cleanlinessrating: { type: Number, required: true, min: 1, max: 5 },
 });
 
 module.exports=mongoose.model("Review",reviewSchema)
