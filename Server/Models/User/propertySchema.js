@@ -28,6 +28,7 @@ const propertySchema = new mongoose.Schema({
   images: [{ type: String, required: true }],
   createdAt: { type: Date, default: Date.now },
   Bookings: { type: mongoose.Schema.Types.ObjectId, ref: "Booking" },
+ 
 });
 
 module.exports = mongoose.model("Property", propertySchema);
