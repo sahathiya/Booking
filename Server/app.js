@@ -9,6 +9,7 @@ app.use(express.urlencoded({ extended: true }));
 const mongoose=require("mongoose")
 const router=require("./Routes/userRoutes")
 const partnerRoutes=require("./Routes/partnerRoutes")
+const adminRoutes=require("./Routes/adminRoutes")
 const cookieParser = require("cookie-parser");
 const errorHandler=require('./Middlewares/ErrorHandler')
 
@@ -20,6 +21,7 @@ app.use(cors({
 
 app.use('/',router)
 app.use('/',partnerRoutes)
+app.use('/',adminRoutes)
 app.use(errorHandler);
 
 mongoose.connect(process.env.MONGODB_URL)
