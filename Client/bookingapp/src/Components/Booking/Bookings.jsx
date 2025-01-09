@@ -305,7 +305,7 @@ function Bookings() {
             <button
               onClick={() =>
                 navigate(
-                  `/bookingdetailes/${selectedBooking.PropertyDetailes}/${selectedBooking._id}`
+                  `/bookingdetailes/${selectedBooking.PropertyDetailes._id}/${selectedBooking._id}`
                 )
               }
               className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"

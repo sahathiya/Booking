@@ -348,6 +348,7 @@ function Saved() {
     return storedLists ? JSON.parse(storedLists) : [];
   });
 
+  
   const [showCreateListDropdown, setShowCreateListDropdown] = useState(false);
 
   const navigate = useNavigate();
@@ -391,43 +392,84 @@ function Saved() {
     setShowDropdown((prev) => !prev);
   };
 
+  // const handleRemoveList = (index) => {
+  //   const updatedLists = savedLists.filter((list, i) => i !== index);
+  //   setSavedLists(updatedLists);
+  //   localStorage.setItem("savedLists", JSON.stringify(updatedLists));
+  // };
+
+
   const handleRemoveList = (index) => {
-    const updatedLists = savedLists.filter((list, i) => i !== index);
+    const updatedLists = savedLists.filter((_, i) => i !== index);
     setSavedLists(updatedLists);
     localStorage.setItem("savedLists", JSON.stringify(updatedLists));
   };
+  
+  // const handleEditList = (index) => {
+  //   const newListName = prompt("Enter new list name:", savedLists[index]);
+  //   if (newListName) {
+  //     const updatedLists = [...savedLists];
+  //     updatedLists[index] = newListName;
+  //     setSavedLists(updatedLists);
+  //     localStorage.setItem("savedLists", JSON.stringify(updatedLists));
+  //     setNextTripText(newListName);
+  //   }
+  // };
 
   const handleEditList = (index) => {
-    const newListName = prompt("Enter new list name:", savedLists[index]);
+    const newListName = prompt("Enter new list name:", savedLists[index].name);
     if (newListName) {
       const updatedLists = [...savedLists];
-      updatedLists[index] = newListName;
+      updatedLists[index].name = newListName.trim();
       setSavedLists(updatedLists);
       localStorage.setItem("savedLists", JSON.stringify(updatedLists));
-      setNextTripText(newListName);
+      setNextTripText(newListName.trim());
     }
   };
+  
 
   const handleCreateListToggle = () =>
     setShowCreateListDropdown((prev) => !prev);
 
+  // const handleCreateList = () => {
+  //   if (newListName.trim() !== "") {
+  //     const updatedListName = newListName.trim();
+  //     setSavedLists((prevLists) => [...prevLists, updatedListName]);
+  //     setNewListName("");
+  //     setShowCreateListDropdown(false);
+  //   }
+  // };
+
   const handleCreateList = () => {
     if (newListName.trim() !== "") {
-      const updatedListName = newListName.trim();
-      setSavedLists((prevLists) => [...prevLists, updatedListName]);
+      const updatedList = {
+        name: newListName.trim(),
+        properties: [], // Add an empty array for properties (optional)
+      };
+      setSavedLists((prevLists) => [...prevLists, updatedList]);
       setNewListName("");
       setShowCreateListDropdown(false);
     }
   };
+  
 
   useEffect(() => {
     localStorage.setItem("savedLists", JSON.stringify(savedLists));
   }, [savedLists]);
 
+  // const handleSelectList = (listName) => {
+  //   setNextTripText(listName);
+  //   setShowDropdown(false);
+  // };
+
   const handleSelectList = (listName) => {
-    setNextTripText(listName);
-    setShowDropdown(false);
+    const selectedList = savedLists.find((list) => list.name === listName);
+    if (selectedList) {
+      setNextTripText(selectedList.name);
+      setShowDropdown(false);
+    }
   };
+  
 
   return (
     <>
@@ -446,7 +488,7 @@ function Saved() {
 
     {showDropdown && (
       <div className="absolute bg-white shadow-lg p-3 rounded-md mt-2 w-full sm:w-96 z-50 max-w-xs sm:max-w-96">
-        {savedLists.map((list, index) => (
+        {/* {savedLists.map((list, index) => (
           <div
             key={index}
             className="flex items-center justify-between border-b pb-2 mb-2"
@@ -477,7 +519,36 @@ function Saved() {
               </button>
             </div>
           </div>
-        ))}
+        ))} */}
+
+
+{savedLists.map((list, index) => (
+  <div
+    key={index}
+    className="flex items-center justify-between border-b pb-2 mb-2"
+  >
+    <div className="flex items-center space-x-2">
+      <div
+        className="text-black text-sm cursor-pointer"
+        onClick={() => handleSelectList(list.name)}
+      >
+        {list.name}
+      </div>
+      <div className="bg-gray-200 text-black px-2 py-1 rounded-full text-xs">
+        {list.properties.length} {/* This can represent the number of properties in the list */}
+      </div>
+    </div>
+    <div className="flex space-x-2">
+      <button onClick={() => handleEditList(index)} className="text-black">
+        <FaPen />
+      </button>
+      <button onClick={() => handleRemoveList(index)} className="text-black text-xl">
+        <IoIosRemoveCircleOutline />
+      </button>
+    </div>
+  </div>
+))}
+
         {savedLists.length === 0 && (
           <div className="text-gray-500 text-center">No lists found</div>
         )}

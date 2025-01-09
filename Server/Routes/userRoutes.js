@@ -12,7 +12,7 @@ const tryCatch = require("../Middlewares/Trycatch");
 const{addToSaved,removeFromSaved,SavedProperties}=require("../Controllers/User/savedController")
 const {BookingProperty,BookingDetailes,bookingByPropertyId,bookingsByUser,cancelBooking,bookingFinish,verifyBooking,AllBookings} =require("../Controllers/User/bookingController")
 const {SearchProperty}=require("../Controllers/User/searchController")
-const{createReview,calculateFacilityRating,getReviewsbypropertyId,LikeReview,DislikeReview}=require("../Controllers/User/reviewController")
+const{createReview,calculateFacilityRating,getReviewsbypropertyId,LikeReview,DislikeReview,getUserTotalReviews,TotalPropertyReviews}=require("../Controllers/User/reviewController")
 router
   .post("/register", tryCatch(registerUser))
   .post("/login", tryCatch(loginUser))
@@ -51,4 +51,6 @@ router
   .get("/allreview/:id",getReviewsbypropertyId)
   .post("/like/:id",LikeReview)
   .post("/dislike/:id",DislikeReview)
+  .get("/totalreviews",userAuthMiddleware,getUserTotalReviews)
+  .get("/propertyreviews",userAuthMiddleware,TotalPropertyReviews)
 module.exports = router;

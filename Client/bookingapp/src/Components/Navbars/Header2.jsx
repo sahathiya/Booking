@@ -31,7 +31,7 @@ function Header2() {
   return (
     <div>
       <div className="bg-blue-900 px-4 py-8">
-        <div className="container text-center md:text-left">
+        <div className="container text-center md:text-left ml-24 ">
           <h1 className="text-3xl sm:text-4xl md:text-5xl text-white font-bold ">
             Find your next stay
           </h1>

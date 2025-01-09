@@ -22,7 +22,6 @@ import { setAllSaved } from "../../Features/savedSlice";
 import { FaHeart } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
 import { FiCopy } from "react-icons/fi";
-import { FaFacebook } from "react-icons/fa";
 import { FacebookShareButton, FacebookIcon } from "react-share";
 import ReviewModal from "../Review/ReviewModal";
 import {
@@ -32,20 +31,18 @@ import {
   DislikeReview,
   setProgress,
 } from "../../Features/reviewSlice";
-import ReviewCard from "../Review/ReviewCard";
+
 import indiaimage from "../../Images/india.png";
 import { LuBedDouble } from "react-icons/lu";
 import { CiCalendar } from "react-icons/ci";
 import { LuThumbsUp } from "react-icons/lu";
 import { LuThumbsDown } from "react-icons/lu";
-import { MdThumbUp } from "react-icons/md";
-import { MdThumbDown } from "react-icons/md";
 import Header3 from "../Navbars/Header3";
 import SearchingProperty from "../Search/SearchingProperty";
 function DetailesPage() {
   const { id } = useParams();
   const progress = useSelector((state) => state.review.progress);
-
+ 
   const [liked, setLiked] = useState(false);
   const [dislike, setDislike] = useState(false);
   const likes = useSelector((state) => state.review.likes);
@@ -80,7 +77,7 @@ function DetailesPage() {
     const checkOut = reviewscheckOut[index];
 
     const stayLength =
-      (new Date(checkOut) - new Date(checkIn)) / (1000 * 60 * 60 * 24); // Convert to days
+      (new Date(checkOut) - new Date(checkIn)) / (1000 * 60 * 60 * 24); 
 
     return stayLength;
   });
@@ -108,6 +105,10 @@ function DetailesPage() {
   const CloseWriteReviewModal = () => setWriteModal(false);
 
   const allbookings = useSelector((state) => state.booking.bookings);
+  console.log("allbookings",allbookings);
+  
+const bookingfound=allbookings.filter((item)=>item._id==bookingId)
+console.log('bookingfound',bookingfound);
 
   const [numberOfRooms, setNumberOfRooms] = useState(1);
   const [showShareMenu, setShowShareMenu] = useState(false);
@@ -289,22 +290,35 @@ function DetailesPage() {
     }
   };
 
-  if (
-    bookingId.length !== 24 &&
-    error !== "Booking ID must be exactly 24 characters long."
-  ) {
-    setError("Booking ID must be exactly 24 characters long.");
-  } else if (bookingId.length === 24 && error !== "") {
-    setError(""); // Clear error if valid
-  }
-
+  
   const handleallBookings = async () => {
-    const res = await axiosInstance.get(`/allbookings`);
-    dispatch(setAllBooking(res.data.AllBookings));
-    const all = allbookings.filter((item) => item._id === bookingId);
-    console.log("all", all);
-    setWriteModal(true);
+    try {
+      const res = await axiosInstance.get(`/allbookings`);
+      dispatch(setAllBooking(res.data.AllBookings));
+  
+      if (bookingId.length !== 24) {
+        setError("Booking ID must be exactly 24 characters long.");
+        setWriteModal(false); 
+        return;
+      } else {
+        setError(""); 
+      }
+  
+      const matchingBooking = allbookings.find((item) => item._id === bookingId);
+  
+      if (matchingBooking) {
+        setWriteModal(true); 
+      } else {
+        setError("Booking not found."); 
+        setWriteModal(false);
+      }
+    } catch (error) {
+      console.error("Error fetching bookings:", error);
+      setError("Failed to fetch bookings. Please try again later.");
+      setWriteModal(false);
+    }
   };
+  
 
   const handleSubmitReview = async () => {
     const reviewdata = {
@@ -405,12 +419,22 @@ function DetailesPage() {
   length={allReviews.length}
 >
 <h1 className="text-2xl font-bold">Guest reviews for {propertyName}</h1>
-<button
-  className="border-2 p-1 rounded-md border-blue-500 text-blue-500 font-semibold bg-white"
-  onClick={handleOpenWriteReviewModal}
->
-  Write a review
-</button>
+
+
+
+<div className="flex items-center justify-between mt-4">
+  <div className="inline-block text-lg font-bold bg-blue-900 text-white px-3 py-1 rounded-md mt-2">
+    {propertyprogress ? propertyprogress.averageRating : ""}
+  </div>
+  
+  <button
+    className="border-2 p-1 rounded-md border-blue-500 text-blue-500 font-semibold bg-white"
+    onClick={handleOpenWriteReviewModal}
+  >
+    Write a review
+  </button>
+</div>
+
 
 {/* Rating Section */}
 <div className="flex flex-wrap justify-between items-center mt-4 sm:mt-6 md:mt-8">
@@ -492,7 +516,6 @@ function DetailesPage() {
   <div className="p-4 bg-white shadow-md rounded-lg max-w-3xl mx-auto mt-6">
     {allReviews.map((review, index) => (
       <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-8 mb-4" key={review._id}>
-        {/* Left Side (Header & Room/Stay Info) */}
         <div className="flex items-center w-full sm:w-1/3 space-x-4">
           {review.guest.profileImage ? (
             <div>
@@ -504,28 +527,26 @@ function DetailesPage() {
             </div>
           ) : (
             <div className="w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center text-white font-bold text-lg">
-              {review.guest.firstname.slice(0, 1)}
+              {review.guest.firstname?review.guest.firstname.slice(0, 1):currentuser.email.slice(0,1)}
             </div>
           )}
           <div>
-            <h3 className="text-lg font-semibold">{review.guest.firstname} {review.guest.lastname}</h3>
+            <h3 className="text-lg font-semibold">{review.guest.firstname?review.guest.firstname:review.guest.lastname?review.guest.lastname:currentuser.email} </h3>
             <p className="text-sm text-gray-500 flex items-center">
               <img src={indiaimage} className="w-4" alt="India" /> India
             </p>
           </div>
         </div>
 
-        {/* Right Side (Review Content & Footer) */}
+       
         <div className="w-full sm:w-2/3">
-          <div className="absolute top-4 right-4 text-lg font-bold bg-blue-900 text-white px-3 py-1 rounded-md">
-            {review.rating}
-          </div>
-          {/* Review Content */}
           <div className="mt-6">
             <p className="mt-2 text-gray-700">{formatCreatedAt(review.createdAt)}</p>
             <p className="text-xl font-bold">{review.reviewLabel}</p>
+            <div className="inline-block text-lg font-bold bg-blue-900 text-white px-3 py-1 rounded-md mt-2">{review.rating}</div>
             <p className="mt-2 text-gray-700">{review.comment}</p>
-          </div>
+           
+      </div>
 
           {/* Footer */}
           <div className="mt-6 flex items-center justify-between">
@@ -580,11 +601,7 @@ function DetailesPage() {
               Enter your booking details
             </h2>
             <p>Check your booking confirmation email to find your booking Id</p>
-            {/* <textarea
-              className="w-full border rounded p-2 mb-4"
-              rows="5"
-              placeholder="Share your experience..."
-            ></textarea> */}
+          
             {error && <div className="text-red-500 text-sm mb-2">{error}</div>}
             <label className="font-bold">Booking Id</label>
             <input
@@ -615,7 +632,7 @@ function DetailesPage() {
             <h2 className="text-lg font-semibold mb-3">Write your review</h2>
 
             <div className="flex flex-wrap">
-              {/* Left Section */}
+              
               <div className="w-full md:w-1/2 pr-2">
                 <textarea
                   className="w-full border rounded p-1 mb-3 text-sm"
@@ -636,7 +653,7 @@ function DetailesPage() {
                 />
               </div>
 
-              {/* Right Section */}
+              
               <div className="w-full md:w-1/2 pl-2">
                 <label className="font-bold text-sm mb-1 block">Rating</label>
                 <input
@@ -810,7 +827,7 @@ function DetailesPage() {
       <div className="max-w-5xl mx-auto">
         <h1 className="text-black font-bold text-xl mb-4">Availability</h1>
 
-        <div className="w-full sm:w-[800px] max-w-full h-auto border-2 border-yellow-500 mb-6 rounded-md overflow-x-auto">
+        <div className="w-full sm:w-[800px] max-w-full h-auto border-2 border-yellow-500 mb-6 rounded-md">
           <div className="flex flex-col sm:flex-row items-center justify-between h-full px-4  ">
             <div className="flex items-center   w-full sm:w-auto mb-3 sm:mb-0">
               <FontAwesomeIcon

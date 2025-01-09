@@ -20,4 +20,9 @@ const reviewSchema = new mongoose.Schema({
   Cleanlinessrating: { type: Number, required: true, min: 1, max: 5 },
 });
 
+
+
+
+
+
 module.exports=mongoose.model("Review",reviewSchema)

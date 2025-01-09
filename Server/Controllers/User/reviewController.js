@@ -55,14 +55,15 @@ const createReview= async(req,res)=>{
 
 const calculateFacilityRating = async (req, res) => {
   try {
-    // Aggregate to calculate average ratings grouped by property
+    
     const result = await Review.aggregate([
       {
         $group: {
-          _id: "$property", // Group by property field
+          _id: "$property", 
           averageFacilityRating: { $avg: "$Facilitiesrating" },
           averageStaffRating: { $avg: "$Staffrating" },
           averageCleanlinessRating: { $avg: "$Cleanlinessrating" },
+          averageRating:{$avg:"$rating"}
         },
       },
     ]);
@@ -76,12 +77,13 @@ const calculateFacilityRating = async (req, res) => {
       });
     }
 
-    // Format the response
+    
     const formattedResult = result.map((group) => ({
       property: group._id,
       averageFacilityRating: group.averageFacilityRating.toFixed(1),
       averageStaffRating: group.averageStaffRating.toFixed(1),
       averageCleanlinessRating: group.averageCleanlinessRating.toFixed(1),
+      averageRating:group.averageRating.toFixed(1)
     }));
 
     res.status(200).json({
@@ -107,8 +109,10 @@ const countOfReview=review.length
   return  res.status(200).json({review,"countOfReview":countOfReview})
 }
 
+
+
 const LikeReview=async(req,res)=>{
-  const { userId } = req.body; // assuming userId is passed from the frontend
+  const { userId } = req.body;
   const reviewId  = req.params.id;
 
   try {
@@ -117,7 +121,7 @@ const LikeReview=async(req,res)=>{
       return res.status(404).json({ message: "Review not found" });
     }
 
-    // If the user has already disliked, remove dislike and add like
+   
     if (review.dislikes.includes(userId)) {
       review.dislikes = review.dislikes.filter(user => user.toString() !== userId);
     }
@@ -136,7 +140,7 @@ const LikeReview=async(req,res)=>{
 
 
 const DislikeReview=async(req,res)=>{
-  const { userId } = req.body; // assuming userId is passed from the frontend
+  const { userId } = req.body; 
   const reviewId  = req.params.id;
 
   try {
@@ -145,7 +149,7 @@ const DislikeReview=async(req,res)=>{
       return res.status(404).json({ message: "Review not found" });
     }
 
-    // If the user has already liked, remove like and add dislike
+    
     if (review.likes.includes(userId)) {
       review.likes = review.likes.filter(user => user.toString() !== userId);
     }
@@ -161,4 +165,49 @@ const DislikeReview=async(req,res)=>{
     res.status(500).json({ message: "Something went wrong" });
   }
 }
-module.exports={createReview,getReviewsbypropertyId,LikeReview,DislikeReview,calculateFacilityRating}
+
+
+
+
+
+
+const getUserTotalReviews = async (req, res) => {
+  
+   
+   
+
+    
+    const totalReviews = await Review.countDocuments({ guest: req.user.id });
+    console.log("User",totalReviews);
+    
+
+    res.status(200).json({
+      success: true,
+      totalReviews,
+    });
+ 
+};
+
+const TotalPropertyReviews=async(req,res)=>{
+  const userId = req.user.id;
+  const userReviews=await Review.find({guest:userId})
+
+  const uniqueProperties = new Set();
+
+   
+    userReviews.forEach((review) => {
+      uniqueProperties.add(review.property); 
+    });
+
+   
+    const totalUniqueProperties = uniqueProperties.size;
+
+    console.log("Total Unique Properties Reviewed by User:", totalUniqueProperties);
+  
+  res.status(200).json({
+    success: true,
+    userReviews,
+    totalUniqueProperties
+  });
+}
+module.exports={createReview,getReviewsbypropertyId,LikeReview,DislikeReview,calculateFacilityRating,getUserTotalReviews,TotalPropertyReviews}

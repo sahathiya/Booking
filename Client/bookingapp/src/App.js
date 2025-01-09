@@ -35,6 +35,8 @@ import BookingFinish from './Components/Booking/BookingFinish';
 import RoomDetails from './Components/DetailesProperty/RoomDetailes';
 import Bookings from './Components/Booking/Bookings';
 import ConformPage from './Components/Booking/ConformPage';
+import AllReviews from './Components/Review/AllReviews';
+
 
 function App() {
   
@@ -64,6 +66,8 @@ function App() {
 <Route path='/conform-page/:id/:bookingid' element={<ConformPage/>}/>
 <Route path='/searching' element={<SearchingProperty/>}/>
 <Route path='/searchdetailes' element={<SearchDetailes/>}/>
+<Route path='/allreviews' element={<AllReviews/>} />
+
 
 
         <Route path='/homepartner' element={<PartnerHome/>}/>

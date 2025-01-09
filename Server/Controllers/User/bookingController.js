@@ -52,6 +52,10 @@ const BookingProperty = async (req, res) => {
     if (existingBookings.length > 0) {
       return res.status(400).json({
         message: "The property is already booked for the selected dates",
+        unavailableDates: existingBookings.map(booking => ({
+          checkIn: booking.checkIn,
+          checkOut: booking.checkOut,
+      })),
       });
     }
 
