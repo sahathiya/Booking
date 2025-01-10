@@ -210,4 +210,10 @@ const TotalPropertyReviews=async(req,res)=>{
     totalUniqueProperties
   });
 }
-module.exports={createReview,getReviewsbypropertyId,LikeReview,DislikeReview,calculateFacilityRating,getUserTotalReviews,TotalPropertyReviews}
+
+const RemoveReview=async(req,res)=>{
+  const reviewid=req.params.id
+  const review=await Review.findByIdAndDelete({_id:reviewid})
+  res.status(200).json({message:'review deleted',review})
+}
+module.exports={createReview,getReviewsbypropertyId,LikeReview,DislikeReview,calculateFacilityRating,getUserTotalReviews,TotalPropertyReviews,RemoveReview}

@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const Partners = require("../../Models/User/partnerSchema");
 const Properties=require("../../Models/User/propertySchema")
 const Booking=require("../../Models/User/bookingSchema")
+const Review=require("../../Models/User/reviewSchema")
 //login partner
 
 const loginAdmin=async(req,res)=>{
@@ -119,4 +120,125 @@ const AllBookings=async(req,res)=>{
 
   res.status(200).json({message:'all ....bookings',bookings})
 }
-    module.exports={loginAdmin,logoutAdmin,AllUsers,AllPartners,AllProperties,AllBookings}
+
+const getAdmin=async(req,res)=>{
+  const admin=await Users.findOne({admin:true})
+  console.log("admin",admin);
+  res.status(200).json({message:"admin",admin})
+}
+
+
+const TotalRevenew=async(req,res)=>{
+  const revenew=await Booking.aggregate([
+    {
+      $group:{
+        _id:null,
+        totalRevenuew:{$sum:'$totalPrice'}
+      }
+    }
+  ])
+
+  console.log("revenew",revenew);
+
+  res.status(200).json({message:'Totalrevenue',revenew})
+  
+}
+
+
+const getDailyRevenue = async (req, res) => {
+
+  const revenueData = await Booking.aggregate([
+    {
+      $match: {
+        totalPrice: { $gt: 0 }, // Only valid totalPrice
+        BookingStatus: { $ne: "Cancelled" }, // Exclude canceled bookings
+      },
+    },
+    {
+      $project: {
+        totalPrice: 1,
+        localDate: {
+          $dateToString: { format: "%Y-%m-%d", date: "$createdAt", timezone: "Asia/Kolkata" }, // Local date
+        },
+      },
+    },
+    {
+      $group: {
+        _id: "$localDate", // Group by local date
+        dailyRevenue: { $sum: "$totalPrice" },
+      },
+    },
+    {
+      $sort: { _id: 1 }, // Sort by date
+    },
+  ]);
+  
+  console.log("Aggregated Revenue Data:", revenueData);
+  
+  const dailyRevenue = revenueData.map((entry) => ({
+    day: entry._id, // Date string
+    revenue: entry.dailyRevenue,
+  }));
+
+
+
+
+
+
+
+
+
+
+    // const revenueData = await Booking.aggregate([
+    //   {
+       
+    //     $project: {
+    //       totalPrice: 1,
+    //       dayOfWeek: { $dayOfWeek: "$createdAt" }, 
+    //     },
+    //   },
+    //   {
+        
+    //     $group: {
+    //       _id: "$dayOfWeek", 
+    //       dailyRevenue: { $sum: "$totalPrice" },
+    //     },
+    //   },
+    //   {
+        
+    //     $sort: { _id: 1 },
+    //   },
+    // ]);
+
+    
+    // const dayMap = {
+    //   1: "Sunday",
+    //   2: "Monday",
+    //   3: "Tuesday",
+    //   4: "Wednesday",
+    //   5: "Thursday",
+    //   6: "Friday",
+    //   7: "Saturday",
+    // };
+
+    // const dailyRevenue = revenueData.map((entry) => ({
+    //   day: dayMap[entry._id],
+    //   revenue: entry.dailyRevenue,
+    // }));
+
+    return res.status(200).json({
+      status: "success",
+      dailyRevenue,
+      
+    });
+  
+};
+
+
+const AllReviews=async(req,res)=>{
+  const reviews=await Review.find().populate('guest').populate('property')
+
+  res.status(200).json({message:'all reviews',reviews})
+
+}
+    module.exports={loginAdmin,logoutAdmin,AllUsers,AllPartners,AllProperties,AllBookings,getAdmin,TotalRevenew,getDailyRevenue,AllReviews}

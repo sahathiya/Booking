@@ -179,7 +179,7 @@ console.log("propertyid",propertyid);
                 },
                 unit_amount: Math.round(book.totalPrice * 100),
             },
-            quantity: book.adults+book.children,
+            quantity:1
         },
     ];
 

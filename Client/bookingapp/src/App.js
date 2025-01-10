@@ -46,7 +46,10 @@ import PropertyLists from "./Components/AdminPart/Properties/PropertyLists";
 import UserDetailes from "./Components/AdminPart/Users/UserDetailes";
 import Allbookings from "./Components/AdminPart/Bookings/Allbookings";
 import PartnerDetailes from "./Components/AdminPart/Partners/PartnerDetailes";
-
+import AccountSettings from "./Components/AdminPart/Admin/AccountSettings";
+import AccountEdit from "./Components/AdminPart/Admin/AccountEdit";
+import DashboardChart from "./Components/AdminPart/Dashboard/DashboardChart";
+import Reviews from "./Components/AdminPart/Reviews/Reviews";
 function App() {
   const admin = useSelector((state) => state.admin.admin);
   console.log("admin", admin);
@@ -120,6 +123,10 @@ function App() {
               <Route path="/userdetailes/:id" element={<UserDetailes/>}/>
               <Route path="/allbookings" element={<Allbookings/>}/>
               <Route path="/partnerdetailes/:id" element={<PartnerDetailes/>}/>
+              <Route path="/account-settings" element={<AccountSettings/>}/>
+              <Route path='/account-edit' element={<AccountEdit/>}/>
+              <Route path="/dashboardchart" element={<DashboardChart/>}/>
+              <Route path="/reviews" element={<Reviews/>}/>
             </Routes>
           </div>
         </div>

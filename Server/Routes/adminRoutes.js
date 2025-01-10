@@ -1,5 +1,5 @@
 const express = require("express");
-const { loginAdmin, logoutAdmin,AllUsers,AllPartners,AllProperties,AllBookings } = require("../Controllers/Admin/adminController");
+const { loginAdmin, logoutAdmin,AllUsers,AllPartners,AllProperties,AllBookings,getAdmin,TotalRevenew,getDailyRevenue,AllReviews } = require("../Controllers/Admin/adminController");
 
 const router = express.Router();
 router
@@ -9,4 +9,8 @@ router
 .get("/allpartners",AllPartners)
 .get("/fullproperties",AllProperties)
 .get("/allbookingsadmin",AllBookings)
+.get("/admin",getAdmin)
+.get("/totalRevenew",TotalRevenew)
+.get("/dailyrevenew",getDailyRevenue)
+.get("/reviews",AllReviews)
 module.exports=router
