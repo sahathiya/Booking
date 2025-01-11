@@ -216,4 +216,13 @@ const RemoveReview=async(req,res)=>{
   const review=await Review.findByIdAndDelete({_id:reviewid})
   res.status(200).json({message:'review deleted',review})
 }
-module.exports={createReview,getReviewsbypropertyId,LikeReview,DislikeReview,calculateFacilityRating,getUserTotalReviews,TotalPropertyReviews,RemoveReview}
+
+const EditReview=async(req,res)=>{
+  const reviewid=req.params.id
+  const{comment}=req.body
+  const updatereview=await Review.findByIdAndUpdate({_id:reviewid},{comment},{ new: true } )
+  console.log("updatereview",updatereview);
+  res.status(200).json({message:'review updated',updatereview})
+
+}
+module.exports={createReview,getReviewsbypropertyId,LikeReview,DislikeReview,calculateFacilityRating,getUserTotalReviews,TotalPropertyReviews,RemoveReview,EditReview}

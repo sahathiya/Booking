@@ -117,8 +117,8 @@ const AllProperties=async(req,res)=>{
 
 const AllBookings=async(req,res)=>{
   const bookings=await Booking.find().populate('GuestDetailes').populate('PropertyDetailes')
-
-  res.status(200).json({message:'all ....bookings',bookings})
+const count=bookings.length
+  res.status(200).json({message:'all ....bookings',bookings,count})
 }
 
 const getAdmin=async(req,res)=>{
@@ -241,4 +241,95 @@ const AllReviews=async(req,res)=>{
   res.status(200).json({message:'all reviews',reviews})
 
 }
-    module.exports={loginAdmin,logoutAdmin,AllUsers,AllPartners,AllProperties,AllBookings,getAdmin,TotalRevenew,getDailyRevenue,AllReviews}
+
+
+
+//to edit user profile
+
+const editAdmin = async (req, res) => {
+  const adminId = req.params.id;
+  const { firstname, lastname, phonenumber, email } = req.body;
+
+  const updateData = {
+    firstname,
+    lastname,
+    phonenumber,
+    email,
+  };
+
+  if (req.file && req.file.path) {
+    updateData.profileImage = req.file.path;
+  }
+
+  const updatedUser = await Users.findByIdAndUpdate({_id:adminId}, updateData, {
+    new: true,
+  });
+
+  if (!updatedUser) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  res.status(200).json({ message: "User details updated", updatedUser });
+};
+
+
+
+
+
+const blockUser = async (req, res) => {
+  const userid = req.params.id
+  const user = await Users.findById(userid)
+  console.log(user);
+
+  if (user.block === true) {
+      user.block = false
+      await user.save()
+      return res.status(200).json({ status: 'success', message: 'user is unblocked by admin' })
+  } else {
+      user.block = true
+      await user.save()
+      return res.status(200).json({ status: 'success', message: 'user is blocked by admin' })
+  }
+}
+
+
+const getPropertiesType=async(req,res,next)=>{
+    
+        console.log("ggggggggggggggggggggggggggg");
+        const type=req.params.type
+        console.log("type",type);
+        
+  const properties=await Properties.find({ type:type })
+  console.log("propertiesproperties",properties);
+  
+  if(!properties){
+     return next( new customError('product not found',404))
+  }
+  const length=properties.length
+  res.status(200).json({status:'success',message:'properties by category',properties,length})
+      
+  
+  
+}
+
+const TotalBookings=async(req,res)=>{
+  const bookings=await Booking.aggregate([{
+    $match:{
+      BookingStatus:{$ne:'Cancelled'}
+    }
+  }])
+const count=bookings.length
+  res.status(200).json({message:'bookings',bookings,count})
+}
+
+const CancelledBookings=async(req,res)=>{
+  const cancelled=await Booking.aggregate([{
+    $match:{
+      BookingStatus:'Cancelled'
+    }
+  }])
+const count=cancelled.length
+  res.status(200).json({message:'cancelledbookings',cancelled,count})
+}
+
+    module.exports={loginAdmin,logoutAdmin,AllUsers,AllPartners,AllProperties,AllBookings,getAdmin,TotalRevenew,getDailyRevenue,AllReviews,editAdmin,blockUser,getPropertiesType,CancelledBookings,TotalBookings}

@@ -1,5 +1,5 @@
 const express = require("express");
-const { loginAdmin, logoutAdmin,AllUsers,AllPartners,AllProperties,AllBookings,getAdmin,TotalRevenew,getDailyRevenue,AllReviews } = require("../Controllers/Admin/adminController");
+const { loginAdmin, logoutAdmin,AllUsers,AllPartners,AllProperties,AllBookings,getAdmin,TotalRevenew,getDailyRevenue,AllReviews,editAdmin ,blockUser,getPropertiesType,CancelledBookings,TotalBookings} = require("../Controllers/Admin/adminController");
 
 const router = express.Router();
 router
@@ -13,4 +13,9 @@ router
 .get("/totalRevenew",TotalRevenew)
 .get("/dailyrevenew",getDailyRevenue)
 .get("/reviews",AllReviews)
+.patch("/adminedit/:id",editAdmin)
+.post("/block/:id",blockUser)
+.get("/typebased/:type",getPropertiesType)
+.get("/cancelled",CancelledBookings)
+.get("/totalbookings",TotalBookings)
 module.exports=router

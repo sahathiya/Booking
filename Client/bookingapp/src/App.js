@@ -50,6 +50,7 @@ import AccountSettings from "./Components/AdminPart/Admin/AccountSettings";
 import AccountEdit from "./Components/AdminPart/Admin/AccountEdit";
 import DashboardChart from "./Components/AdminPart/Dashboard/DashboardChart";
 import Reviews from "./Components/AdminPart/Reviews/Reviews";
+import Detailes from "./Components/AdminPart/Properties/Detailes";
 function App() {
   const admin = useSelector((state) => state.admin.admin);
   console.log("admin", admin);
@@ -120,6 +121,7 @@ function App() {
               <Route path="/userslist" element={<Userslist />} />
               <Route path="/partnerslist" element={<Partnerlist/>}/>
               <Route path="/allpropertylists" element={<PropertyLists/>}/>
+              <Route path="/Detailes/:id" element={<Detailes/>}/>
               <Route path="/userdetailes/:id" element={<UserDetailes/>}/>
               <Route path="/allbookings" element={<Allbookings/>}/>
               <Route path="/partnerdetailes/:id" element={<PartnerDetailes/>}/>

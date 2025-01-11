@@ -85,6 +85,7 @@ import { NavLink } from 'react-router-dom';
 function Reviews() {
   const [reviews, setReviews] = useState([])
 
+
   useEffect(() => {
     const fetch = async () => {
       const res = await axiosInstance.get(`/reviews`)
@@ -98,9 +99,50 @@ const handleRemove=async(reviewId)=>{
   alert(response.data.message)
 
 }
+
+// const [isEditing, setIsEditing] = useState(null);
+const comments=reviews.map((item,index)=>item.comment)
+
+
+console.log("comment",comments);
+
+
+const [isEditing, setIsEditing] = useState(null); // Track the index of the comment being edited
+  const [editedComment, setEditedComment] = useState({
+   
+  }); // Track the current comment being edited
+console.log("editedComment",editedComment);
+
+  const handleEditClick = (reviewId, comment) => {
+    setIsEditing(reviewId); // Enable editing mode for the specific index
+    setEditedComment({ ...editedComment, [reviewId]: comment }); // Set the current comment in the input field
+  };
+
+  const handleInputChange = (e,reviewId) => {
+    setEditedComment({ ...editedComment, [reviewId]: e.target.value }); // Update the edited comment value
+  };
+
+  const handleSaveClick = async (reviewId) => {
+    try {
+      // Update the specific comment via an API call
+      const response = await axiosInstance.patch(`/editreview/${reviewId}`, {comment:editedComment[reviewId]});
+
+      // Log the response (for debugging purposes)
+      console.log("Updated comment:", response);
+
+      // Reset editing state
+      setIsEditing(null);
+
+      // Optionally, update the reviews in the parent state if needed
+    } catch (error) {
+      console.error("Error updating comment:", error);
+    }
+  };
+
+
   return (
     <div>
-      {reviews.map((item) => {
+      {reviews.map((item,index) => {
         // Calculate the stars for each review
         const rating = item.rating; // Assuming each item has a 'rating' field
         const fullStars = Math.floor(rating); // Integer part for full stars
@@ -144,11 +186,48 @@ const handleRemove=async(reviewId)=>{
             <p>Reviewed in {new Date(item.createdAt).toLocaleDateString()}</p>
 
             </footer>
-            <p className="mb-2 text-gray-500 dark:text-gray-400">{item.comment}</p>
+           
+        <div key={item._id} className="flex items-center mt-3 space-x-4">
+          {isEditing === item._id ? (
+            <input
+              type="text"
+              value={editedComment[item._id]}
+              onChange={(e)=>handleInputChange(e, item._id)}
+              className="border border-gray-300 rounded px-2 py-1 text-gray-700"
+            />
+          ) : (
+            <div>
+          
+
+<p className="mb-0 text-gray-500 dark:text-gray-400">
+  {item.comment}
+</p>
+            </div>
+            
+            
+          )}
+          {isEditing === item._id ? (
+            <button
+              className="text-green-500 hover:text-green-800"
+              onClick={() => handleSaveClick(item._id)} // Save for the specific review ID
+            >
+              Save
+            </button>
+          ) : (
+            <button
+              className="text-blue-500 hover:text-blue-800"
+              onClick={() => handleEditClick(item._id,item.comment)} // Edit the specific comment
+            >
+              Edit
+            </button>
+          )}
+        </div>
+      
+            
             <aside>
               <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">{item.likes.length} people found this helpful</p>
               <div className="flex items-center mt-3">
-              <button className='text-blue-500 hover:text-blue-800'>Edit</button>
+              
                 <button className="ps-4 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500 border-gray-200 ms-4 "
                 onClick={()=>handleRemove(item._id)}
                 >Remove</button>

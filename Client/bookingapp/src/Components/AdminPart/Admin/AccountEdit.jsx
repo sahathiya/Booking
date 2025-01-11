@@ -28,9 +28,11 @@ function AccountEdit() {
       const handleSubmit=async(e)=>{
         e.preventDefault()
 
-        const response=await axiosInstance.put(`/edituser`,formValues)
+        const response=await axiosInstance.patch(`/adminedit/${admin._id}`,formValues)
         console.log("response of edit admin",response);
+        dispatch(SetAdmin(response.data.updatedUser))
         navigate(`/adminpart`)
+
       }
 
    useEffect(()=>{
@@ -39,7 +41,7 @@ function AccountEdit() {
         dispatch(SetAdmin(response.data.admin))
     }
     fetch()
-   })
+   },[])
   return (
     <div>
       <form className="max-w-md mx-auto" onSubmit={handleSubmit}>

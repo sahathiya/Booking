@@ -10,6 +10,8 @@ function Allbookings() {
     useEffect(()=>{
         const fetch=async()=>{
             const res=await axiosInstance.get(`/allbookingsadmin`)
+            console.log("bbbbbbbbbb",res);
+            
             dispatch(AllBookings(res.data.bookings))
         }
         fetch()
