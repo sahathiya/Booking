@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const adminSlice = createSlice({
   name: "Admin",
-  initialState: { admin: null ,users:[],partners:[],properties:[],bookings:[],},
+  initialState: { admin: null ,users:[],partners:[],properties:[],bookings:[],notifications:[]},
   reducers: {
     LogAdmin: (state, action) => {
       state.admin = action.payload;
@@ -24,10 +24,13 @@ state.partners=action.payload
     },
     SetAdmin:(state,action)=>{
       state.admin=action.payload
+    },
+    SetNotification:(state,action)=>{
+state.notifications=action.payload
     }
     
   },
 });
 
-export const { LogAdmin, LogoutAdmin,AllUsers,AllPartners,AllProperties,AllBookings ,SetAdmin} = adminSlice.actions;
+export const { LogAdmin, LogoutAdmin,AllUsers,AllPartners,AllProperties,AllBookings ,SetAdmin,SetNotification} = adminSlice.actions;
 export default adminSlice.reducer;

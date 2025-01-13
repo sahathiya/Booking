@@ -145,7 +145,7 @@ const PropertiesByPartner=async(req,res)=>{
  
   
   const partnerid=req.params.id
-  console.log("partnerid",partnerid);
+  console.log("partnerid...",partnerid);
   
   const partner= await Partners.findOne({_id:partnerid})
   console.log("partner",partner);

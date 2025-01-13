@@ -144,7 +144,7 @@ function PropertyLists() {
   }
 
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto px-4 sm:px-6 lg:px-8">
       {/* Dropdown for category selection */}
       <select
         className="mb-6 p-2 border border-gray-300  rounded focus:ring-2"
@@ -194,6 +194,7 @@ function PropertyLists() {
                 <td className="px-4 py-2 border border-gray-200 text-sm text-gray-600">
                   {item.pricePerNight}
                 </td>
+                
                 <td className="px-4 py-2 border border-gray-200 text-sm text-gray-600">
                   <button className='text-white bg-blue-900 rounded-md py-1 px-2'
                   onClick={()=>navigate(`/Detailes/${item._id}`)}

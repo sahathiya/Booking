@@ -1,12 +1,31 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { HiOutlineDotsVertical } from "react-icons/hi";
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import axiosInstance from '../../../Axios/axiosinstance';
+import Cookies from "js-cookie"
+import { LogoutAdmin } from '../../../Features/adminSlice';
 function AccountSettings() {
+    const dispatch=useDispatch()
+    const navigate=useNavigate()
     const admin=useSelector((state)=>state.admin.admin)
     console.log("adminname",admin);
     const [open,setOpen]=useState(false)
     
+    const hadleLogout=async()=>{
+        const response=await axiosInstance.post('/logoutadmin')
+        console.log("response of logout",response);
+        if (response.status === 200) {
+                console.log("User logged out successfully");
+                dispatch(LogoutAdmin());
+                Cookies.remove("admin");
+        
+                navigate("/");
+              } else {
+                console.error("Failed to log out");
+              }
+       
+          }
   return (
     <>
       <div className="w-full max-w-sm bg-white border border-gray-400 rounded-lg shadow  dark:border-gray-700">
@@ -36,21 +55,14 @@ function AccountSettings() {
                     </NavLink>
                 </li>
                 <li>
-                    <a
-                        href="#"
+                    <NavLink
+                        onClick={hadleLogout}
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                     >
-                        Export Data
-                    </a>
+                        Sign Out
+                    </NavLink>
                 </li>
-                <li>
-                    <a
-                        href="#"
-                        className="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                    >
-                        Delete
-                    </a>
-                </li>
+              
             </ul>
         </div>
     )}

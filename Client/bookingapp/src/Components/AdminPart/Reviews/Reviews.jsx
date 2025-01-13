@@ -3,7 +3,6 @@
 // import { IoMdStar ,IoMdStarHalf, IoMdStarOutline } from "react-icons/io";
 // import axiosInstance from '../../../Axios/axiosinstance'
 // function Reviews() {
- 
 
 // const[Reviews,setReviews]=useState([])
 // const rating=Reviews.map((item,index)=>item.rating[index])
@@ -19,15 +18,13 @@
 //     const res=await axiosInstance.get(`/reviews`)
 //   console.log("resres",res);
 //   setReviews(res.data.reviews)
-  
+
 //   }
 //   fetch()
 //  },[])
-  
+
 //   return (
 //     <div>
-      
-
 
 //   {Reviews.map((item)=>(
 //     <article>
@@ -55,8 +52,7 @@
 //     </div>
 //     <footer class="mb-5 text-sm text-gray-500 dark:text-gray-400"><p>Reviewed in the United Kingdom on <time datetime="2017-03-03 19:00">March 3, 2017</time></p></footer>
 //     <p class="mb-2 text-gray-500 dark:text-gray-400">{item.guest.comment}</p>
-    
-    
+
 //     <aside>
 //         <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">19 people found this helpful</p>
 //         <div class="flex items-center mt-3">
@@ -66,7 +62,6 @@
 //     </aside>
 // </article>
 //   ))}
-    
 
 //     </div>
 //   )
@@ -74,102 +69,122 @@
 
 // export default Reviews
 
-
-
-import React, { useEffect, useState } from 'react'
-import axiosInstance from '../../../Axios/axiosinstance'
+import React, { useEffect, useState } from "react";
+import axiosInstance from "../../../Axios/axiosinstance";
 import { IoMdStar, IoMdStarHalf, IoMdStarOutline } from "react-icons/io";
-import { NavLink } from 'react-router-dom';
-
 
 function Reviews() {
-  const [reviews, setReviews] = useState([])
-
+  const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
     const fetch = async () => {
-      const res = await axiosInstance.get(`/reviews`)
+      const res = await axiosInstance.get(`/reviews`);
       console.log("resres", res);
-      setReviews(res.data.reviews)
-    }
-    fetch()
-  }, [])
-const handleRemove=async(reviewId)=>{
-  const response =await axiosInstance.delete(`/removereview/${reviewId}`)
-  alert(response.data.message)
-
-}
-
-// const [isEditing, setIsEditing] = useState(null);
-const comments=reviews.map((item,index)=>item.comment)
-
-
-console.log("comment",comments);
-
-
-const [isEditing, setIsEditing] = useState(null); // Track the index of the comment being edited
-  const [editedComment, setEditedComment] = useState({
-   
-  }); // Track the current comment being edited
-console.log("editedComment",editedComment);
-
-  const handleEditClick = (reviewId, comment) => {
-    setIsEditing(reviewId); // Enable editing mode for the specific index
-    setEditedComment({ ...editedComment, [reviewId]: comment }); // Set the current comment in the input field
+      setReviews(res.data.reviews);
+    };
+    fetch();
+  }, []);
+  const handleRemove = async (reviewId) => {
+    const response = await axiosInstance.delete(`/removereview/${reviewId}`);
+    setReviews((prevReviews) =>
+      prevReviews.filter((review) => review._id !== reviewId)
+    );
   };
 
-  const handleInputChange = (e,reviewId) => {
-    setEditedComment({ ...editedComment, [reviewId]: e.target.value }); // Update the edited comment value
+  const comments = reviews.map((item, index) => item.comment);
+
+  console.log("comment", comments);
+
+  const [isEditing, setIsEditing] = useState(null);
+  const [editedComment, setEditedComment] = useState({});
+  console.log("editedComment", editedComment);
+
+  const handleEditClick = (reviewId, comment) => {
+    setIsEditing(reviewId);
+    setEditedComment({ ...editedComment, [reviewId]: comment });
+  };
+
+  const handleInputChange = (e, reviewId) => {
+    setEditedComment({ ...editedComment, [reviewId]: e.target.value });
   };
 
   const handleSaveClick = async (reviewId) => {
     try {
-      // Update the specific comment via an API call
-      const response = await axiosInstance.patch(`/editreview/${reviewId}`, {comment:editedComment[reviewId]});
+      const response = await axiosInstance.patch(`/editreview/${reviewId}`, {
+        comment: editedComment[reviewId],
+      });
 
-      // Log the response (for debugging purposes)
       console.log("Updated comment:", response);
+      setReviews((prevReviews) =>
+        prevReviews.map((review) =>
+          review._id === reviewId
+            ? { ...review, comment: editedComment[reviewId] }
+            : review
+        )
+      );
 
-      // Reset editing state
       setIsEditing(null);
-
-      // Optionally, update the reviews in the parent state if needed
     } catch (error) {
       console.error("Error updating comment:", error);
     }
   };
 
-
   return (
     <div>
-      {reviews.map((item,index) => {
-        // Calculate the stars for each review
-        const rating = item.rating; // Assuming each item has a 'rating' field
-        const fullStars = Math.floor(rating); // Integer part for full stars
-        const halfStars = rating % 1 !== 0 ? 1 : 0; // If the rating has a decimal, add half star
-        const emptyStars = 5 - fullStars - halfStars; // The remaining stars are empty
+      {reviews.map((item, index) => {
+        const rating = item.rating;
+        const fullStars = Math.floor(rating);
+        const halfStars = rating % 1 !== 0 ? 1 : 0;
+        const emptyStars = 5 - fullStars - halfStars;
 
         return (
-          <article key={item._id} className="mb-6">
-            <div className="flex items-center mb-4">
-              {item.guest.profileImage?(
-                <img className="w-10 h-10 me-4 rounded-full" src={item.guest.profileImage} alt="" />
-              ):(
-                <div 
-        className="w-10 h-10 bg-yellow-400 rounded-full flex items-center justify-center text-white font-bold text-lg"
-      >
-        {item.guest.firstname ? item.guest.firstname.slice(0, 1) : item.guest.email.slice(0, 1)}
-      </div>
-              )}
-              
-              <div className="font-medium">
-                <p>{item.guest.firstname} {item.guest.lastname} <time datetime="2014-08-16 19:00" className="block text-sm text-gray-500 dark:text-gray-400">Joined on August 2014</time></p>
+          <article key={item._id} className="mb-6 border-b border-gray-200 ">
+            <div className="flex items-start justify-between mb-4">
+              {/* Left Section: Profile Image and Guest Details */}
+              <div className="flex items-center">
+                {item.guest.profileImage ? (
+                  <img
+                    className="w-10 h-10 me-4 rounded-full"
+                    src={item.guest.profileImage}
+                    alt=""
+                  />
+                ) : (
+                  <div className="w-10 h-10 bg-yellow-400 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                    {item.guest.firstname
+                      ? item.guest.firstname.slice(0, 1)
+                      : item.guest.email.slice(0, 1)}
+                  </div>
+                )}
+
+                <div className="font-medium">
+                  <p>
+                    {item.guest.firstname} {item.guest.lastname}
+                    <time
+                      dateTime="2014-08-16 19:00"
+                      className="block text-sm text-gray-500 dark:text-gray-400"
+                    >
+                      Joined on August 2014
+                    </time>
+                  </p>
+                </div>
               </div>
+
+              {/* Right Section: Remove Button */}
+              <button
+                className="ps-4 text-sm  text-black"
+                onClick={() => handleRemove(item._id)}
+              >
+                ✖
+              </button>
             </div>
+
             <div className="flex items-center mb-1 space-x-1 rtl:space-x-reverse">
               {/* Render full stars */}
               {[...Array(fullStars)].map((_, index) => (
-                <IoMdStar key={`full-${index}`} className="text-yellow-500 text-xl" />
+                <IoMdStar
+                  key={`full-${index}`}
+                  className="text-yellow-500 text-xl"
+                />
               ))}
 
               {/* Render half star */}
@@ -179,65 +194,58 @@ console.log("editedComment",editedComment);
 
               {/* Render empty stars */}
               {[...Array(emptyStars)].map((_, index) => (
-                <IoMdStarOutline key={`empty-${index}`} className="text-yellow-500 text-xl" />
+                <IoMdStarOutline
+                  key={`empty-${index}`}
+                  className="text-yellow-500 text-xl"
+                />
               ))}
             </div>
             <footer className="mb-5 text-sm text-gray-500 dark:text-gray-400">
-            <p>Reviewed in {new Date(item.createdAt).toLocaleDateString()}</p>
-
+              <p>Reviewed in {new Date(item.createdAt).toLocaleDateString()}</p>
             </footer>
-           
-        <div key={item._id} className="flex items-center mt-3 space-x-4">
-          {isEditing === item._id ? (
-            <input
-              type="text"
-              value={editedComment[item._id]}
-              onChange={(e)=>handleInputChange(e, item._id)}
-              className="border border-gray-300 rounded px-2 py-1 text-gray-700"
-            />
-          ) : (
-            <div>
-          
 
-<p className="mb-0 text-gray-500 dark:text-gray-400">
-  {item.comment}
-</p>
+            <div key={item._id} className="flex items-center mt-3 space-x-4">
+              {isEditing === item._id ? (
+                <input
+                  type="text"
+                  value={editedComment[item._id]}
+                  onChange={(e) => handleInputChange(e, item._id)}
+                  className="border border-gray-300 rounded px-2 py-1 text-gray-700"
+                />
+              ) : (
+                <div>
+                  <p className="mb-0 text-gray-500 dark:text-gray-400">
+                    {item.comment}
+                  </p>
+                </div>
+              )}
+              {isEditing === item._id ? (
+                <button
+                  className="text-green-500 hover:text-green-800"
+                  onClick={() => handleSaveClick(item._id)} // Save for the specific review ID
+                >
+                  Save
+                </button>
+              ) : (
+                <button
+                  className="text-blue-500 hover:text-blue-800"
+                  onClick={() => handleEditClick(item._id, item.comment)} // Edit the specific comment
+                >
+                  Edit
+                </button>
+              )}
             </div>
-            
-            
-          )}
-          {isEditing === item._id ? (
-            <button
-              className="text-green-500 hover:text-green-800"
-              onClick={() => handleSaveClick(item._id)} // Save for the specific review ID
-            >
-              Save
-            </button>
-          ) : (
-            <button
-              className="text-blue-500 hover:text-blue-800"
-              onClick={() => handleEditClick(item._id,item.comment)} // Edit the specific comment
-            >
-              Edit
-            </button>
-          )}
-        </div>
-      
-            
+
             <aside>
-              <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">{item.likes.length} people found this helpful</p>
-              <div className="flex items-center mt-3">
-              
-                <button className="ps-4 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500 border-gray-200 ms-4 "
-                onClick={()=>handleRemove(item._id)}
-                >Remove</button>
-              </div>
+              <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                {item.likes.length} people found this helpful
+              </p>
             </aside>
           </article>
         );
       })}
     </div>
-  )
+  );
 }
 
 export default Reviews;

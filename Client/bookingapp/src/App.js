@@ -51,6 +51,8 @@ import AccountEdit from "./Components/AdminPart/Admin/AccountEdit";
 import DashboardChart from "./Components/AdminPart/Dashboard/DashboardChart";
 import Reviews from "./Components/AdminPart/Reviews/Reviews";
 import Detailes from "./Components/AdminPart/Properties/Detailes";
+import RefundPage from "./Components/AdminPart/Inbox/RefundPage";
+import ExamplePieChart from "./Components/AdminPart/Dashboard/PieChart";
 function App() {
   const admin = useSelector((state) => state.admin.admin);
   console.log("admin", admin);
@@ -114,9 +116,10 @@ function App() {
           </Routes>
         </div>
       ) : (
-        <div className="flex h-screen">
-          <Sidebar />
-          <div className="flex-1 overflow-auto p-40">
+        <div className=" relative flex h-screen">
+          <AdminNavbar/>
+          {/* <Sidebar /> */}
+          <div className=" absolute  overflow-auto px-60 py-40">
             <Routes>
               <Route path="/userslist" element={<Userslist />} />
               <Route path="/partnerslist" element={<Partnerlist/>}/>
@@ -129,6 +132,8 @@ function App() {
               <Route path='/account-edit' element={<AccountEdit/>}/>
               <Route path="/dashboardchart" element={<DashboardChart/>}/>
               <Route path="/reviews" element={<Reviews/>}/>
+              <Route path="/inbox" element={<RefundPage/>}/>
+              <Route path="/pie" element={<ExamplePieChart/>}/>
             </Routes>
           </div>
         </div>

@@ -56,7 +56,7 @@ navigate('/adminpart')
                     type="email"
                     name="email"
                     value={datas.email}
-                    placeholder="Enter your username"
+                    placeholder="Enter your email"
                     onChange={handleChange}
                     className="w-full px-4 py-3 border rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />

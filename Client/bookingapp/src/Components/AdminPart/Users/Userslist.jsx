@@ -18,7 +18,7 @@ const navigate=useNavigate()
     },[dispatch])
   return (
     <div class="overflow-x-auto">
-  <table class="table-auto w-full border-collapse border border-gray-200 bg-white shadow-lg rounded-lg">
+  <table class="table-auto w-full border-collapse border border-gray-200 bg-white shadow-lg rounded-lg ">
     <thead class="bg-gray-100 text-gray-700">
       <tr>
         <th class="px-4 py-2 border border-gray-200">User ID</th>
