@@ -17,7 +17,9 @@ function AccountEdit() {
       });
       console.log("formValues",formValues);
       
-
+      const handleFileChange = (e) => {
+        setFormValues({ ...formValues, profileImage: e.target.files[0] });
+      };
       const handleChange = (e) => {
         const { name, value } = e.target;
         setFormValues((prevValues) => ({
@@ -34,7 +36,54 @@ function AccountEdit() {
         navigate(`/adminpart`)
 
       }
+      // const handleSubmit = async (e) => {
+      //   e.preventDefault();
+      //   const formData = new FormData();
+      // Object.keys(formValues).forEach((key) => {
+      //   formData.append(key, formValues[key]);
+      // });
 
+      // const response = await axiosInstance.patch(
+      //   `/adminedit/${admin._id}`,
+      //   formData,
+      //   {
+      //     headers: {
+      //       "Content-Type": "multipart/form-data",
+      //     },
+      //   }
+      // );
+      // console.log("response.........",response);
+      
+      // dispatch(SetAdmin(response.data.updatedUser));
+      //     navigate(`/adminpart`);
+
+
+
+
+      //   const formData = new FormData();
+      //   formData.append('email', formValues.email);
+      //   formData.append('firstname', formValues.firstname);
+      //   formData.append('lastname', formValues.lastname);
+      //   formData.append('phonenumber', formValues.phonenumber);
+      //   if (formValues.profileImage) {
+      //     formData.append('profileImage', formValues.profileImage);
+      //   }
+      // console.log("formData",formData);
+      
+      //   try {
+      //     const response = await axiosInstance.patch(`/adminedit/${admin._id}`, formData, {
+      //       headers: {
+      //         'Content-Type': 'multipart/form-data',
+      //       },
+      //     });
+      //     console.log("response of edit admin", response);
+      //     dispatch(SetAdmin(response.data.updatedUser));
+      //     navigate(`/adminpart`);
+      //   } catch (error) {
+      //     console.error("Error updating admin profile", error);
+      //   }}
+      
+      
    useEffect(()=>{
     const fetch=async()=>{
         const response=await axiosInstance.get('/admin')
@@ -56,14 +105,14 @@ function AccountEdit() {
               htmlFor="profileImageInput"
               className="absolute top-0 right-0 bg-gray-700 text-white p-1 rounded-full cursor-pointer"
             >
-              <i className="fas fa-camera"></i> {/* Camera icon */}
+              <i className="fas fa-camera"></i> 
             </label>
             <input
               type="file"
               id="profileImageInput"
               accept="image/*"
               className="hidden"
-            //   onChange={handleImageChange}
+              onChange={handleFileChange}
             />
       </div>
 

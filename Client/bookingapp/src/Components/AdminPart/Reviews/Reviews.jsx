@@ -174,7 +174,7 @@ function Reviews() {
                 className="ps-4 text-sm  text-black"
                 onClick={() => handleRemove(item._id)}
               >
-                ✖
+                ✕
               </button>
             </div>
 

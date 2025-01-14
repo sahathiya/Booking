@@ -108,7 +108,7 @@ import axiosInstance from '../../../Axios/axiosinstance'
 import { useDispatch, useSelector } from 'react-redux'
 import { AllProperties } from '../../../Features/adminSlice'
 import { useNavigate } from 'react-router-dom'
-
+import { MdVerified ,MdOutlineCheckCircle} from "react-icons/md";
 function PropertyLists() {
   const navigate=useNavigate()
   const dispatch = useDispatch()
@@ -116,6 +116,9 @@ function PropertyLists() {
   const allproperties = useSelector(state => state.admin.properties) // All properties from Redux store
 
   console.log("allproperties...", allproperties);
+  const verifyStates = JSON.parse(localStorage.getItem("verifyStates")) || {};
+
+  console.log("verifystatus", verifyStates);
 
   useEffect(() => {
     const fetch = async () => {
@@ -165,7 +168,9 @@ function PropertyLists() {
             <th className="px-4 py-2 border border-gray-200">Property Name</th>
             <th className="px-4 py-2 border border-gray-200">Place</th>
             <th className="px-4 py-2 border border-gray-200">About</th>
+            <th className="px-4 py-2 border border-gray-200">Type</th>
             <th className="px-4 py-2 border border-gray-200">Price/nigth</th>
+            <th className="px-4 py-2 border border-gray-200">Status</th>
             <th className="px-4 py-2 border border-gray-200">Detailes</th>
           </tr>
         </thead>
@@ -189,11 +194,24 @@ function PropertyLists() {
                 </td>
                 <td className="px-4 py-2 border border-gray-200 text-sm text-gray-600">
                   <img src={item.images[0]} alt={item.Propertyname} className="w-16 h-16 object-cover" />
-                  {item.description}
+                  
                 </td>
+
+                <td className="px-4 py-2 border border-gray-200 text-sm text-gray-600">
+                  {item.type}
+                </td>
+
                 <td className="px-4 py-2 border border-gray-200 text-sm text-gray-600">
                   {item.pricePerNight}
                 </td>
+
+                <td className="px-4 py-2 border border-gray-200 text-sm text-gray-600">
+    {verifyStates[item._id] ? (
+      <MdVerified className="text-xl text-green-500" />
+    ) : (
+      <MdOutlineCheckCircle className="text-xl text-gray-500" />
+    )}
+  </td>
                 
                 <td className="px-4 py-2 border border-gray-200 text-sm text-gray-600">
                   <button className='text-white bg-blue-900 rounded-md py-1 px-2'

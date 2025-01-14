@@ -16,17 +16,19 @@ const propertySchema = new mongoose.Schema({
   facilities: [{ type: String, required: true }],
   pricePerNight: { type: Number, required: true },
   numberofRooms: { type: Number, required: true },
-  RoomType: [
+  RoomType:
     {
       type: { type: String, },
       count: { type: Number, },
       about: { type: String ,},
       facility: [{ type: String }],
+      image:{type:String}
     },
-  ],
+  
   brand: { type: String },
   images: [{ type: String, required: true }],
   createdAt: { type: Date, default: Date.now },
+  reviews:{type: mongoose.Schema.Types.ObjectId, ref: "Review"},
   Bookings: { type: mongoose.Schema.Types.ObjectId, ref: "Booking" },
  
 });

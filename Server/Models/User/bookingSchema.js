@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const bookingSchema = new mongoose.Schema({
   GuestDetailes: { type: mongoose.Schema.Types.ObjectId, ref: "Users" },
   PropertyDetailes: { type: mongoose.Schema.Types.ObjectId, ref: "Property" },
+  Partner:{type: mongoose.Schema.Types.ObjectId, ref: "Partners"},
   adults: { type: Number, required: true },
   children: { type: Number, required: true },
   checkIn: {

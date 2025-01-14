@@ -332,4 +332,54 @@ const count=cancelled.length
   res.status(200).json({message:'cancelledbookings',cancelled,count})
 }
 
-    module.exports={loginAdmin,logoutAdmin,AllUsers,AllPartners,AllProperties,AllBookings,getAdmin,TotalRevenew,getDailyRevenue,AllReviews,editAdmin,blockUser,getPropertiesType,CancelledBookings,TotalBookings}
+
+
+
+const getCanceledBookingsCountPerUser=async(req,res)=>{
+  const result = await Booking.aggregate([
+    
+    { $match: { BookingStatus: "Cancelled" } },
+    
+   
+    {
+      $group: {
+        _id: "$GuestDetailes", // Group by GuestDetailes (user ID)
+        cancelledCount: { $sum: 1 }, // Count the number of bookings
+      },
+    },
+    
+    
+  ]);
+  
+ res.status(200).json({message:'cancelled count',result})
+  
+}
+
+const countOfReviewsPerUser=async(req,res)=>{
+  const result=await Review.aggregate([{
+    
+      $group: {
+        _id: "$guest", // Group by GuestDetailes (user ID)
+        reviewCount: { $sum: 1 }, // Count the number of bookings
+      },
+    
+
+  }])
+  res.status(200).json({message:'review count',result})
+}
+
+
+
+const countOfbookingPerUser=async(req,res)=>{
+  const result=await Booking.aggregate([{
+    
+      $group: {
+        _id: "$GuestDetailes", // Group by GuestDetailes (user ID)
+        bookingCount: { $sum: 1 }, // Count the number of bookings
+      },
+    
+
+  }])
+  res.status(200).json({message:'booking count',result})
+}
+    module.exports={loginAdmin,logoutAdmin,AllUsers,AllPartners,AllProperties,AllBookings,getAdmin,TotalRevenew,getDailyRevenue,AllReviews,editAdmin,blockUser,getPropertiesType,CancelledBookings,TotalBookings,getCanceledBookingsCountPerUser,countOfReviewsPerUser,countOfbookingPerUser}

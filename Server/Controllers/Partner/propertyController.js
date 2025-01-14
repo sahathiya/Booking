@@ -68,7 +68,7 @@ const Partners=require("../../Models/User/partnerSchema")
 
 
 const AddProperty = async (req, res) => {
-  try {
+  
     const partner = await Partners.findById({ _id: req.user.id });
     if (!partner) {
       return res.status(404).json({ message: "Partner not found" });
@@ -92,14 +92,17 @@ const AddProperty = async (req, res) => {
     console.log("req.body:", req.body);
     console.log("Type of RoomType:", typeof RoomType);
 
-    // Parse RoomType if it's a string
-    const parsedRoomType = typeof RoomType === "string" ? JSON.parse(RoomType) : RoomType;
    
-    // // Validate RoomType
-    // if (!Array.isArray(parsedRoomType)) {
-    //   return res.status(400).json({ message: "RoomType must be an array" });
-    // }
-
+    // const parsedRoomType = typeof RoomType === "string" ? JSON.parse(RoomType) : RoomType;
+    let parsedRoomType;
+    try {
+      parsedRoomType = typeof RoomType === "string" ? JSON.parse(RoomType) : RoomType;
+    } catch (error) {
+      console.error("Error parsing RoomType:", error.message);
+      return res.status(400).json({ message: "Invalid RoomType format" });
+    }
+   
+   
     const images = req.files.map(file => file.path);
     console.log("Uploaded files:", req.files);
 
@@ -117,12 +120,8 @@ const AddProperty = async (req, res) => {
       numberofRooms,
       brand,
       images,
-      RoomType: parsedRoomType.map(rt => ({
-        type: rt.type,
-        count: rt.count,
-        about: rt.about,
-        facility: rt.facility || [],
-      })),
+      RoomType: parsedRoomType
+     
     });
 
     const savedProperty = await property.save();
@@ -132,10 +131,7 @@ const AddProperty = async (req, res) => {
       message: "Property added successfully",
       property: populatedProperty,
     });
-  } catch (error) {
-    console.error("Error adding property:", error);
-    return res.status(500).json({ message: "Server error", error: error.message });
-  }
+  
 };
 
 

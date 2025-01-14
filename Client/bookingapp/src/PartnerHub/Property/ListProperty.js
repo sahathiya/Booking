@@ -372,7 +372,7 @@ const allfacilities=[
           ></textarea>
         </div>
         <div className="flex items-center space-x-2">
-          <label>Facilities (comma-separated):</label>
+          <label>Facilities:</label>
           <input
             type="text"
             name="facility"
@@ -382,9 +382,9 @@ const allfacilities=[
             
           />
         </div>
-        <button type="button" onClick={addRoomType}>
+        {/* <button type="button" onClick={addRoomType}>
           Add Room Type
-        </button>
+        </button> */}
           </div>
 
           <div className="flex items-center justify-center space-x-4">

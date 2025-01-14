@@ -17,29 +17,29 @@ const navigate=useNavigate()
         fetch()
     },[dispatch])
   return (
-    <div class="overflow-x-auto">
-  <table class="table-auto w-full border-collapse border border-gray-200 bg-white shadow-lg rounded-lg ">
-    <thead class="bg-gray-100 text-gray-700">
+    <div className="overflow-x-auto">
+  <table className="table-auto w-full border-collapse border border-gray-200 bg-white shadow-lg rounded-lg ">
+    <thead className="bg-gray-100 text-gray-700">
       <tr>
-        <th class="px-4 py-2 border border-gray-200">User ID</th>
-        <th class="px-4 py-2 border border-gray-200">Email</th>
-        <th class="px-4 py-2 border border-gray-200">Full Name</th>
-        <th class="px-4 py-2 border border-gray-200">Status</th>
-        <th class="px-4 py-2 border border-gray-200">Details</th>
+        <th className="px-4 py-2 border border-gray-200">User ID</th>
+        <th className="px-4 py-2 border border-gray-200">Email</th>
+        <th className="px-4 py-2 border border-gray-200">Full Name</th>
+        <th className="px-4 py-2 border border-gray-200">Status</th>
+        <th className="px-4 py-2 border border-gray-200">Details</th>
       </tr>
     </thead>
     <tbody>
       {allusers.map((item, index) => (
         <tr
           key={index}
-          class={`${
+          className={`${
             index % 2 === 0 ? 'bg-gray-50' : 'bg-white'
           } hover:bg-gray-100 transition-colors duration-200`}
         >
-          <td class="px-4 py-2 border border-gray-200 text-sm text-gray-600">
+          <td className="px-4 py-2 border border-gray-200 text-sm text-gray-600">
             {item._id}
           </td>
-          <td class="px-4 py-2 border border-gray-200 text-sm text-gray-600">
+          <td className="px-4 py-2 border border-gray-200 text-sm text-gray-600">
             {item.email}
           </td>
           <td className="px-4 py-2 border border-gray-200 text-sm text-gray-600">
@@ -66,10 +66,10 @@ const navigate=useNavigate()
 </td>
 
 
-          <td class="px-4 py-2 border border-gray-200 text-sm text-gray-600">
+          <td className="px-4 py-2 border border-gray-200 text-sm text-gray-600">
             {item.block===false?<p className='text-green-600'>Active</p>:<p className='text-red-500'>Inactive</p>}
           </td>
-          <td class="px-4 py-2 border border-gray-200 text-sm text-gray-600">
+          <td className="px-4 py-2 border border-gray-200 text-sm text-gray-600">
             <button 
             onClick={()=>navigate(`/userdetailes/${item._id}`)}
             className='text-white bg-blue-900 rounded-md py-1 px-2'>View</button>

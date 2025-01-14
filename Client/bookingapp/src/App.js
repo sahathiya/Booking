@@ -37,10 +37,8 @@ import ConformPage from "./Components/Booking/ConformPage";
 import AllReviews from "./Components/Review/AllReviews";
 import Sidebar from "./Components/AdminPart/Sidebar";
 import AdminLogin from "./Components/AdminPart/AdminLogin";
-import AdminHome from "./Components/AdminPart/AdminHome";
 import Userslist from "./Components/AdminPart/Users/Userslist";
 import { useSelector } from "react-redux";
-import AdminNavbar from "./Components/AdminPart/AdminNavbar";
 import Partnerlist from "./Components/AdminPart/Partners/Partnerlist";
 import PropertyLists from "./Components/AdminPart/Properties/PropertyLists";
 import UserDetailes from "./Components/AdminPart/Users/UserDetailes";
@@ -52,7 +50,6 @@ import DashboardChart from "./Components/AdminPart/Dashboard/DashboardChart";
 import Reviews from "./Components/AdminPart/Reviews/Reviews";
 import Detailes from "./Components/AdminPart/Properties/Detailes";
 import RefundPage from "./Components/AdminPart/Inbox/RefundPage";
-import ExamplePieChart from "./Components/AdminPart/Dashboard/PieChart";
 function App() {
   const admin = useSelector((state) => state.admin.admin);
   console.log("admin", admin);
@@ -116,24 +113,25 @@ function App() {
           </Routes>
         </div>
       ) : (
-        <div className=" relative flex h-screen">
-          <AdminNavbar/>
-          {/* <Sidebar /> */}
-          <div className=" absolute  overflow-auto px-60 py-40">
+        <div className="flex h-screen">
+          <Sidebar />
+          <div className=" flex-1  overflow-auto p-10">
             <Routes>
               <Route path="/userslist" element={<Userslist />} />
-              <Route path="/partnerslist" element={<Partnerlist/>}/>
-              <Route path="/allpropertylists" element={<PropertyLists/>}/>
-              <Route path="/Detailes/:id" element={<Detailes/>}/>
-              <Route path="/userdetailes/:id" element={<UserDetailes/>}/>
-              <Route path="/allbookings" element={<Allbookings/>}/>
-              <Route path="/partnerdetailes/:id" element={<PartnerDetailes/>}/>
-              <Route path="/account-settings" element={<AccountSettings/>}/>
-              <Route path='/account-edit' element={<AccountEdit/>}/>
-              <Route path="/dashboardchart" element={<DashboardChart/>}/>
-              <Route path="/reviews" element={<Reviews/>}/>
-              <Route path="/inbox" element={<RefundPage/>}/>
-              <Route path="/pie" element={<ExamplePieChart/>}/>
+              <Route path="/partnerslist" element={<Partnerlist />} />
+              <Route path="/allpropertylists" element={<PropertyLists />} />
+              <Route path="/Detailes/:id" element={<Detailes />} />
+              <Route path="/userdetailes/:id" element={<UserDetailes />} />
+              <Route path="/allbookings" element={<Allbookings />} />
+              <Route
+                path="/partnerdetailes/:id"
+                element={<PartnerDetailes />}
+              />
+              <Route path="/account-settings" element={<AccountSettings />} />
+              <Route path="/account-edit" element={<AccountEdit />} />
+              <Route path="/dashboardchart" element={<DashboardChart />} />
+              <Route path="/reviews" element={<Reviews />} />
+              <Route path="/inbox" element={<RefundPage />} />
             </Routes>
           </div>
         </div>

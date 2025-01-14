@@ -5,6 +5,7 @@ const stripe = require("stripe");
 const mongoose=require("mongoose")
 const nodemailer = require('nodemailer');
 const Notification = require("../../Models/User/notificationSchema"); // Notification model
+const Partner=require("../../Models/User/partnerSchema")
 const BookingProperty = async (req, res) => {
  
 
