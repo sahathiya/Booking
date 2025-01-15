@@ -456,11 +456,18 @@ import { setAllSaved } from "../../Features/savedSlice";
 import { FaHeart } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
 import SaveModal from "../../Components/Saved/SaveModal";
+import { SetReviews } from "../../Features/adminSlice";
 
 const PropertyCard = () => {
   const[Count,setCount]=useState([])
+const [reviewCount,setReviewCount]=useState([])
+console.log("reviewCount",reviewCount);
 
   console.log("Count",Count);
+  const reviews=useSelector((state)=>state.admin.reviews)
+  console.log("reviews",reviews);
+  const reviewlabel=reviews.find((item)=>item.property==="676ce8c081c834ed0c95b6ab")?.reviewLabel||""
+  console.log("reviewlabel",reviewlabel);
   
   const property = useSelector((state) => state.property.property);
   const savedProperties = useSelector((state) => state.saved.savedProperties);
@@ -480,6 +487,9 @@ const PropertyCard = () => {
 
         const res=await axiosInstance.get(`/countoftype`)
         setCount(res.data.result)
+
+      const resposeOfReview=await axiosInstance.get(`/reviews`)
+  dispatch(SetReviews(resposeOfReview.data.reviews)) 
       } catch (error) {
         console.error("API Fetch Error:", error);
       }
@@ -493,6 +503,10 @@ const PropertyCard = () => {
       try {
         const savedResponse = await axiosInstance.get("/allsaved");
         dispatch(setAllSaved(savedResponse.data.allSaved.savedProperty || []));
+
+
+        const res=await axiosInstance.get(`/propertyreviews`)
+        setReviewCount(res.data.userReviews)
       } catch (error) {
         console.error("API Fetch Error:", error);
       }
@@ -616,6 +630,15 @@ const PropertyCard = () => {
                 <p className="text-sm text-gray-500 mb-2">
                   {item.city}, {item.country}
                 </p>
+                <p className="text-sm text-gray-500 mb-2">
+                  {reviews.find((review)=>review.property===item._id)?.rating||""}
+                </p>
+                <p className="text-sm text-gray-500 mb-2">
+                  {reviews.find((review)=>review.property===item._id)?.reviewLabel||""}
+                </p>
+                {/* <p>{reviews.find((review)=>review.property===item._id)?.reviews?.length ||0}</p> */}
+
+              
               </div>
             </div>
           ))}

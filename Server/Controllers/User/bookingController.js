@@ -385,7 +385,8 @@ const cancelBooking = async (req, res) => {
   const notification = new Notification({
     message: notificationMessage,
     bookingDetails: booking._id,
-    propertyDetailes:property._id
+    propertyDetailes:property._id,
+    Guest:req.user.id
   });
   await notification.save();
 

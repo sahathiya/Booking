@@ -1,11 +1,42 @@
 import React from 'react'
 import Navbar from '../Navbars/Navbar'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { useDispatch,useSelector } from 'react-redux';
+import axiosInstance from '../../Axios/axiosinstance';
+import { setAllSaved } from '../../Features/savedSlice';
+import { FaHeart } from "react-icons/fa";
+import { FaRegHeart } from "react-icons/fa";
 function Houses() {
+  const dispatch=useDispatch()
      const location=useLocation()
         const houses=location.state?.house
         console.log("houses",houses);
         const navigate=useNavigate()
+        const savedProperties = useSelector((state) => state.saved.savedProperties);
+ 
+
+
+        const handleToggleSave = async (propertyID) => {
+          try {
+            if (savedProperties.some((item) => item._id === propertyID)) {
+              const removeresponse = await axiosInstance.delete(
+                `/remove/${propertyID}`
+              );
+              dispatch(
+                setAllSaved(savedProperties.filter((item) => item._id !== propertyID))
+              );
+              
+            } else {
+              const addResponse = await axiosInstance.post(`/saved/${propertyID}`);
+              dispatch(setAllSaved([...savedProperties, { _id: propertyID }]));
+             
+            }
+          } catch (error) {
+            console.error("Error toggling save:", error);
+          }
+        };
+      
+      
   return (
     <div>
         <Navbar/>
@@ -20,22 +51,18 @@ function Houses() {
         alt="Property"
         className="h-full w-full object-cover"
       />
-      <button className="absolute top-2 right-2 bg-white p-2 rounded-full shadow-md">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="currentColor"
-          viewBox="0 0 24 24"
-          strokeWidth="2"
-          stroke="currentColor"
-          className="w-5 h-5 text-red-500"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M5 13l4 4L19 7"
-          />
-        </svg>
-      </button>
+        <button
+          
+                            onClick={() => handleToggleSave(item._id)}
+                            className="absolute top-2 right-2 bg-white p-2 border rounded-full shadow-md hover:scale-110 transition"
+                          >
+                            {savedProperties.some((pro) => pro._id === item._id) ? (
+                              <FaHeart className="text-red-500 text-lg" />
+                            ) : (
+                              <FaRegHeart className="text-black text-lg" />
+                            )}
+                          
+        </button>
     </div>
 
     {/* Property Details */}

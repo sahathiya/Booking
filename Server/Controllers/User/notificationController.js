@@ -20,5 +20,8 @@ const RemoveNotification=async(req,res)=>{
     
 }
 
-
-module.exports={RemoveNotification,allNotifications}
+const NotificationbyGuset=async(req,res)=>{
+  const notification=await Notification.find({Guest:req.user.id})
+  res.status(200).json({message:'notee',notification})
+}
+module.exports={RemoveNotification,allNotifications,NotificationbyGuset}

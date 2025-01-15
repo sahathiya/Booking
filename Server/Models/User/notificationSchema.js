@@ -4,6 +4,7 @@ const notificationSchema = new mongoose.Schema({
   message: { type: String, required: true },
   bookingDetails: { type: mongoose.Schema.Types.ObjectId, ref: "Booking", required: true },
   propertyDetailes:{type: mongoose.Schema.Types.ObjectId, ref: "Property", required: true},
+  Guest:{type: mongoose.Schema.Types.ObjectId, ref: "Users", required: true},
   createdAt: { type: Date, default: Date.now },
 });
 

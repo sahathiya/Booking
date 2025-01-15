@@ -254,7 +254,8 @@ const Navbar = () => {
     />
   </div>
 
-  <div className="cursor-pointer" title="help&support">
+  <div className="cursor-pointer" title="help&support"
+  onClick={()=>navigate(`/help`)}>
     <GoQuestion size={25} />
   </div>
 

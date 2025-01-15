@@ -1,7 +1,7 @@
 const express = require("express");
 const { userAuthMiddleware } = require("../Middlewares/Authentication");
 const { loginAdmin, logoutAdmin,AllUsers,AllPartners,AllProperties,AllBookings,getAdmin,TotalRevenew,getDailyRevenue,AllReviews,editAdmin ,blockUser,getPropertiesType,CancelledBookings,TotalBookings,getCanceledBookingsCountPerUser,countOfReviewsPerUser,countOfbookingPerUser,revenueOfpartner,TypeCount,SendMail} = require("../Controllers/Admin/adminController");
-const{allNotifications,RemoveNotification}=require("../Controllers/User/notificationController")
+const{allNotifications,RemoveNotification,NotificationbyGuset}=require("../Controllers/User/notificationController")
 const router = express.Router();
 router
 .post("/loginadmin",loginAdmin)
@@ -27,5 +27,6 @@ router
 .get("/revenuewpartner",revenueOfpartner)
 .get("/countoftype",TypeCount)
 .post("/sendmail",userAuthMiddleware,SendMail)
+.get("/notification",userAuthMiddleware,NotificationbyGuset)
 
 module.exports=router

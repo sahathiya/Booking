@@ -41,21 +41,22 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../Navbars/Navbar";
 import axiosInstance from "../../Axios/axiosinstance";
 import { useDispatch } from "react-redux";
-import { SetNotification } from "../../Features/adminSlice"; // Adjust based on your Redux actions
+// import { SetNotification } from "../../Features/adminSlice"; // Adjust based on your Redux actions
 
 function NotificationPage() {
+  
   const [notifications, setNotifications] = useState([]);
   const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchNotifications = async () => {
-      const response = await axiosInstance.get(`/notifications`);
+      const response = await axiosInstance.get(`/notification`);
       console.log("notifications", response);
-      setNotifications(response.data.notifications);
-      dispatch(SetNotification(response.data.notifications));
+      setNotifications(response.data.notification);
+      // dispatch(SetNotification(response.data.notifications));
     };
     fetchNotifications();
-  }, [dispatch]);
+  }, []);
 
   return (
     <div>
