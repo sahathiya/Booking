@@ -93,14 +93,14 @@ const AddProperty = async (req, res) => {
     console.log("Type of RoomType:", typeof RoomType);
 
    
-    // const parsedRoomType = typeof RoomType === "string" ? JSON.parse(RoomType) : RoomType;
-    let parsedRoomType;
-    try {
-      parsedRoomType = typeof RoomType === "string" ? JSON.parse(RoomType) : RoomType;
-    } catch (error) {
-      console.error("Error parsing RoomType:", error.message);
-      return res.status(400).json({ message: "Invalid RoomType format" });
-    }
+    const parsedRoomType = typeof RoomType === "string" ? JSON.parse(RoomType) : RoomType;
+    // let parsedRoomType;
+    // try {
+    //   parsedRoomType = typeof RoomType === "string" ? JSON.parse(RoomType) : RoomType;
+    // } catch (error) {
+    //   console.error("Error parsing RoomType:", error.message);
+    //   return res.status(400).json({ message: "Invalid RoomType format" });
+    // }
    
    
     const images = req.files.map(file => file.path);
@@ -120,7 +120,12 @@ const AddProperty = async (req, res) => {
       numberofRooms,
       brand,
       images,
-      RoomType: parsedRoomType
+      RoomType: RoomType.map(rt => ({
+                type: rt.type,
+                count: rt.count,
+                about: rt.about,
+                facility: rt.facility || [],
+              })),
      
     });
 

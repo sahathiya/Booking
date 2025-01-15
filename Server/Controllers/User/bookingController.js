@@ -28,6 +28,10 @@ const BookingProperty = async (req, res) => {
       return res.status(404).json({ message: "Property not found" });
     }
 
+    const partnerId = property.partner;
+
+
+
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -93,6 +97,7 @@ const BookingProperty = async (req, res) => {
     const booking = new Booking({
       GuestDetailes: req.user.id,
       PropertyDetailes: propertyId,
+      Partner:partnerId,
       adults,
       children,
       checkIn,

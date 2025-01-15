@@ -6,6 +6,8 @@ const Partners = require("../../Models/User/partnerSchema");
 const Properties=require("../../Models/User/propertySchema")
 const Booking=require("../../Models/User/bookingSchema")
 const Review=require("../../Models/User/reviewSchema")
+const Property=require("../../Models/User/propertySchema")
+const nodemailer=require("nodemailer")
 //login partner
 
 const loginAdmin=async(req,res)=>{
@@ -382,4 +384,63 @@ const countOfbookingPerUser=async(req,res)=>{
   }])
   res.status(200).json({message:'booking count',result})
 }
-    module.exports={loginAdmin,logoutAdmin,AllUsers,AllPartners,AllProperties,AllBookings,getAdmin,TotalRevenew,getDailyRevenue,AllReviews,editAdmin,blockUser,getPropertiesType,CancelledBookings,TotalBookings,getCanceledBookingsCountPerUser,countOfReviewsPerUser,countOfbookingPerUser}
+
+
+
+const revenueOfpartner=async(req,res)=>{
+  const result=await Booking.aggregate([
+    { $match: { BookingStatus: "Confirmed" } },
+    
+   
+    {
+      $group: {
+        _id: "$Partner", // Group by GuestDetailes (user ID)
+        revenuew: { $sum: "$totalPrice" }, // Count the number of bookings
+      },
+    },
+  ])
+  res.status(200).json({message:'revenuew of partner',result})
+
+}
+
+
+const TypeCount=async(req,res)=>{
+  const result = await Property.aggregate([
+    {
+      $group: {
+        _id: "$type", // Group by the `type` field
+        count: { $sum: 1 }, // Count the number of documents in each group
+      },
+    },
+  ])
+  res.status(200).json({message:'count of type',result})
+}
+
+const SendMail=async(req,res)=>{
+  const {message}=req.body
+
+  const useremail=req.user.email
+  console.log("useremail",useremail);
+  
+// Send  email
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.MY_EMAIL,
+      pass: process.env.MY_PASSWRD,
+    },
+  });
+
+  const mailOptions = {
+    from:  useremail,
+    to: process.env.MY_EMAIL,
+    subject: "Help and support",
+    text: message,
+  };
+
+  await transporter.sendMail(mailOptions);
+  console.log(" email sent successfully");
+  res.status(200).json({ message:" email sent successfully" });
+}
+    
+module.exports={loginAdmin,logoutAdmin,AllUsers,AllPartners,AllProperties,AllBookings,getAdmin,TotalRevenew,getDailyRevenue,AllReviews,editAdmin,blockUser,getPropertiesType,CancelledBookings,TotalBookings,getCanceledBookingsCountPerUser,countOfReviewsPerUser,countOfbookingPerUser,revenueOfpartner,TypeCount,SendMail}

@@ -13,7 +13,11 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 import { GoQuestion } from "react-icons/go";
 import { PiSuitcaseSimpleLight } from "react-icons/pi";
 import { MdOutlineReviews } from "react-icons/md";
+import { LuMenu } from "react-icons/lu";
 const Navbar = () => {
+  
+  const [menuOpen, setMenuOpen] = useState(false);
+  
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -56,109 +60,294 @@ const Navbar = () => {
   }, [dispatch]);
 
   return (
-    <div className="bg-blue-900 text-white">
-      <div className="flex items-center justify-between px-4 py-3 max-w-7xl mx-auto">
-        <div onClick={() => navigate(`/`)} className="text-2xl font-semibold ml-24 cursor-pointer">
-          Booking.com
-        </div>
+    // <div className="bg-blue-900 text-white">
+    //   <div className="flex items-center justify-between px-4 py-3 max-w-7xl mx-auto">
+    //     <div onClick={() => navigate(`/`)} className="text-2xl font-semibold ml-24 cursor-pointer">
+    //       Booking.com
+    //     </div>
 
-        <div className="flex items-center space-x-4">
-          <div className="flex items-center space-x-1 cursor-pointer font-semibold">
-            <span>INR</span>
-          </div>
+    //     <div className="flex items-center space-x-4">
+    //       <div className="flex items-center space-x-1 cursor-pointer font-semibold">
+    //         <span>INR</span>
+    //       </div>
 
-          <div className="flex items-center space-x-1 cursor-pointer">
-            <img
-              src="https://flagcdn.com/w40/in.png"
-              alt="Indian Flag"
-              className="w-6 h-6 rounded-full"
-            />
-          </div>
+    //       <div className="flex items-center space-x-1 cursor-pointer">
+    //         <img
+    //           src="https://flagcdn.com/w40/in.png"
+    //           alt="Indian Flag"
+    //           className="w-6 h-6 rounded-full"
+    //         />
+    //       </div>
 
-          <div className="cursor-pointer">
-          <GoQuestion size={25}/>
-          </div>
+    //       <div className="cursor-pointer" title="help&support">
+    //       <GoQuestion size={25}/>
+    //       </div>
 
-          <div className="cursor-pointer">
-            <IoMdNotificationsOutline size={27} />
-          </div>
+    //       <div className="cursor-pointer">
+    //         <IoMdNotificationsOutline size={27} />
+    //       </div>
 
-          <button
-            onClick={() => navigate("/homepartner")}
-            className="text-white font-medium"
-          >
-            List your property
-          </button>
-          {user === null ? (
-            <div className="flex">
-              <button
-                onClick={() => navigate("/register")}
-                className="ml-5 px-3 py-1 bg-white text-blue-900 font-medium rounded cursor-pointer hover:bg-gray-100"
-              >
-                Register
-              </button>
-              <button
-                onClick={() => navigate("/log")}
-                className="ml-5 px-3 py-1 bg-white text-blue-900 font-medium rounded cursor-pointer hover:bg-gray-100"
-              >
-                Login
-              </button>
-            </div>
-          ) : (
-            <div className="relative">
-              <button
-                className="flex items-center space-x-2 bg-blue-900 px-4 py-2 rounded-md hover:bg-blue-300"
-                onClick={() => setDropdownOpen((prev) => !prev)}
-              >
-                <FaUserCircle className="text-2xl" />
-                <span>Your account</span>
-              </button>
-              {dropdownOpen && (
-                <div className="absolute right-0 mt-2 w-40 bg-white text-black rounded-md shadow-lg z-50 overflow-hidden">
-                  <button
-                    onClick={() => navigate(`/personaldetailes`)}
-                    className="block w-full px-4 py-2 text-left hover:bg-gray-100"
-                  >
-                    <MdAccountCircle className="inline text-xl" />
-                    My account
-                  </button>
-                  <button 
-                  className="block w-full px-4 py-2 text-left hover:bg-gray-100"
-                  onClick={()=>navigate('/bookings')}
-                  >
+    //       <button
+    //         onClick={() => navigate("/homepartner")}
+    //         className="text-white font-medium"
+    //       >
+    //         List your property
+    //       </button>
+    //       {user === null ? (
+    //         <div className="flex">
+    //           <button
+    //             onClick={() => navigate("/register")}
+    //             className="ml-5 px-3 py-1 bg-white text-blue-900 font-medium rounded cursor-pointer hover:bg-gray-100"
+    //           >
+    //             Register
+    //           </button>
+    //           <button
+    //             onClick={() => navigate("/log")}
+    //             className="ml-5 px-3 py-1 bg-white text-blue-900 font-medium rounded cursor-pointer hover:bg-gray-100"
+    //           >
+    //             Login
+    //           </button>
+    //         </div>
+    //       ) : (
+    //         <div className="relative">
+    //           <button
+    //             className="flex items-center space-x-2 bg-blue-900 px-4 py-2 rounded-md hover:bg-blue-300"
+    //             onClick={() => setDropdownOpen((prev) => !prev)}
+    //           >
+    //             <FaUserCircle className="text-2xl" />
+    //             <span>Your account</span>
+    //           </button>
+    //           {dropdownOpen && (
+    //             <div className="absolute right-0 mt-2 w-40 bg-white text-black rounded-md shadow-lg z-50 overflow-hidden">
+    //               <button
+    //                 onClick={() => navigate(`/personaldetailes`)}
+    //                 className="block w-full px-4 py-2 text-left hover:bg-gray-100"
+    //               >
+    //                 <MdAccountCircle className="inline text-xl" />
+    //                 My account
+    //               </button>
+    //               <button 
+    //               className="block w-full px-4 py-2 text-left hover:bg-gray-100"
+    //               onClick={()=>navigate('/bookings')}
+    //               >
                    
-                  <PiSuitcaseSimpleLight className="inline text-xl "/>
-                  Bookings
-                  </button>
-                  <button 
-                  className="block w-full px-4 py-2 text-left hover:bg-gray-100"
-                  onClick={()=>navigate('/saved')}
-                  >
-                  <CiHeart className="inline text-xl "/>
-                  Saved
-                  </button>
-                  <button className="block w-full px-4 py-2 text-left hover:bg-gray-100"
-                  onClick={()=>navigate('/allreviews')}
-                  >
-                  <MdOutlineReviews className="inline text-xl "/>
-                  Reviews
-                  </button>
+    //               <PiSuitcaseSimpleLight className="inline text-xl "/>
+    //               Bookings
+    //               </button>
+    //               <button 
+    //               className="block w-full px-4 py-2 text-left hover:bg-gray-100"
+    //               onClick={()=>navigate('/saved')}
+    //               >
+    //               <CiHeart className="inline text-xl "/>
+    //               Saved
+    //               </button>
+    //               <button className="block w-full px-4 py-2 text-left hover:bg-gray-100"
+    //               onClick={()=>navigate('/allreviews')}
+    //               >
+    //               <MdOutlineReviews className="inline text-xl "/>
+    //               Reviews
+    //               </button>
 
                   
-                  <button
-                    onClick={handleSignOut}
-                    className="block w-full px-4 py-2 text-left hover:bg-gray-100"
-                  >
-                    <RiLogoutCircleLine className="inline mr-2" />
-                    Sign Out
-                  </button>
-                </div>
-              )}
+    //               <button
+    //                 onClick={handleSignOut}
+    //                 className="block w-full px-4 py-2 text-left hover:bg-gray-100"
+    //               >
+    //                 <RiLogoutCircleLine className="inline mr-2" />
+    //                 Sign Out
+    //               </button>
+    //             </div>
+    //           )}
+    //         </div>
+    //       )}
+    //     </div>
+    //   </div>
+    // </div>
+
+<div className="bg-blue-900 text-white">
+  <div className="flex items-center justify-between px-4 py-3 max-w-7xl mx-auto">
+    {/* Logo Section */}
+    <div
+      onClick={() => navigate(`/`)}
+      className="text-2xl font-semibold cursor-pointer"
+    >
+      Booking.com
+    </div>
+
+
+
+{/* Hamburger Icon for Small Screens */}
+<div className="md:hidden ">
+  <button
+    className="text-white"
+    onClick={() => setMenuOpen((prev) => !prev)}
+  >
+    <LuMenu className="text-2xl" />
+  </button>
+</div>
+
+{/* Modal/Sidebar Navigation Items */}
+<div
+  className={`${
+    menuOpen ? "translate-x-0" : "-translate-x-full"
+  } fixed top-0 left-0 z-50 w-full bg-white text-black h-full transition-transform duration-300 ease-in-out p-6`}
+>
+  {/* Close Button */}
+  <button
+    onClick={() => setMenuOpen(false)}
+    className="text-black absolute top-4 right-4 text-xl"
+  >
+    ✕
+  </button>
+
+  {/* Navigation Items in a Vertical Layout */}
+  <div className="flex flex-col space-y-6 mt-16">
+    {/* Currency Selector */}
+    <div className="flex items-center space-x-1 cursor-pointer font-semibold">
+      <span>INR</span>
+    </div>
+
+    {/* Flag */}
+    <div className="flex items-center space-x-1 cursor-pointer">
+      <img
+        src="https://flagcdn.com/w40/in.png"
+        alt="Indian Flag"
+        className="w-6 h-6 rounded-full"
+      />
+    </div>
+
+    {/* Help & Notifications */}
+    <div className="cursor-pointer flex items-center space-x-2"
+     onClick={()=>navigate(`/help`)}>
+      <GoQuestion size={25} />
+      <span>Help & Support</span>
+    </div>
+    <div className="cursor-pointer flex items-center space-x-2"
+     onClick={()=>navigate(`/notification`)}>
+      <IoMdNotificationsOutline size={27} />
+      <span>Notifications</span>
+    </div>
+
+    {/* List Your Property */}
+    <div className="cursor-pointer flex items-center space-x-2">
+    <button
+      onClick={() => navigate("/homepartner")}
+      className="bg-white text-blue-900 font-medium rounded-md px-4 py-2 hover:bg-gray-100"
+    >
+      List your property
+    </button>
+    </div>
+  </div>
+</div>
+
+{/* Items for Large Screens */}
+<div className="hidden lg:flex items-center space-x-14">
+  <div className="flex items-center  cursor-pointer font-semibold">
+    <span>INR</span>
+  </div>
+
+  <div className="flex items-center space-x-1 cursor-pointer">
+    <img
+      src="https://flagcdn.com/w40/in.png"
+      alt="Indian Flag"
+      className="w-6 h-6 rounded-full"
+    />
+  </div>
+
+  <div className="cursor-pointer" title="help&support">
+    <GoQuestion size={25} />
+  </div>
+
+  <div className="cursor-pointer"
+  onClick={()=>navigate(`/notification`)}>
+    <IoMdNotificationsOutline size={27} />
+  </div>
+
+  <button
+    onClick={() => navigate("/homepartner")}
+    className="text-white font-medium"
+  >
+    List your property
+  </button>
+</div>
+    {/* hhh */}
+     {/* User Authentication */}
+
+     
+     {user === null ? (
+     <div className="flex  sm:flex-row items-center md:space-y-0 sm:space-x-4 gap-3">
+
+      
+     <button
+       onClick={() => navigate("/register")}
+       className="px-6 py-2 bg-white text-blue-900 font-medium rounded cursor-pointer hover:bg-gray-100 w-full md:w-auto"
+     >
+       Register
+     </button>
+     <button
+       onClick={() => navigate("/log")}
+       className="px-6 py-2 bg-white text-blue-900 font-medium rounded cursor-pointer hover:bg-gray-100 w-full md:w-auto"
+     >
+       Login
+     </button>
+   </div>
+   
+      
+      ) : (
+        <div className="relative">
+          <button
+            className="flex items-center space-x-2 bg-blue-900 px-4 py-2 rounded-md hover:bg-blue-300"
+            onClick={() => setDropdownOpen((prev) => !prev)}
+          >
+            <FaUserCircle className="text-2xl" />
+            <span>Your account</span>
+          </button>
+          {dropdownOpen && (
+            <div className="absolute right-0 mt-2 w-40 bg-white text-black rounded-md shadow-lg z-50 overflow-hidden">
+              <button
+                onClick={() => navigate(`/personaldetailes`)}
+                className="block w-full px-4 py-2 text-left hover:bg-gray-100"
+              >
+                <MdAccountCircle className="inline text-xl" />
+                My account
+              </button>
+              <button
+                className="block w-full px-4 py-2 text-left hover:bg-gray-100"
+                onClick={() => navigate("/bookings")}
+              >
+                <PiSuitcaseSimpleLight className="inline text-xl" />
+                Bookings
+              </button>
+              <button
+                className="block w-full px-4 py-2 text-left hover:bg-gray-100"
+                onClick={() => navigate("/saved")}
+              >
+                <CiHeart className="inline text-xl" />
+                Saved
+              </button>
+              <button
+                className="block w-full px-4 py-2 text-left hover:bg-gray-100"
+                onClick={() => navigate("/allreviews")}
+              >
+                <MdOutlineReviews className="inline text-xl" />
+                Reviews
+              </button>
+              <button
+                onClick={handleSignOut}
+                className="block w-full px-4 py-2 text-left hover:bg-gray-100"
+              >
+                <RiLogoutCircleLine className="inline mr-2" />
+                Sign Out
+              </button>
             </div>
           )}
         </div>
-      </div>
-    </div>
+      )}
+  </div>
+</div>
+
+
+   
   );
 };
 

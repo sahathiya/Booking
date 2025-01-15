@@ -207,7 +207,7 @@ function Sidebar() {
       ></div>
 
       <div
-        className={`fixed top-0 left-0 z-50 w-50 h-full bg-blue-900 text-white transform transition-transform ${
+        className={`fixed top-0 left-0 z-50 w-50 h-full bg-white text-blue-900 transform transition-transform ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         } md:translate-x-0 md:static`}
       >
@@ -219,7 +219,7 @@ function Sidebar() {
           className="h-8 rounded-md"
           alt="Logo"
         />
-        <span className="ml-2 text-white text-xl font-semibold">
+        <span className="ml-2 text-blue-900 text-xl font-semibold">
           Booking.com
         </span>
       </NavLink>
@@ -228,7 +228,7 @@ function Sidebar() {
           <li>
               <NavLink
                 to="/account-settings"
-                className="flex items-center p-2 hover:bg-blue-800 "
+                className="flex items-center p-2 hover:bg-blue-200 rounded-lg "
               >
                 <img src={admin.profileImage} className="w-8 h-8 rounded-full cursor-pointer"/>
                 <span className="ml-3">Account</span>
@@ -237,7 +237,7 @@ function Sidebar() {
             <li>
               <NavLink
                 to="/dashboardchart"
-                className="flex items-center p-2 rounded-lg hover:bg-blue-800"
+                className="flex items-center p-2 rounded-lg hover:bg-blue-200"
               >
                 <RiPieChartFill />
                 <span className="ml-3">Dashboard</span>
@@ -246,7 +246,7 @@ function Sidebar() {
             <li>
               <NavLink
                 to="/inbox"
-                className="flex items-center p-2 rounded-lg hover:bg-blue-800"
+                className="flex items-center p-2 rounded-lg hover:bg-blue-200"
               >
                 <CiMail />
                 <span className="flex-1 ml-3 whitespace-nowrap">Inbox</span>
@@ -258,7 +258,7 @@ function Sidebar() {
             <li>
               <NavLink
                 to="/partnerslist"
-                className="flex items-center p-2 rounded-lg hover:bg-blue-800"
+                className="flex items-center p-2 rounded-lg hover:bg-blue-200"
               >
                 <FaPeopleGroup />
                 <span className="ml-3">Partners</span>
@@ -267,7 +267,7 @@ function Sidebar() {
             <li>
               <NavLink
                 to="/userslist"
-                className="flex items-center p-2 rounded-lg hover:bg-blue-800"
+                className="flex items-center p-2 rounded-lg hover:bg-blue-200"
               >
                 <FaUsers />
                 <span className="ml-3">Users</span>
@@ -276,7 +276,7 @@ function Sidebar() {
             <li>
               <NavLink
                 to="/allpropertylists"
-                className="flex items-center p-2 rounded-lg hover:bg-blue-800"
+                className="flex items-center p-2 rounded-lg hover:bg-blue-200"
               >
                 <FaBuilding />
                 <span className="ml-3">Properties</span>
@@ -285,7 +285,7 @@ function Sidebar() {
             <li>
               <NavLink
                 to="/allbookings"
-                className="flex items-center p-2 rounded-lg hover:bg-blue-800"
+                className="flex items-center p-2 rounded-lg hover:bg-blue-200"
               >
                 <PiSuitcaseSimple />
                 <span className="ml-3">Bookings</span>
@@ -294,7 +294,7 @@ function Sidebar() {
             <li>
               <NavLink
                 to="/reviews"
-                className="flex items-center p-2 rounded-lg hover:bg-blue-800"
+                className="flex items-center p-2 rounded-lg hover:bg-blue-200"
               >
                 <MdOutlineRateReview />
                 <span className="ml-3">Reviews</span>
@@ -303,7 +303,7 @@ function Sidebar() {
             <li>
               <button
                 onClick={handleLogout}
-                className="flex items-center w-full p-2 rounded-lg hover:bg-blue-800"
+                className="flex items-center w-full p-2 rounded-lg hover:bg-blue-200"
               >
                 <RiLogoutCircleLine />
                 <span className="ml-3">Sign Out</span>

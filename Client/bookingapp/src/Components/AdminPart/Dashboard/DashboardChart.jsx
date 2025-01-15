@@ -108,13 +108,13 @@ function DashboardChart() {
   const [cancel, setCancel] = useState(0);
   const [totalRevenue, setTotalRevenue] = useState(0);
   const [dailyRevenue, setDailyRevenue] = useState([]);
-console.log("totalRevenue",totalRevenue);
+console.log("totalRevenue",totalRevenue[0].totalRevenuew);
 
   const x1Labels = dailyRevenue.map((item) => item.day) || [];
   const dailyData = dailyRevenue.map((item) => item.revenue) || [];
  const data= [
-    {   label: "Total bookings",value: bookings },
-    {   label: "Total revenuew",value: totalRevenue[0]} ,
+    {   label: "Total bookings",value: 1000 },//bookings
+    {   label: "Total revenuew",value: totalRevenue[0].totalRevenuew} ,
     
   ]
 

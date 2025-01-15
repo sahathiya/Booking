@@ -1,5 +1,6 @@
 const express = require("express");
-const { loginAdmin, logoutAdmin,AllUsers,AllPartners,AllProperties,AllBookings,getAdmin,TotalRevenew,getDailyRevenue,AllReviews,editAdmin ,blockUser,getPropertiesType,CancelledBookings,TotalBookings,getCanceledBookingsCountPerUser,countOfReviewsPerUser,countOfbookingPerUser} = require("../Controllers/Admin/adminController");
+const { userAuthMiddleware } = require("../Middlewares/Authentication");
+const { loginAdmin, logoutAdmin,AllUsers,AllPartners,AllProperties,AllBookings,getAdmin,TotalRevenew,getDailyRevenue,AllReviews,editAdmin ,blockUser,getPropertiesType,CancelledBookings,TotalBookings,getCanceledBookingsCountPerUser,countOfReviewsPerUser,countOfbookingPerUser,revenueOfpartner,TypeCount,SendMail} = require("../Controllers/Admin/adminController");
 const{allNotifications,RemoveNotification}=require("../Controllers/User/notificationController")
 const router = express.Router();
 router
@@ -23,5 +24,8 @@ router
 .get("/count",getCanceledBookingsCountPerUser)
 .get("/reviewcount",countOfReviewsPerUser)
 .get("/bookingcount",countOfbookingPerUser)
+.get("/revenuewpartner",revenueOfpartner)
+.get("/countoftype",TypeCount)
+.post("/sendmail",userAuthMiddleware,SendMail)
 
 module.exports=router

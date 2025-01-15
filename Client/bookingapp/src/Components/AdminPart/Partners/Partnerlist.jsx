@@ -26,7 +26,7 @@ console.log("allpartners...",allpartners);
         <th class="px-4 py-2 border border-gray-200">Email</th>
         <th class="px-4 py-2 border border-gray-200">Full Name</th>
         <th class="px-4 py-2 border border-gray-200">Status</th>
-        <th class="px-4 py-2 border border-gray-200">Revenew</th>
+        
         <th class="px-4 py-2 border border-gray-200">Detailes</th>
       </tr>
     </thead>
@@ -50,9 +50,7 @@ console.log("allpartners...",allpartners);
           <td class="px-4 py-2 border border-gray-200 text-sm text-gray-600">
             {item.block===false?<p className='text-green-600'>active</p>:<p className='text-red-500'>non-active</p>}
           </td>
-          <td class="px-4 py-2 border border-gray-200 text-sm text-gray-600">
-            
-          </td>
+    
           <td class="px-4 py-2 border border-gray-200 text-sm text-gray-600">
           <button 
             onClick={()=>navigate(`/partnerdetailes/${item._id}`)}

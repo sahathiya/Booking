@@ -50,6 +50,13 @@ import DashboardChart from "./Components/AdminPart/Dashboard/DashboardChart";
 import Reviews from "./Components/AdminPart/Reviews/Reviews";
 import Detailes from "./Components/AdminPart/Properties/Detailes";
 import RefundPage from "./Components/AdminPart/Inbox/RefundPage";
+import NotificationPage from "./Components/Notification/NotificationPage";
+import Hotels from "./Components/Types/Hotels";
+import Resorts from "./Components/Types/Resorts";
+import Houses from "./Components/Types/Houses";
+import Apartments from "./Components/Types/Apartments";
+import Villas from "./Components/Types/Villas";
+import Help from "./Components/HelpandSupport/Help";
 function App() {
   const admin = useSelector((state) => state.admin.admin);
   console.log("admin", admin);
@@ -108,7 +115,13 @@ function App() {
             <Route path="/allproperties/:id" element={<AllProperties />} />
             <Route path="/editproperty/:id" element={<EditProperty />} />
             <Route path="/propertydetails/:id" element={<PropertyDetails />} />
-
+            <Route path="/hotels" element={<Hotels/>}/>
+            <Route path="/resorts" element={<Resorts/>}/>
+            <Route path="/houses" element={<Houses/>}/>
+            <Route path="/apartments" element={<Apartments/>}/>
+            <Route path="/villas" element={<Villas/>}/>
+             <Route path="/notification" element={<NotificationPage/>}/>
+             <Route path="/help" element={<Help/>}/>
             <Route path="/loginadmin" element={<AdminLogin />} />
           </Routes>
         </div>
@@ -132,6 +145,7 @@ function App() {
               <Route path="/dashboardchart" element={<DashboardChart />} />
               <Route path="/reviews" element={<Reviews />} />
               <Route path="/inbox" element={<RefundPage />} />
+
             </Routes>
           </div>
         </div>

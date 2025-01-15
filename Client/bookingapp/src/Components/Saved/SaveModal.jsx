@@ -5,7 +5,7 @@ const SaveModal = ({ isOpen, onClose, title }) => {
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+      className="fixed inset-0  bg-opacity-50 flex justify-center items-center z-50"
       onClick={onClose}
     >
       <div

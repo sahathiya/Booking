@@ -8,6 +8,9 @@ import axiosInstance from '../../../Axios/axiosinstance';
 import { LogoutAdmin } from '../../../Features/adminSlice';
 function PartnerDetailes() {
   const[properties,setProperties]=useState([])
+  const[revenuew,setRevenuew]=useState([])
+  console.log("partner revenuew",revenuew);
+  
   const navigate=useNavigate()
   const dispatch=useDispatch()
   const{id}=useParams()
@@ -20,6 +23,11 @@ function PartnerDetailes() {
         const res=await axiosInstance.get(`/propertyByPartner/${selectedpartner[0]._id}`)
         console.log("response of partner propery");
         setProperties(res.data.propertypartner)
+
+
+        const response=await axiosInstance.get(`/revenuewpartner`)
+
+        setRevenuew(response.data.result)
       }
       fetch()
     },[])
@@ -52,6 +60,12 @@ function PartnerDetailes() {
   
       {/* Partner Properties Section */}
       <div className="overflow-x-auto border-t border-gray-200 mt-6 pt-4 ">
+      <div className="bg-white shadow-md hover:shadow-lg rounded-lg p-4 sm:p-6 transition-shadow duration-300">
+      <h2 className="text-gray-500 text-sm font-semibold uppercase">
+        Total Revenew
+      </h2>
+      <p className="text-3xl font-extrabold text-gray-800 mt-2">{revenuew.find((item)=>item._id===id)?.revenuew||0}</p>
+    </div>
         <h3 className="text-lg font-medium text-blue-900 mb-4">Properties</h3>
         <table className="w-full text-sm text-left text-gray-500">
           <thead className="text-xs text-gray-700 uppercase bg-blue-100">

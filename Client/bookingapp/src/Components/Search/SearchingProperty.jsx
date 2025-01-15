@@ -246,7 +246,7 @@ function SearchingProperty() {
         />
       </div>
 
-      <div className="flex-1 flex items-center gap-2 p-2 border-4 border-[#febb02] rounded-lg relative z-50 bg-white   w-full md:w-auto">
+      <div className="flex-1 flex items-center gap-2 p-2 border-4 border-[#febb02] rounded-lg relative bg-white   w-full md:w-auto">
         <FontAwesomeIcon
           icon={faCalendarDays}
           className="text-gray-400 text-xl"
@@ -272,7 +272,7 @@ function SearchingProperty() {
         )}
       </div>
 
-      <div className="flex-1 flex items-center gap-2 p-2 border-4 border-[#febb02] rounded-lg relative z-50 bg-white  md:mb-0  w-full md:w-auto">
+      <div className="flex-1 flex items-center gap-2 p-2 border-4 border-[#febb02] rounded-lg relative  bg-white  md:mb-0  w-full md:w-auto">
         <LuUserRound className="text-gray-400 text-2xl" />
         <span
           onClick={() => setOpenOptions(!openOptions)}
