@@ -3,17 +3,18 @@ import { PiSuitcaseSimple } from "react-icons/pi";
 import { FaRegStar } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
 import { TbCancel } from "react-icons/tb";
-import { FaArrowUpLong } from "react-icons/fa6";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axiosInstance from "../../../Axios/axiosinstance";
-import { AllUsers } from '../../../Features/adminSlice'
+
 function UserDetailes() {
-  const dispatch=useDispatch()
-  const navigate=useNavigate()
+ 
   const[countCancelled,setcountCancelled]=useState([])
   const[reviewCount,setReviewcount]=useState([])
   const[bookingCount,setBookingcount]=useState([])
+  const[savedCount,setsavedCount]=useState([])
+  console.log("savedCount",savedCount);
+  
   console.log("bookingCount",bookingCount)
   const [block, setblock] = useState(false);
   console.log("block",block);
@@ -23,7 +24,6 @@ function UserDetailes() {
   const selecteduser = users.filter((item) => item._id === id);
   console.log("selecteduserselecteduser", selecteduser[0]._id);
 
-  const admin = useSelector((state) => state.admin.admin);
   console.log("selecteduser", selecteduser);
 
   const handleBlock = async (userid) => {
@@ -50,6 +50,12 @@ function UserDetailes() {
 
       const responsebooking=await axiosInstance.get(`/bookingcount`)
       setBookingcount(responsebooking.data.result)
+
+
+      const responsesaved=await axiosInstance.get(`/savedcount`)
+      console.log("responsesaved",responsesaved);
+      
+      setsavedCount(responsesaved.data)
     }
     fetch()
   },[])
@@ -114,7 +120,7 @@ function UserDetailes() {
           <h3 className="mb-1 text-gray-600 font-medium">
             Favorite Products
           </h3>
-          <span className="text-2xl font-bold text-gray-900">8</span>
+          <span className="text-2xl font-bold text-gray-900">{savedCount.find((item)=>item._id===id)?.totalSavedProperties||0}</span>
         </div>
         <div className="flex flex-col items-center text-center">
           <TbCancel className="text-blue-900 text-3xl mb-2" />

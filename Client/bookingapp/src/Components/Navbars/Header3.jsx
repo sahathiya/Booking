@@ -58,7 +58,7 @@ function Header3() {
   const navigate = useNavigate();
   return (
     <div className="bg-blue-900 text-white flex justify-center relative px-4 py-4">
-      <div className="flex flex-wrap justify-center gap-6 md:gap-10 mb-12 mx-auto ml-24">
+      <div className="flex flex-wrap justify-center gap-6 md:gap-10 mb-12 mx-auto">
         <div
           className="flex items-center gap-2 p-2 hover:border border-white rounded-full cursor-pointer"
           onClick={() => navigate("/")}

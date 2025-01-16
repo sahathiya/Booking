@@ -62,4 +62,28 @@ const SavedProperties=async(req,res)=>{
 
 }
 
-module.exports={addToSaved,removeFromSaved,SavedProperties}
+
+const CountOfsaved = async (req, res) => {
+    try {
+        const saved = await Saved.aggregate([
+            {
+                $project: {
+                    guest: 1, // Include the guest field
+                    savedPropertyCount: { $size: "$savedProperty" } // Calculate the length of the array
+                }
+            },
+            {
+                $group: {
+                    _id: "$guest", // Group by guest
+                    totalSavedProperties: { $sum: "$savedPropertyCount" } // Sum the lengths of savedProperty arrays
+                }
+            }
+        ]);
+
+        res.status(200).json(saved);
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch saved property counts." });
+    }
+};
+
+module.exports={addToSaved,removeFromSaved,SavedProperties,CountOfsaved}

@@ -43,14 +43,16 @@ const navigate=useNavigate()
             {item.email}
           </td>
           <td className="px-4 py-2 border border-gray-200 text-sm text-gray-600">
-  <div className="flex items-center space-x-4">
+  <div className="flex items-center gap-3 w-full">
     {item.profileImage ? (
       
-        <img 
+        <div className="w-16 h-16 rounded-full overflow-hidden" >
+          <img 
         src={item.profileImage} 
-        className="w-16 h-16 rounded-full object-cover" 
+        className="w-16 h-16 rounded-full" 
         alt="Profile"
       />
+        </div>
      
     ) : (
       <div 
@@ -59,7 +61,7 @@ const navigate=useNavigate()
         {item.firstname ? item.firstname.slice(0, 1) : item.email.slice(0, 1)}
       </div>
     )}
-    <span>
+    <span className='break-words w-32'>
       {item.firstname} {item.lastname}
     </span>
   </div>

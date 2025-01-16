@@ -177,14 +177,7 @@ const Navbar = () => {
 
 
 {/* Hamburger Icon for Small Screens */}
-<div className="md:hidden ">
-  <button
-    className="text-white"
-    onClick={() => setMenuOpen((prev) => !prev)}
-  >
-    <LuMenu className="text-2xl" />
-  </button>
-</div>
+
 
 {/* Modal/Sidebar Navigation Items */}
 <div
@@ -344,6 +337,15 @@ const Navbar = () => {
           )}
         </div>
       )}
+
+<div className="md:hidden ">
+  <button
+    className="text-white"
+    onClick={() => setMenuOpen((prev) => !prev)}
+  >
+    <LuMenu className="text-2xl" />
+  </button>
+</div>
   </div>
 </div>
 

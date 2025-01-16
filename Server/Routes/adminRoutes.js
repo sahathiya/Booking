@@ -5,6 +5,7 @@ const { loginAdmin, logoutAdmin,AllUsers,AllPartners,AllProperties,AllBookings,g
 const{allNotifications,RemoveNotification,NotificationbyGuset}=require("../Controllers/User/notificationController")
 const{removePartner}=require("../Controllers/Partner/partnerController")
 const{removeUser}=require("../Controllers/User/userController")
+const{CountOfsaved}=require("../Controllers/User/savedController")
 const router = express.Router();
 router
 .post("/loginadmin",loginAdmin)
@@ -37,4 +38,6 @@ router
 
 
 .delete(`/deleteuser/:id`,removeUser)
+
+.get(`/savedcount`,CountOfsaved)
 module.exports=router

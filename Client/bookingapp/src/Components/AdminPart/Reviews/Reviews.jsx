@@ -75,6 +75,8 @@ import { IoMdStar, IoMdStarHalf, IoMdStarOutline } from "react-icons/io";
 
 function Reviews() {
   const [reviews, setReviews] = useState([]);
+  console.log("reviews page",reviews);
+  
 // const [expandedId, setExpandedId] = useState(null); 
 // const toggleExpand = (id) => {
 //   setExpandedId((prevId) => (prevId === id ? null : id));
@@ -182,8 +184,8 @@ function Reviews() {
 
              
             </div>
-            <p> {item.property.Propertyname}</p>
-            <img src={item.property.images[0]} className="h-16 w-16 rounded-md"/>
+            <p> {item.property?.Propertyname}</p>
+            <img src={item.property?.images[0]} className="h-16 w-16 rounded-md"/>
            
 
             <div className="flex items-center mb-1 space-x-1 rtl:space-x-reverse">

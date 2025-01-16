@@ -7,6 +7,7 @@ const createReview= async(req,res)=>{
     const {bookedproperty,rating,comment,Staffrating,
       Facilitiesrating,
       Cleanlinessrating,}= req.body
+console.log("req.body reveww",req.body);
 
     if (!bookedproperty||!rating){
         return res.status(400).json({message:'all fields are required'})
@@ -36,8 +37,8 @@ const createReview= async(req,res)=>{
         Facilitiesrating,
         Cleanlinessrating,
         comment,
-        // property:booking.PropertyDetailes,
-        property,
+        property:booking.PropertyDetailes,
+        // property,
         reviewLabel
     })
     await newReview.save()

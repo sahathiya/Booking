@@ -122,13 +122,13 @@ function Hotels() {
   </div>
 
   {/* Review Section */}
-  <div className="absolute top-4 right-4 bg-blue-600 text-white text-xs px-2 py-1 rounded-md shadow-md">
+  {/* <div className="absolute top-4 right-4 bg-blue-600 text-white text-xs px-2 py-1 rounded-md shadow-md">
     <span className="font-semibold text-sm">7.4</span>
   </div>
   <div className="absolute top-4 right-20 bg-white text-gray-800 text-xs px-2 py-1 rounded-md shadow-md">
     <span className="font-semibold">Good</span>
     <span className="ml-2">168 reviews</span>
-  </div>
+  </div> */}
 </div>
         ))}
 
