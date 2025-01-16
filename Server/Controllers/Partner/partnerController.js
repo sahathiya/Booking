@@ -225,4 +225,13 @@ transporter.sendMail(mailOptions, function(error, info){
       const partners=await Partners.find()
       res.json({message:'all partners',partners})
     }
-module.exports = { registerPartner ,loginPartner,logoutPartner,forgottPassword,resetPassword,getAllPartners};
+
+
+    const removePartner=async(req,res)=>{
+      const partnerid=req.params.id
+      const partner=await Partners.findByIdAndDelete({_id:partnerid})
+
+      console.log("partner",partner);
+      res.status(200).json({message:'deleted partner',partner})
+    }
+module.exports = { registerPartner ,loginPartner,logoutPartner,forgottPassword,resetPassword,getAllPartners,removePartner};

@@ -45,8 +45,8 @@ function Allbookings() {
           <tbody className="divide-y divide-gray-200">
             {allbookings.map((item) => (
               <tr key={item._id}>
-                <td className="px-4 py-2">{item._id}</td>
-                <td className="px-4 py-2">{item.GuestDetailes.email}</td>
+                <td className="px-4 py-2">{item?._id}</td>
+                <td className="px-4 py-2">{item.GuestDetailes?.email}</td>
                 <td className="px-4 py-2">
                   <img
                     src={item.PropertyDetailes.images[0]}

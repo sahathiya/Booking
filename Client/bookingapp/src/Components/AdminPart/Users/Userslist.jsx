@@ -54,7 +54,7 @@ const navigate=useNavigate()
      
     ) : (
       <div 
-        className="w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center text-white font-bold text-lg"
+        className="w-16 h-16 bg-yellow-400 rounded-full  flex items-center justify-center text-white font-bold text-lg"
       >
         {item.firstname ? item.firstname.slice(0, 1) : item.email.slice(0, 1)}
       </div>

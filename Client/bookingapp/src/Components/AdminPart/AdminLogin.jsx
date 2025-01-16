@@ -32,7 +32,7 @@ try {
 console.log("response of admin login",response);
 
 dispatch(LogAdmin(response.data.admin))
-navigate('/adminpart')
+navigate('/dashboardchart')
 } catch (error) {
     setError(error.response.data.message)
 }

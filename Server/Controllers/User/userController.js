@@ -290,6 +290,14 @@ const editUser = async (req, res) => {
   res.status(200).json({ message: "User details updated", updatedUser });
 };
 
+
+const removeUser=async(req,res)=>{
+  const userid=req.params.id
+  const user=await Users.findByIdAndDelete({_id:userid})
+
+  res.status(200).json({ message: "User deleted", user });
+}
+
 module.exports = {
   registerUser,
   loginUser,
@@ -299,4 +307,5 @@ module.exports = {
   generateOtp,
   loginWithOtp,
   getUserbyId,
+  removeUser
 };

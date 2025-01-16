@@ -1,10 +1,14 @@
-import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { IoRemoveCircle } from "react-icons/io5";
 import { MdVerified } from "react-icons/md";
 import { MdOutlineCheckCircle } from "react-icons/md";
 import { useState, useEffect } from "react";
+import axiosInstance from "../../../Axios/axiosinstance";
+import { setProperty } from "../../../Features/propertySlice";
 function Detailes() {
+  const dispatch=useDispatch()
+  const navigate=useNavigate()
   const { id } = useParams();
   const allproperties = useSelector((state) => state.admin.properties);
   const SelectedProperty = allproperties.filter((item) => item._id === id);
@@ -16,11 +20,11 @@ function Detailes() {
   const [verifyStates, setVerifyStates] = useState(savedVerifyState);
 
   useEffect(() => {
-    // Save verification states to localStorage whenever it changes
+    
     localStorage.setItem("verifyStates", JSON.stringify(verifyStates));
   }, [verifyStates]);
 
-  // Toggle verification state for the specific propertyId
+  
   const toggleVerify = () => {
     setVerifyStates((prevStates) => ({
       ...prevStates,
@@ -28,42 +32,18 @@ function Detailes() {
     }));
   };
 
-  return (
-//     <div>
-//       <div className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-2xl h-1/4 hover:bg-gray-100 dark:border-gray-700  ">
-//         <img
-//           className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg"
-//           src={SelectedProperty[0].images[0]}
-//           alt="property"
-//         />
-//         <div className="flex flex-col justify-between p-4 leading-normal">
-//           <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 ">
-//             {SelectedProperty[0].Propertyname}
-//           </h5>
-//           <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-//             {SelectedProperty[0].description}
-//           </p>
-//           <div className="flex justify-start gap-4 mt-4">
-//             <button className="flex items-center gap-2 px-4 py-2 bg-blue-900 text-white rounded">
-//               <IoRemoveCircle />
-//               <span>Remove</span>
-//             </button>
 
-// <button
-//       className="flex items-center gap-2 px-4 py-2 bg-blue-900 text-white rounded"
-//       onClick={toggleVerify}
-//     >
-//       {verifyStates[propertyId] ? (
-//         <MdOutlineCheckCircle className="text-green-400" />
-//       ) : (
-//         <MdVerified className="text-white" />
-//       )}
-//       <span>{verifyStates[propertyId] ? "Verified" : "Verify"}</span>
-//     </button>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
+  const handleDelete = async (id) => {
+    try {
+      await axiosInstance.delete(`/deleteproperty/${id}`);
+      dispatch(setProperty([])); 
+      navigate(`/allpropertylists`); 
+    } catch (error) {
+      console.error("Error deleting property:", error);
+    }
+  };
+
+  return (
 
 
 
@@ -82,7 +62,9 @@ function Detailes() {
         {SelectedProperty[0].description}
       </p>
       <div className="flex space-x-4">
-        <button className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-full text-sm hover:bg-blue-700 focus:outline-none transition duration-200">
+        <button 
+        onClick={()=>handleDelete(SelectedProperty[0]._id)}
+        className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-full text-sm hover:bg-blue-700 focus:outline-none transition duration-200">
           <IoRemoveCircle />
           <span>Remove</span>
         </button>

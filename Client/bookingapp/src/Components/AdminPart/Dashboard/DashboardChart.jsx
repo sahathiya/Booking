@@ -14,13 +14,13 @@ function DashboardChart() {
   const [cancel, setCancel] = useState(0);
   const [totalRevenue, setTotalRevenue] = useState([]);
   const [dailyRevenue, setDailyRevenue] = useState([]);
-console.log("totalRevenue",totalRevenue)
+console.log("totalRevenue",totalRevenue.totalRevenuew)
 
   const x1Labels = dailyRevenue.map((item) => item.day) || [];
   const dailyData = dailyRevenue.map((item) => item.revenue) || [];
  const data= [
     {   label: "Total bookings",value: 1000 },//bookings
-    {   label: "Total revenuew",value: totalRevenue} ,
+    {   label: "Total revenuew",value: totalRevenue.totalRevenuew} ,
     
   ]
 
@@ -30,7 +30,7 @@ console.log("totalRevenue",totalRevenue)
       const revenueRes = await axiosInstance.get(`/totalRevenew`);
       console.log("revenueRes",revenueRes);
       
-      setTotalRevenue(revenueRes.data.revenew[0]?.totalRevenuew);
+      setTotalRevenue(revenueRes.data.revenew[0]);
 
       const dailyRes = await axiosInstance.get(`/dailyrevenew`);
       setDailyRevenue(dailyRes.data.dailyRevenue);
@@ -84,7 +84,7 @@ console.log("totalRevenue",totalRevenue)
       </h2>
       <p className="text-3xl font-extrabold text-gray-800 mt-2">
         {/* ₹{totalRevenue[0] ? totalRevenue[0].totalRevenuew : 0} */}
-        {totalRevenue ? `₹${totalRevenue}` : 'No revenue data available'}
+       {totalRevenue.totalRevenuew}
       </p>
     </div>
   </div>
@@ -92,7 +92,8 @@ console.log("totalRevenue",totalRevenue)
   {/* Chart Section */}
   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
     {/* Pie Chart */}
-    <div className="bg-white shadow-md hover:shadow-lg rounded-lg p-4 sm:p-6 transition-shadow duration-300 flex justify-center items-center ">
+    <div className="bg-white shadow-md hover:shadow-lg rounded-lg p-4 sm:p-6 transition-shadow duration-300 flex justify-center items-center h-[500px]">
+      
       <PieChart
         series={[
           {
@@ -109,6 +110,8 @@ console.log("totalRevenue",totalRevenue)
           },
         ]}
       />
+     
+      
     </div>
 
     {/* Line Chart */}

@@ -250,6 +250,8 @@ const AllReviews=async(req,res)=>{
 
 const editAdmin = async (req, res) => {
   const adminId = req.params.id;
+  console.log("adminId",adminId);
+  
   const { firstname, lastname, phonenumber, email } = req.body;
 
   const updateData = {

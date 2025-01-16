@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const reviewSchema = new mongoose.Schema({
   guest: { type: mongoose.Schema.Types.ObjectId, ref: "Users"},
   bookedproperty: {type: mongoose.Schema.Types.ObjectId,ref: "Booking"},
-  property:{type:String},
+  property:{type: mongoose.Schema.Types.ObjectId,ref: "Property"},
   rating: { type: Number, required: true, min: 1, max: 5 },
   reviewLabel:{
  type: String,

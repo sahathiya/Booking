@@ -36,7 +36,8 @@ const createReview= async(req,res)=>{
         Facilitiesrating,
         Cleanlinessrating,
         comment,
-        property:booking.PropertyDetailes,
+        // property:booking.PropertyDetailes,
+        property,
         reviewLabel
     })
     await newReview.save()
