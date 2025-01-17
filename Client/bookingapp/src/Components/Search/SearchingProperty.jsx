@@ -77,7 +77,7 @@ function SearchingProperty() {
   };
 
   return (
-    <div className="flex flex-col md:flex-row items-center border-1 border-[#febb02] bg-white  rounded-lg w-full md:w-[1000px] mx-auto p-4 md:p-0">
+    <div className="flex flex-col md:flex-row items-center border-1 border-[#febb02] bg-white  rounded-lg w-full md:w-[900px] mx-auto p-4 md:p-0">
       <div className="flex-1 flex items-center gap-2 p-2 border-4 border-[#febb02] rounded-lg bg-white  w-full md:w-auto">
         <IoBedOutline className="text-gray-400 text-2xl" />
         <input

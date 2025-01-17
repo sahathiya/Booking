@@ -3,8 +3,8 @@ import { PiSuitcaseSimple } from "react-icons/pi";
 import { FaRegStar } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
 import { TbCancel } from "react-icons/tb";
-import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import {  useParams } from "react-router-dom";
+import {  useSelector } from "react-redux"
 import axiosInstance from "../../../Axios/axiosinstance";
 
 function UserDetailes() {

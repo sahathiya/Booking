@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import axiosInstance from "../../../Axios/axiosinstance";
 import { setProperty } from "../../../Features/propertySlice";
 function Detailes() {
+
   const dispatch=useDispatch()
   const navigate=useNavigate()
   const { id } = useParams();
@@ -14,10 +15,15 @@ function Detailes() {
   const SelectedProperty = allproperties.filter((item) => item._id === id);
   console.log("SelectedProperty", SelectedProperty);
  const propertyId=SelectedProperty[0]._id
-  
+  const progress = useSelector((state) => state.review.progress);
+  console.log("progress",progress);
+  const propertyprogress = progress.find((item) => item.property === id);
+
+
   const savedVerifyState = JSON.parse(localStorage.getItem("verifyStates")) || {};
 
   const [verifyStates, setVerifyStates] = useState(savedVerifyState);
+console.log("verifyStates",verifyStates);
 
   useEffect(() => {
     
@@ -61,6 +67,16 @@ function Detailes() {
       <p className="text-gray-700 text-sm mb-4">
         {SelectedProperty[0].description}
       </p>
+      <p className="text-gray-700 text-sm mb-4 font-bold">
+        {SelectedProperty[0].city},
+        {SelectedProperty[0].country}
+      
+      </p>
+     
+      <div className="inline-block text-sm font-bold bg-blue-900 text-white px-3 py-1 rounded-md w-10 h-8">
+    {propertyprogress ? propertyprogress.averageRating : "1.0"}
+  </div>
+  <br/>
       <div className="flex space-x-4">
         <button 
         onClick={()=>handleDelete(SelectedProperty[0]._id)}

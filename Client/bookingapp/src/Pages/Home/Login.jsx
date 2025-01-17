@@ -69,7 +69,7 @@ function Login() {
             enter this code to continue.
           </p>
 
-          <div className="flex gap-2 mb-6">
+          <div className="flex justify-evenly gap-2 mb-6  ">
             {otp.map((value, index) => (
               <input
                 key={index}

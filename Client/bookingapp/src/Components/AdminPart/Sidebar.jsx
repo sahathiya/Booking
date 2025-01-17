@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { RiLogoutCircleLine } from "react-icons/ri";
@@ -37,16 +36,14 @@ function Sidebar() {
     <>
       {/* Navbar */}
       <div className="absolute">
-      <nav className="  p-4">
-        <button
-          className="text-black text-2xl md:hidden"
-          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-        >
-          <LuMenu />
-        </button>
-        
-        
-      </nav>
+        <nav className="  p-4">
+          <button
+            className="text-black text-2xl md:hidden"
+            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          >
+            <LuMenu />
+          </button>
+        </nav>
       </div>
 
       {/* Sidebar */}
@@ -63,25 +60,28 @@ function Sidebar() {
         } md:translate-x-0 md:static`}
       >
         <div className="h-full px-4 py-6 space-y-4 overflow-y-auto">
-        <div >
-        <NavLink to="/" className="flex items-center ml-3">
-        <img
-          src="https://i.scdn.co/image/ab6775700000ee859d06b236b6077b9e367978e0"
-          className="h-8 rounded-md"
-          alt="Logo"
-        />
-        <span className="ml-2 text-blue-900 text-xl font-semibold">
-          Booking.com
-        </span>
-      </NavLink>
-        </div>
+          <div>
+            <NavLink to="/" className="flex items-center ml-3">
+              <img
+                src="https://i.scdn.co/image/ab6775700000ee859d06b236b6077b9e367978e0"
+                className="h-8 rounded-md"
+                alt="Logo"
+              />
+              <span className="ml-2 text-blue-900 text-xl font-semibold">
+                Booking.com
+              </span>
+            </NavLink>
+          </div>
           <ul>
-          <li>
+            <li>
               <NavLink
                 to="/account-settings"
                 className="flex items-center p-2 hover:bg-blue-200 rounded-lg "
               >
-                <img src={admin.profileImage} className="w-8 h-8 rounded-full cursor-pointer"/>
+                <img
+                  src={admin.profileImage}
+                  className="w-8 h-8 rounded-full cursor-pointer"
+                />
                 <span className="ml-3">Account</span>
               </NavLink>
             </li>

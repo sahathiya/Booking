@@ -7,7 +7,7 @@ import storage from "redux-persist/lib/storage";
 import propertySlice from "../Features/propertySlice";
 import bookingSlice from "../Features/bookingSlice";
 import reviewSlice from "../Features/reviewSlice";
-import adminSlice from "../Features/adminSlice"
+import adminSlice from "../Features/adminSlice";
 const userPersistConfig = {
   key: "user",
   storage,
@@ -17,10 +17,10 @@ const partnerPersistConfig = {
   key: "partner",
   storage,
 };
-const adminPersistConfig={
-  key:"admin",
+const adminPersistConfig = {
+  key: "admin",
   storage,
-}
+};
 const propertyPersistConfig = {
   key: "property",
   storage,
@@ -46,8 +46,7 @@ const persistedPartnerReducer = persistReducer(
   partnerPersistConfig,
   partnerSlice
 );
-const persistedAdminReducer=persistReducer(adminPersistConfig,adminSlice)
-
+const persistedAdminReducer = persistReducer(adminPersistConfig, adminSlice);
 
 const persistedPropertyReducer = persistReducer(
   propertyPersistConfig,
@@ -65,7 +64,7 @@ export const store = configureStore({
     saved: persistedSavedReducer,
     booking: persistedbookingReducer,
     review: persistedReviewReducer,
-    admin:persistedAdminReducer
+    admin: persistedAdminReducer,
   },
 });
 
