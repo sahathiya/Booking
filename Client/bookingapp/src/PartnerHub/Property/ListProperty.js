@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import {
   FaHotel,
   FaCity,
@@ -6,7 +6,6 @@ import {
   FaFileAlt,
   FaUser,
   FaChild,
-  FaStar,
   FaRupeeSign,
   FaImages,
   FaBed,
@@ -15,10 +14,12 @@ import axiosInstance from "../../Axios/axiosinstance";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Navbarpartner from "../Navbarpartner";
-
+import {toast} from 'react-toastify'
 function ListProperty() {
+  
   const navigate = useNavigate();
   const partner = useSelector((state) => state.partner.partner);
+  const [roomTypes, setRoomTypes] = useState([]);
   const [formData, setFormData] = useState({
     Propertyname: "",
     description: "",
@@ -31,6 +32,7 @@ function ListProperty() {
     pricePerNight: 0,
     numberofRooms: 0,
     images: [],
+    RoomType:roomTypes
   });
 
   const [roomType, setRoomType] = useState({
@@ -38,9 +40,10 @@ function ListProperty() {
     count: 0,
     about: "",
     facility: "",
+    image:""
   });
 
-  const [roomTypes, setRoomTypes] = useState([]);
+  
 
 
 console.log("roomTypes",roomTypes);
@@ -55,11 +58,17 @@ console.log("roomTypes",roomTypes);
   // Add a room type to the list
   const addRoomType = () => {
     setRoomTypes([...roomTypes, { ...roomType, facility: roomType.facility.split(",") }]);
-    setRoomType({ type: "", count: 0, about: "", facility: "" }); // Reset the room type form
+    setRoomType({ type: "", count: 0, about: "", facility: "",image:"" }); // Reset the room type form
   };
 
 
-
+  useEffect(() => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      RoomType: roomTypes,
+    }));
+  }, [roomTypes]);
+  
 
 
 
@@ -114,7 +123,7 @@ const allfacilities=[
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    
     const formPayload = new FormData();
     console.log("formPayload", formPayload);
 
@@ -144,7 +153,7 @@ const allfacilities=[
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
-      alert(response.data.message);
+      toast.success(response.data.message);
       setFormData({
         Propertyname: "",
         description: "",
@@ -382,9 +391,20 @@ const allfacilities=[
             
           />
         </div>
-        {/* <button type="button" onClick={addRoomType}>
+        <div className="flex items-center space-x-2">
+          <label>Image:</label>
+          <input
+            type="text"
+            name="image"
+            value={roomType.image}
+            onChange={handleRoomTypeChange}
+            className="w-full border border-gray-300 rounded-lg px-4 py-2"
+            
+          />
+        </div>
+        <button type="button" onClick={addRoomType}>
           Add Room Type
-        </button> */}
+        </button>
           </div>
 
           <div className="flex items-center justify-center space-x-4">
@@ -417,22 +437,3 @@ const allfacilities=[
 }
 
 export default ListProperty;
-
-
-
-
-// onClick={() =>
-//   setFormData({
-//     name: "",
-//     description: "",
-//     city: "",
-//     country: "",
-//     type: "",
-//     adultCount: 1,
-//     childCount: 0,
-//     facilities: [],
-//     pricePerNight: 0,
-//     numberofRooms: 0,
-//     images: null,
-//   })
-// }

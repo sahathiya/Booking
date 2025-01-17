@@ -5,7 +5,7 @@ import { SiTicktick } from "react-icons/si";
 import axiosInstance from "../../Axios/axiosinstance";
 import { setBooking, setClientSecretkey } from "../../Features/bookingSlice";
 import Navbar from "../Navbars/Navbar";
-
+import {toast} from 'react-toastify'
 function BookingDetailes() {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user.user);
@@ -92,7 +92,7 @@ function BookingDetailes() {
     const { Firstname, Lastname, Country, Phonenumber, paperless } = details;
 
     if (!Firstname || !Lastname || !Country || !Phonenumber) {
-      alert("All fields are required");
+      toast.warn("All fields are required");
       return;
     }
 
@@ -110,7 +110,7 @@ function BookingDetailes() {
       );
 
       if (response.data?.message) {
-        alert(response.data.message);
+        toast.success(response.data.message);
       }
 
       dispatch(setBooking(response.data.book));
@@ -119,9 +119,9 @@ function BookingDetailes() {
       navigate(`/bookingfinish/${id}/${bookingId}`);
     } catch (error) {
       if (error.response?.data?.message) {
-        alert(error.response.data.message);
+        toast.warn(error.response.data.message);
       } else {
-        alert("Something went wrong, please try again later.");
+        toast.error("Something went wrong, please try again later.");
       }
     }
 

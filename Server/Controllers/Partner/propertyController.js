@@ -67,8 +67,76 @@ const Partners=require("../../Models/User/partnerSchema")
 // };
 
 
-const AddProperty = async (req, res) => {
+// const AddProperty = async (req, res) => {
   
+//     const partner = await Partners.findById({ _id: req.user.id });
+//     if (!partner) {
+//       return res.status(404).json({ message: "Partner not found" });
+//     }
+
+//     const {
+//       Propertyname,
+//       description,
+//       city,
+//       country,
+//       type,
+//       adultCount,
+//       childCount,
+//       facilities,
+//       pricePerNight,
+//       numberofRooms,
+//       RoomType,
+//       brand,
+//     } = req.body;
+
+//     console.log("req.body:", req.body);
+//     console.log("Type of RoomType:", typeof RoomType);
+
+   
+//     const parsedRoomType = typeof RoomType === "string" ? JSON.parse(RoomType) : RoomType;
+ 
+//    console.log("parsedRoomType",parsedRoomType);
+   
+   
+//     const images = req.files.map(file => file.path);
+//     console.log("Uploaded files:", req.files);
+
+//     const property = new Property({
+//       partner: req.user.id,
+//       Propertyname,
+//       description,
+//       city,
+//       country,
+//       type,
+//       adultCount,
+//       childCount,
+//       facilities,
+//       pricePerNight,
+//       numberofRooms,
+//       brand,
+//       images,
+//       RoomType: parsedRoomType.map(rt => ({
+//                 type: rt.type,
+//                 count: rt.count,
+//                 about: rt.about,
+//                 facility: rt.facility || [],
+//               })),
+     
+//     });
+
+//     const savedProperty = await property.save();
+//     const populatedProperty = await Property.findById(savedProperty._id).populate("partner");
+
+//     return res.status(201).json({
+//       message: "Property added successfully",
+//       property: populatedProperty,
+//     });
+  
+// };
+
+
+const AddProperty = async (req, res) => {
+  try {
     const partner = await Partners.findById({ _id: req.user.id });
     if (!partner) {
       return res.status(404).json({ message: "Partner not found" });
@@ -86,26 +154,25 @@ const AddProperty = async (req, res) => {
       pricePerNight,
       numberofRooms,
       RoomType,
+      image,
       brand,
     } = req.body;
 
     console.log("req.body:", req.body);
-    console.log("Type of RoomType:", typeof RoomType);
 
-   
-    const parsedRoomType = typeof RoomType === "string" ? JSON.parse(RoomType) : RoomType;
-    // let parsedRoomType;
-    // try {
-    //   parsedRoomType = typeof RoomType === "string" ? JSON.parse(RoomType) : RoomType;
-    // } catch (error) {
-    //   console.error("Error parsing RoomType:", error.message);
-    //   return res.status(400).json({ message: "Invalid RoomType format" });
-    // }
-   
-   
+    // Parse RoomType
+    let parsedRoomType;
+    try {
+      parsedRoomType = typeof RoomType === "string" ? JSON.parse(RoomType) : RoomType;
+    } catch (error) {
+      return res.status(400).json({ message: "Invalid RoomType format" });
+    }
+
+    // Upload images
     const images = req.files.map(file => file.path);
     console.log("Uploaded files:", req.files);
 
+    // Create property
     const property = new Property({
       partner: req.user.id,
       Propertyname,
@@ -120,13 +187,13 @@ const AddProperty = async (req, res) => {
       numberofRooms,
       brand,
       images,
-      RoomType: RoomType.map(rt => ({
-                type: rt.type,
-                count: rt.count,
-                about: rt.about,
-                facility: rt.facility || [],
-              })),
-     
+      RoomType: parsedRoomType.map(rt => ({
+        type: rt.type,
+        count: rt.count,
+        about: rt.about,
+        facility: rt.facility || [],
+        image:image
+      })),
     });
 
     const savedProperty = await property.save();
@@ -136,10 +203,11 @@ const AddProperty = async (req, res) => {
       message: "Property added successfully",
       property: populatedProperty,
     });
-  
+  } catch (error) {
+    console.error("Error in AddProperty:", error);
+    return res.status(500).json({ message: "Internal server error", error });
+  }
 };
-
-
 
 
 const PropertiesByPartner=async(req,res)=>{

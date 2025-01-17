@@ -127,7 +127,7 @@ function SearchDetailes() {
       <Navbar />
       <Navbar2 />
 
-      <div className="flex flex-col md:flex-row container mx-auto p-6 ml-20">
+      <div className="flex flex-col md:flex-row container mx-auto p-6">
         <div className="w-full md:w-1/3 lg:w-1/4 bg-gray-100 p-4 space-y-4 rounded-md shadow-md">
           {modalOpen && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
@@ -298,55 +298,62 @@ function SearchDetailes() {
           </div>
         </div>
 
-        <div className="w-full md:w-2/3 lg:w-3/4 ml-0 md:ml-4">
-          <h1 className="text-xl font-semibold">
-            {cityname[0]} properties found
-          </h1>
-          <br />
-          {(isSearching ? filteredProperties : properties).map(
-            (item, index) => (
-              <div
-                key={index}
-                className="flex flex-col md:flex-row items-start border-2 border-blue-500 shadow-lg rounded-lg overflow-hidden mb-6 bg-white w-[700px]"
-              >
-                <div className="relative w-full md:w-1/3">
-                  <img
-                    src={item.images[0]}
-                    alt={item.Propertyname}
-                    className="w-full h-40 md:h-52 object-cover rounded-md"
-                  />
-                  <button className="absolute top-2 right-2 bg-white p-2 rounded-full shadow-md hover:scale-110">
-                    <FontAwesomeIcon
-                      icon={faHeart}
-                      className="text-lg text-black"
-                    />
-                  </button>
-                </div>
+        
 
-                <div className="w-full md:w-2/3 p-4">
-                  <h1 className="text-xl font-bold text-blue-600 mb-2">
-                    {item.Propertyname}
-                  </h1>
-                  <p className="text-sm text-gray-500 mb-2">
-                    {item.city}, {item.country}
-                  </p>
-                  <p>{item.brand}</p>
-                  <p>{item.facilities}</p>
-                  <p className="text-lg font-semibold text-green-700 mb-2">
-                    ₹{item.pricePerNight}{" "}
-                    <span className="text-sm">per 1 night</span>
-                  </p>
-                  <button
-                    onClick={() => navigate(`/detailespage/${item._id}`)}
-                    className="bg-blue-600 text-white font-semibold rounded-md py-2 px-4"
-                  >
-                    See availability
-                  </button>
-                </div>
-              </div>
-            )
-          )}
+
+<div className="w-full md:w-2/3 lg:w-3/4 ml-0 md:ml-4">
+  <h1 className="text-lg md:text-xl font-semibold text-center md:text-left">
+    {cityname[0]} properties found
+  </h1>
+  <br />
+  {(isSearching ? filteredProperties : properties).map((item, index) => (
+    <div
+      key={index}
+      className="flex flex-col md:flex-row items-start md:items-stretch border-2 border-blue-500 shadow-lg rounded-lg overflow-hidden mb-4 md:mb-6 bg-white max-w-full"
+    >
+      {/* Image Section */}
+      <div className="relative w-full md:w-1/3">
+        <img
+          src={item.images[0]}
+          alt={item.Propertyname}
+          className="w-full h-full   rounded-md object-cover"
+        />
+        <button className="absolute top-2 right-2 bg-white p-2 rounded-full shadow-md hover:scale-110">
+          <FontAwesomeIcon
+            icon={faHeart}
+            className="text-lg text-black"
+          />
+        </button>
+      </div>
+
+      {/* Details Section */}
+      <div className="w-full md:w-2/3 p-4 flex flex-col justify-between">
+        <div>
+          <h1 className="text-lg md:text-xl font-bold text-blue-600 mb-2">
+            {item.Propertyname}
+          </h1>
+          <p className="text-sm text-gray-500 mb-2">
+            {item.city}, {item.country}
+          </p>
+          <p className="text-sm text-gray-600 mb-1">{item.brand}</p>
+          <p className="text-sm text-gray-600 mb-1">{item.facilities}</p>
+          <p className="text-lg font-semibold text-green-700 mb-2">
+            ₹{item.pricePerNight}{" "}
+            <span className="text-sm">per 1 night</span>
+          </p>
         </div>
+        <button
+          onClick={() => navigate(`/detailespage/${item._id}`)}
+          className="bg-blue-600 text-white font-semibold rounded-md py-2 px-4 mt-4 hover:bg-blue-700 transition"
+        >
+          See availability
+        </button>
+      </div>
+    </div>
+  ))}
+</div>
+
+        
       </div>
     </>
   );

@@ -24,6 +24,7 @@ import { FaRegHeart } from "react-icons/fa";
 import { FiCopy } from "react-icons/fi";
 import { FacebookShareButton, FacebookIcon } from "react-share";
 import ReviewModal from "../Review/ReviewModal";
+import {toast} from "react-toastify"
 import {
   LikeReview,
   setAllReviews,
@@ -40,6 +41,9 @@ import { LuThumbsDown } from "react-icons/lu";
 import Header3 from "../Navbars/Header3";
 import SearchingProperty from "../Search/SearchingProperty";
 function DetailesPage() {
+  const[unavaailable,setUnavailable]=useState([])
+  console.log("unavaailable",unavaailable);
+  
   const { id } = useParams();
   const progress = useSelector((state) => state.review.progress);
  
@@ -186,7 +190,8 @@ console.log('bookingfound',bookingfound);
         "Error booking property:",
         error.response ? error.response.data : error.message
       );
-      alert(error.response.data.message);
+      toast.warn(error.response.data.message);
+      setUnavailable(error.response.data.unavailableDates)
     }
   };
 
@@ -217,7 +222,7 @@ console.log('bookingfound',bookingfound);
         "Error searching for properties:",
         error.response?.data || error.message
       );
-      alert(error.response?.data.message || "Something went wrong!");
+      toast.success(error.response?.data.message || "Something went wrong!");
     }
   };
 
@@ -388,9 +393,9 @@ console.log('bookingfound',bookingfound);
   return (
     <>
       <Navbar />
-      {/* <Navbar2 /> */}
-      <Header3/>
-      <SearchingProperty/>
+      <Navbar2 />
+      {/* <Header3/>
+      <SearchingProperty/> */}
       <div className="flex flex-wrap justify-center gap-4">
         <button className="hover:bg-gray-300 active:border-b-4 active:border-blue-500 px-4 py-2 rounded w-full sm:w-auto">
           Overview
@@ -829,7 +834,7 @@ console.log('bookingfound',bookingfound);
 
         <div className="w-full sm:w-[800px] max-w-full h-auto border-2 border-yellow-500 mb-6 rounded-md">
           <div className="flex flex-col sm:flex-row items-center justify-between h-full px-4  ">
-            <div className="flex items-center   w-full sm:w-auto mb-3 sm:mb-0">
+            <div className="flex items-center relative gap-2  w-full sm:w-auto mb-3 sm:mb-0">
               <FontAwesomeIcon
                 icon={faCalendarDays}
                 className="text-gray-400"
@@ -843,7 +848,7 @@ console.log('bookingfound',bookingfound);
                   "MM/dd/yyyy"
                 )}`}
               </span>
-              <div className="relative">
+              <div className="absolute left-0 ">
                 {openDate && (
                   <DateRange
                     editableDateInputs={true}
@@ -857,7 +862,7 @@ console.log('bookingfound',bookingfound);
               </div>
             </div>
 
-            <div className="flex items-center gap-2 relative  w-full sm:w-auto mb-3 sm:mb-0">
+            <div className="flex items-center gap-2 relative   w-full sm:w-auto mb-3 sm:mb-0">
               <FontAwesomeIcon icon={faPerson} className="text-gray-400" />
               <span
                 onClick={() => setOpenOptions(!openOptions)}
@@ -924,6 +929,7 @@ console.log('bookingfound',bookingfound);
                     Select Room
                   </th>
                   <th className="px-4 py-2 border border-gray-300 bg-blue-900 text-white"></th>
+                  <th className="px-4 py-2 border border-gray-300 bg-blue-900 text-white">Availability</th>
                 </tr>
               </thead>
               {detailesproperty.map((item, index) => (
@@ -962,21 +968,19 @@ console.log('bookingfound',bookingfound);
                             </p>
                           </td>
                           <td className="px-4 py-2 border border-gray-300">
-                            <select
-                              className="px-4 py-2 border rounded w-full"
-                              onChange={(e) => setNumberOfRooms(e.target.value)}
-                            >
-                              <option value="0">0</option>
-                              {Array.from(
-                                { length: room.count },
-                                (_, i) => i + 1
-                              ).map((count) => (
-                                <option key={count} value={count}>
-                                  {count}
-                                </option>
-                              ))}
-                            </select>
-                          </td>
+  <select
+    className="px-4 py-2 border rounded w-full sm:w-auto text-sm md:text-base"
+    onChange={(e) => setNumberOfRooms(e.target.value)}
+  >
+    <option value="0">0</option>
+    {Array.from({ length: room.count }, (_, i) => i + 1).map((count) => (
+      <option key={count} value={count}>
+        {count}
+      </option>
+    ))}
+  </select>
+</td>
+
                           <td className="px-4 py-2 border border-gray-300">
                             <button
                               className="bg-blue-500 text-white px-4 py-2 rounded"
@@ -985,11 +989,39 @@ console.log('bookingfound',bookingfound);
                               I'll Reserve
                             </button>
                           </td>
+                          {!unavaailable.length>0?(
+                            <td className="px-4 py-2 border border-gray-300">
+                            Available
+                          </td>
+                          ):(
+                            <td className="px-4 py-2 border border-gray-300 text-red-600">
+                           Not Available this dates
+                           <p>
+  {unavaailable.map((item) =>
+    new Date(item.checkIn).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    })
+  )}
+</p> and <p>
+  {unavaailable.map((item) =>
+    new Date(item.checkOut).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    })
+  )}
+</p>
+                          </td>
+                          )}
+                          
                         </tr>
                       ))
-                    : null}
+                   :null}
                 </tbody>
               ))}
+              
             </table>
           </div>
         </div>

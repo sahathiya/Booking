@@ -126,73 +126,77 @@ const PropertyCard = () => {
           Still interested in these properties?
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {property.map((item) => (
-            <div
-              key={item._id}
-              className="bg-white shadow-md rounded-lg overflow-hidden transform transition duration-300 hover:scale-105"
-            >
-              <div className="relative">
-                <img
-                  onClick={() => navigate(`/detailespage/${item._id}`)}
-                  src={item.images[0]}
-                  alt={item.Propertyname}
-                  className="h-40 w-full object-cover"
-                />
-                <button
-                  onClick={() => handleToggleSave(item._id)}
-                  className="absolute top-2 right-2 bg-white p-2 border rounded-full shadow-md hover:scale-110 transition"
-                >
-                  {savedProperties.some((pro) => pro._id === item._id) ? (
-                    <FaHeart className="text-red-500 text-lg" />
-                  ) : (
-                    <FaRegHeart className="text-black text-lg" />
+          {property.length>0?(
+            property.map((item) => (
+              <div
+                key={item._id}
+                className="bg-white shadow-md rounded-lg overflow-hidden transform transition duration-300 hover:scale-105"
+              >
+                <div className="relative">
+                  <img
+                    onClick={() => navigate(`/detailespage/${item._id}`)}
+                    src={item.images[0]}
+                    alt={item.Propertyname}
+                    className="h-40 w-full object-cover"
+                  />
+                  <button
+                    onClick={() => handleToggleSave(item._id)}
+                    className="absolute top-2 right-2 bg-white p-2 border rounded-full shadow-md hover:scale-110 transition"
+                  >
+                    {savedProperties.some((pro) => pro._id === item._id) ? (
+                      <FaHeart className="text-red-500 text-lg" />
+                    ) : (
+                      <FaRegHeart className="text-black text-lg" />
+                    )}
+                  </button>
+                </div>
+  
+                {currentProperty &&
+                  isaddModalOpen &&
+                  currentProperty._id === item._id && (
+                    <SaveModal
+                      isOpen={isaddModalOpen}
+                      onClose={handleCloseModal}
+                      title="Saved"
+                    />
                   )}
-                </button>
-              </div>
-
-              {currentProperty &&
-                isaddModalOpen &&
-                currentProperty._id === item._id && (
-                  <SaveModal
-                    isOpen={isaddModalOpen}
-                    onClose={handleCloseModal}
-                    title="Saved"
-                  />
-                )}
-
-              {currentProperty &&
-                isremoveModalOpen &&
-                currentProperty._id === item._id && (
-                  <SaveModal
-                    isOpen={isremoveModalOpen}
-                    onClose={handleCloseModal}
-                    title="Removed"
-                  />
-                )}
-
-              <div className="p-4">
-                <h3 className="text-lg font-semibold mb-1">
-                  {item.Propertyname}
-                </h3>
-                <p className="text-sm text-gray-500 mb-2">
-                  {item.city}, {item.country}
-                </p>
-                <div className="flex items-center space-x-2">
-                  {/* Rating */}
-                  <div className="bg-blue-900 text-white text-sm rounded-md w-8 h-8 flex items-center justify-center shadow-lg">
-                    {reviews.find((review) => review.property._id === item._id)
-                      ?.rating || 1}
-                  </div>
-
-                  {/* Review Label */}
-                  <p className="text-sm text-gray-500">
-                    {reviews.find((review) => review.property._id === item._id)
-                      ?.reviewLabel || "Bad"}
+  
+                {currentProperty &&
+                  isremoveModalOpen &&
+                  currentProperty._id === item._id && (
+                    <SaveModal
+                      isOpen={isremoveModalOpen}
+                      onClose={handleCloseModal}
+                      title="Removed"
+                    />
+                  )}
+  
+                <div className="p-4">
+                  <h3 className="text-lg font-semibold mb-1">
+                    {item.Propertyname}
+                  </h3>
+                  <p className="text-sm text-gray-500 mb-2">
+                    {item.city}, {item.country}
                   </p>
+                  <div className="flex items-center space-x-2">
+                    {/* Rating */}
+                    <div className="bg-blue-900 text-white text-sm rounded-md w-8 h-8 flex items-center justify-center shadow-lg">
+                      {reviews.find((review) => review.property._id === item._id)
+                        ?.rating || 1}
+                    </div>
+  
+                    {/* Review Label */}
+                    <p className="text-sm text-gray-500">
+                      {reviews.find((review) => review.property._id === item._id)
+                        ?.reviewLabel || "Bad"}
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            )
+          )):(
+            <p>no property</p>
+          )}
         </div>
       </div>
 

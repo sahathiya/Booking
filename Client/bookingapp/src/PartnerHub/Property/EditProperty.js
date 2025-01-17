@@ -16,7 +16,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import axiosInstance from '../../Axios/axiosinstance';
 import Navbarpartner from '../Navbarpartner';
-
+import {toast} from 'react-toastify'
 function EditProperty() {
   const { id } = useParams();
   console.log("id", id);
@@ -36,7 +36,6 @@ function EditProperty() {
     adultCount: 1,
     childCount: 0,
     facilities: [],
-    starRating: 1,
     pricePerNight: 0,
     numberofRooms: 0,
     images: [],
@@ -53,7 +52,7 @@ function EditProperty() {
         adultCount: property.adultCount || 1,
         childCount: property.childCount || 0,
         facilities: property.facilities || [],
-        starRating: property.starRating || 1,
+        // starRating: property.starRating || 1,
         pricePerNight: property.pricePerNight || 0,
         numberofRooms: property.numberofRooms || 0,
         images:property.images|| [],
@@ -106,11 +105,11 @@ function EditProperty() {
           'Content-Type': 'multipart/form-data',
         },
       });
-      alert('Property updated successfully!');
+      toast.success('Property updated successfully!');
       navigate('/homepartner');
     } catch (error) {
       console.error('Error updating property:', error);
-      alert('Failed to update property');
+      toast.error('Failed to update property');
     }
   };
 
@@ -193,21 +192,20 @@ function EditProperty() {
               />
             </div>
 
-            {/* Star Rating */}
+            {/* Star Rating
             <div className="flex items-center space-x-2">
               <FaStar className="text-gray-600" />
               <input
-                type="number"
-                name="starRating"
-                value={edit.starRating}
+                type="text"
+                name="description"
+                value={edit.description}
                 onChange={handleChange}
                 placeholder="Star Rating"
                 className="w-full border border-gray-300 rounded-lg px-4 py-2"
                 required
-                min={1}
-                max={5}
+                
               />
-            </div>
+            </div> */}
 
             {/* Type */}
             <div className="space-y-2">

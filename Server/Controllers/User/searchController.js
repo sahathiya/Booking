@@ -68,7 +68,7 @@ if (numberofRooms) {
           },
         ],
       });
-console.log("bookedProperties",bookedProperties);
+console.log("bookedProperties........",bookedProperties);
 
      
       if (bookedProperties.length > 0) {

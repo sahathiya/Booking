@@ -57,6 +57,7 @@ import Houses from "./Components/Types/Houses";
 import Apartments from "./Components/Types/Apartments";
 import Villas from "./Components/Types/Villas";
 import Help from "./Components/HelpandSupport/Help";
+import { ToastContainer } from "react-toastify";
 function App() {
   const admin = useSelector((state) => state.admin.admin);
   console.log("admin", admin);
@@ -150,6 +151,15 @@ function App() {
           </div>
         </div>
       )}
+
+<ToastContainer
+        autoClose={2000}
+        position="top-center"
+        hideProgressBar={true}
+        closeOnClick
+        pauseOnHover
+        draggable
+      />
     </div>
   );
 }

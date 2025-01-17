@@ -15,7 +15,7 @@ function Navbar2() {
   return (
     <>
       <div className="bg-blue-900 text-white flex justify-center relative">
-        <div className="flex gap-10 mb-12 flex-wrap justify-center md:justify-start">
+        <div className="flex gap-10 mb-12 flex-wrap justify-center md:justify-center">
           <div
             className="flex items-center gap-2 p-2 hover:border border-white rounded-lg cursor-pointer"
             onClick={() => navigate('/')}
@@ -39,9 +39,11 @@ function Navbar2() {
             <FontAwesomeIcon icon={faTaxi} />
             <span>Airport taxis</span>
           </div>
+          <SearchingProperty />
         </div>
+        
       </div>
-      <SearchingProperty />
+     
     </>
   );
 }

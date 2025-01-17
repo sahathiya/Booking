@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axiosInstance from "../../Axios/axiosinstance";
 import { useLocation, useNavigate } from "react-router-dom";
 import Header from "../../Components/Navbars/Header";
-
+import { toast } from "react-toastify";
 function PasswordForm() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -51,14 +51,14 @@ function PasswordForm() {
         );
 
         if (response.status === 201) {
-          alert("Registration successful");
-          navigate("/");
+          toast.success("Registration successful");
+          navigate("/log");
         } else {
-          alert("Registration failed");
+          toast.warn("Registration failed");
         }
       } catch (error) {
         console.error("Error:", error);
-        alert("An error occurred while registering");
+        toast.error("An error occurred while registering");
       }
     }
   };

@@ -2,352 +2,269 @@ const Booking = require("../../Models/User/bookingSchema");
 const Property = require("../../Models/User/propertySchema");
 const User = require("../../Models/User/userSchema");
 const stripe = require("stripe");
-const mongoose=require("mongoose")
-const nodemailer = require('nodemailer');
-const Notification = require("../../Models/User/notificationSchema"); // Notification model
-const Partner=require("../../Models/User/partnerSchema")
+const mongoose = require("mongoose");
+const nodemailer = require("nodemailer");
+const Notification = require("../../Models/User/notificationSchema");
+const Partner = require("../../Models/User/partnerSchema");
 const BookingProperty = async (req, res) => {
- 
+  const { adults, children, checkIn, checkOut, roomType, NumberOfRooms } =
+    req.body;
 
-  
-    const { adults, children, checkIn, checkOut, roomType, NumberOfRooms } = req.body;
+  console.log("req.bodyreq.body", req.body);
 
-    console.log("req.bodyreq.body", req.body);
+  if (
+    !adults ||
+    !children ||
+    !checkIn ||
+    !checkOut ||
+    !roomType ||
+    !NumberOfRooms
+  ) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
 
-    
-    if (!adults || !children || !checkIn || !checkOut || !roomType || !NumberOfRooms) {
-      return res.status(400).json({ message: "All fields are required" });
-    }
+  const propertyId = req.params.id;
+  const property = await Property.findById(propertyId);
+  const user = await User.findById(req.user.id);
 
-   
-    const propertyId = req.params.id;
-    const property = await Property.findById(propertyId);
-    const user = await User.findById(req.user.id);
+  if (!property) {
+    return res.status(404).json({ message: "Property not found" });
+  }
 
-    if (!property) {
-      return res.status(404).json({ message: "Property not found" });
-    }
+  const partnerId = property.partner;
 
-    const partnerId = property.partner;
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
 
+  const checkIndate = new Date(checkIn);
+  const checkOutdate = new Date(checkOut);
 
+  if (checkIndate >= checkOutdate) {
+    return res
+      .status(400)
+      .json({ message: "Check-out date must be after check-in date" });
+  }
 
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
+  const existingBookings = await Booking.find({
+    PropertyDetailes: propertyId,
+    $or: [
+      { checkIn: { $lt: checkOut }, checkOut: { $gt: checkIn } },
+      { checkIn: { $gte: checkIn }, checkOut: { $lte: checkOut } },
+    ],
+  });
 
-    
-    const checkIndate = new Date(checkIn);
-    const checkOutdate = new Date(checkOut);
-
-    if (checkIndate >= checkOutdate) {
-      return res
-        .status(400)
-        .json({ message: "Check-out date must be after check-in date" });
-    }
-
-    
-    const existingBookings = await Booking.find({
-      PropertyDetailes: propertyId,
-      $or: [
-        { checkIn: { $lt: checkOut }, checkOut: { $gt: checkIn } },
-        { checkIn: { $gte: checkIn }, checkOut: { $lte: checkOut } },
-      ],
-    });
-
-    if (existingBookings.length > 0) {
-      return res.status(400).json({
-        message: "The property is already booked for the selected dates",
-        unavailableDates: existingBookings.map(booking => ({
-          checkIn: booking.checkIn,
-          checkOut: booking.checkOut,
+  if (existingBookings.length > 0) {
+    return res.status(400).json({
+      message: "The property is already booked for the selected dates",
+      unavailableDates: existingBookings.map((booking) => ({
+        checkIn: booking.checkIn,
+        checkOut: booking.checkOut,
       })),
-      });
-    }
-
-    
-    const roomToUpdate = property.RoomType.find((room) =>
-      roomType.includes(room.type)
-    );
-    
-    console.log("roomToUpdate",roomToUpdate);
-    
-    if (!roomToUpdate) {
-      return res.status(404).json({ message: "Room type not found" });
-    }
-
-    if (roomToUpdate.count < NumberOfRooms) {
-      return res.status(400).json({ message: "Not enough rooms available" });
-    }
-
-    
-    roomToUpdate.count -= NumberOfRooms;
-
-   
-    await property.save();
-
-    
-    const durationInDays = 
-      (checkOutdate.getTime() - checkIndate.getTime()) / (1000 * 60 * 60 * 24);
-
-    const totalPrice =
-      durationInDays * property.pricePerNight * NumberOfRooms;
-
-    
-    const booking = new Booking({
-      GuestDetailes: req.user.id,
-      PropertyDetailes: propertyId,
-      Partner:partnerId,
-      adults,
-      children,
-      checkIn,
-      checkOut,
-      roomType,
-      NumberOfRooms,
-      totalPrice: totalPrice,
     });
+  }
 
-    const savedBooking = await booking.save();
+  const roomToUpdate = property.RoomType.find((room) =>
+    roomType.includes(room.type)
+  );
 
-   
-    property.Bookings = savedBooking._id;
-    await property.save();
+  console.log("roomToUpdate", roomToUpdate);
 
-    
-  return  res.status(201).json({
-      message: "Booking successful",
-      booking: savedBooking,
-    });
-  
+  if (!roomToUpdate) {
+    return res.status(404).json({ message: "Room type not found" });
+  }
+
+  if (roomToUpdate.count < NumberOfRooms) {
+    return res.status(400).json({ message: "Not enough rooms available" });
+  }
+
+  roomToUpdate.count -= NumberOfRooms;
+
+  await property.save();
+
+  const durationInDays =
+    (checkOutdate.getTime() - checkIndate.getTime()) / (1000 * 60 * 60 * 24);
+
+  const totalPrice = durationInDays * property.pricePerNight * NumberOfRooms;
+
+  const booking = new Booking({
+    GuestDetailes: req.user.id,
+    PropertyDetailes: propertyId,
+    Partner: partnerId,
+    adults,
+    children,
+    checkIn,
+    checkOut,
+    roomType,
+    NumberOfRooms,
+    totalPrice: totalPrice,
+  });
+
+  const savedBooking = await booking.save();
+
+  property.Bookings = savedBooking._id;
+  await property.save();
+
+  return res.status(201).json({
+    message: "Booking successful",
+    booking: savedBooking,
+  });
 };
 
-
-
-
-const BookingDetailes=async(req,res)=>{
+const BookingDetailes = async (req, res) => {
   console.log("gggggggggggggggggg");
-  
-  const bookingid=req.params.id
-  console.log("bookingid",bookingid);
-  
-  const book=await Booking.findOne({_id:bookingid})
-  if(!book){
-    return res.status(404).json({message:'not found this id'})
+
+  const bookingid = req.params.id;
+  console.log("bookingid", bookingid);
+
+  const book = await Booking.findOne({ _id: bookingid });
+  if (!book) {
+    return res.status(404).json({ message: "not found this id" });
   }
-  const {Firstname,Lastname,Country,Phonenumber}=req.body
+  const { Firstname, Lastname, Country, Phonenumber } = req.body;
 
- book.Firstname=Firstname
- book.Lastname=Lastname
- book.Country=Country
- book.Phonenumber=Phonenumber
+  book.Firstname = Firstname;
+  book.Lastname = Lastname;
+  book.Country = Country;
+  book.Phonenumber = Phonenumber;
 
-  await book.save()
+  await book.save();
 
-  return res.status(200).json({message:'booking detailes',book})
-}
+  return res.status(200).json({ message: "booking detailes", book });
+};
 
+const bookingFinish = async (req, res) => {
+  console.log("bbbbbbbbbbbbbbbbbb");
 
-const bookingFinish=async(req,res)=>{
-  
-console.log("bbbbbbbbbbbbbbbbbb");
+  // const {PropertyDetailes}  = req.body
 
-    // const {PropertyDetailes}  = req.body
+  const propertyid = req.params.id;
 
-    const propertyid=req.params.id
+  console.log("propertyid", propertyid);
 
-console.log("propertyid",propertyid);
+  const property = await Property.findById(propertyid);
+  console.log("property", property);
 
-    const property = await Property.findById(propertyid);
-    console.log("property",property);
-    
-    if (!property) {
-        return res.status(404).json({message:"property not found"})
-    }
-    const bookingid=req.params.bookingid
-    console.log("bookingid",bookingid);
-    
-  const book=await Booking.findOne({_id:bookingid})
-  console.log("book",book);
-  
-  if(!book){
-    return res.status(404).json({message:'not found this id'})
+  if (!property) {
+    return res.status(404).json({ message: "property not found" });
+  }
+  const bookingid = req.params.bookingid;
+  console.log("bookingid", bookingid);
+
+  const book = await Booking.findOne({ _id: bookingid });
+  console.log("book", book);
+
+  if (!book) {
+    return res.status(404).json({ message: "not found this id" });
   }
   if (!mongoose.Types.ObjectId.isValid(bookingid)) {
     return res.status(400).json({ message: "Invalid booking ID" });
-}
-    const lineItems = [
-        {
-            price_data: {
-                currency: "INR",
-                product_data: {
-                    name: property.Propertyname,
-                    images: [property.images[0]],
-                   
-                },
-                unit_amount: Math.round(book.totalPrice * 100),
-            },
-            quantity:1
+  }
+  const lineItems = [
+    {
+      price_data: {
+        currency: "INR",
+        product_data: {
+          name: property.Propertyname,
+          images: [property.images[0]],
         },
-    ];
-
-    const Stripeclient = stripe(process.env.STRIPE_KEY);
-    const session = await Stripeclient.checkout.sessions.create({
-        payment_method_types: ["card"],
-        line_items: lineItems,
-        mode: "payment",
-        ui_mode: "embedded",
-        return_url: `${process.env.URL_FRONTEND}/conform-page/{CHECKOUT_SESSION_ID}/${book._id}`,
-    });
-
-  
-
-    
- 
-  book.sessionId=session.id
-// book.BookingStatus='Confirmed'
-// book.paymentStatus='Completed'
-    await book.save();
-
-    res.status(201).json({
-        success: true,
-        message: "Booking initiated",
-        data: book,
-        clientsecret: session.client_secret,
-        linedata: lineItems,
-    });
-
-
-};
-
-
-const verifyBooking=async(req,res)=>{
-  console.log("verifyyyyyyyyyyyyyy");
-  const useremail=req.user.email
-  console.log("useriduserid",useremail);
-  
-  const sessionid=req.params.id
-const bookingid=req.params.bookingid
-
-
-try {
-  const book = await Booking.findOne({ sessionId: sessionid });
-
-  if (!book) {
-   return  res.status(404).json({ message: 'No booking found with this ID' });
-  }
-
-  if (book.paymentStatus === 'Completed') {
-  return  res.status(400).json({ message: 'Booking already verified' });
-  }
-
-  // Update booking status
-  book.paymentStatus = 'Completed';
-  book.BookingStatus = 'Confirmed';
-  await book.save();
-
-  
-
-
-  // Send confirmation email
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: process.env.MY_EMAIL,
-      pass: process.env.MY_PASSWRD,
+        unit_amount: Math.round(book.totalPrice * 100),
+      },
+      quantity: 1,
     },
+  ];
+
+  const Stripeclient = stripe(process.env.STRIPE_KEY);
+  const session = await Stripeclient.checkout.sessions.create({
+    payment_method_types: ["card"],
+    line_items: lineItems,
+    mode: "payment",
+    ui_mode: "embedded",
+    return_url: `${process.env.URL_FRONTEND}/conform-page/{CHECKOUT_SESSION_ID}/${book._id}`,
   });
 
-  const mailOptions = {
-    from: process.env.MY_EMAIL,
-    to: useremail,
-    subject: "Booking Confirmation",
-    text: `Dear user, your booking has been successfully confirmed. Booking ID: ${bookingid}. Use this ID to share your reviews about your stay.`,
-  };
+  book.sessionId = session.id;
+  // book.BookingStatus='Confirmed'
+  // book.paymentStatus='Completed'
+  await book.save();
 
-  await transporter.sendMail(mailOptions);
-  console.log('Confirmation email sent successfully');
-  res.status(200).json({ message: 'Booking successfully verified', book });
-} catch (error) {
-  console.error('Error in booking verification:', error.message, error.stack);
-  
-  res.status(500).json({ message: 'Internal server error', error: error.message });
-}
-}
-
-
-
-
-const bookingsByUser = async (req, res) => {
-  
-    const userId = req.user.id;
-
-    
-    const bookings = await Booking.find({ GuestDetailes: userId }).populate('PropertyDetailes')
-
-    if (bookings.length === 0) {
-      return res.status(404).json({ message: "No bookings found for this user" });
-    }
-
-    
-    return res.status(200).json({
-      message: "Bookings fetched successfully",
-      bookings: bookings,
-    });
-  
+  res.status(201).json({
+    success: true,
+    message: "Booking initiated",
+    data: book,
+    clientsecret: session.client_secret,
+    linedata: lineItems,
+  });
 };
 
+const verifyBooking = async (req, res) => {
+  console.log("verifyyyyyyyyyyyyyy");
+  const useremail = req.user.email;
+  console.log("useriduserid", useremail);
 
+  const sessionid = req.params.id;
+  const bookingid = req.params.bookingid;
 
-// const cancelBooking = async (req, res) => {
-//   const bookingId = req.params.id;
-  
- 
-//   const booking = await Booking.findById(bookingId);
-  
-//   if (!booking) {
-//     return res.status(404).json({ message: "Booking not found" });
-//   }
+  try {
+    const book = await Booking.findOne({ sessionId: sessionid });
 
-  
-//   if (booking.GuestDetailes.toString() !== req.user.id) {
-//     return res.status(403).json({ message: "You are not authorized to cancel this booking" });
-//   }
+    if (!book) {
+      return res.status(404).json({ message: "No booking found with this ID" });
+    }
 
- 
-//   const property = await Property.findById(booking.PropertyDetailes);
-  
-//   if (!property) {
-//     return res.status(404).json({ message: "Property not found" });
-//   }
+    if (book.paymentStatus === "Completed") {
+      return res.status(400).json({ message: "Booking already verified" });
+    }
 
-  
-//   const roomToUpdate = property.RoomType.find((room) => room.type );
-//   console.log("roomToUpdateroomToUpdate",roomToUpdate);
-  
-  
-//   if (!roomToUpdate) {
-//     return res.status(404).json({ message: "Room type not found in property" });
-//   }
+    // Update booking status
+    book.paymentStatus = "Completed";
+    book.BookingStatus = "Confirmed";
+    await book.save();
 
-  
-//   roomToUpdate.count += booking.NumberOfRooms;
-//   await property.save();
+    // Send confirmation email
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.MY_EMAIL,
+        pass: process.env.MY_PASSWRD,
+      },
+    });
 
-  
-//   booking.BookingStatus = "Cancelled";
-//   await booking.save();
+    const mailOptions = {
+      from: process.env.MY_EMAIL,
+      to: useremail,
+      subject: "Booking Confirmation",
+      text: `Dear user, your booking has been successfully confirmed. Booking ID: ${bookingid}. Use this ID to share your reviews about your stay.`,
+    };
 
-//   return res.status(200).json({
-//     message: `Booking canceled successfully${booking._id}`,
-//     canceledBooking: booking,
-//   });
-// };
+    await transporter.sendMail(mailOptions);
+    console.log("Confirmation email sent successfully");
+    res.status(200).json({ message: "Booking successfully verified", book });
+  } catch (error) {
+    console.error("Error in booking verification:", error.message, error.stack);
 
+    res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
+  }
+};
 
+const bookingsByUser = async (req, res) => {
+  const userId = req.user.id;
 
+  const bookings = await Booking.find({ GuestDetailes: userId }).populate(
+    "PropertyDetailes"
+  );
 
+  if (bookings.length === 0) {
+    return res.status(404).json({ message: "No bookings found for this user" });
+  }
 
-
+  return res.status(200).json({
+    message: "Bookings fetched successfully",
+    bookings: bookings,
+  });
+};
 
 const cancelBooking = async (req, res) => {
   const bookingId = req.params.id;
@@ -359,7 +276,9 @@ const cancelBooking = async (req, res) => {
   }
 
   if (booking.GuestDetailes.toString() !== req.user.id) {
-    return res.status(403).json({ message: "You are not authorized to cancel this booking" });
+    return res
+      .status(403)
+      .json({ message: "You are not authorized to cancel this booking" });
   }
 
   const property = await Property.findById(booking.PropertyDetailes);
@@ -385,8 +304,8 @@ const cancelBooking = async (req, res) => {
   const notification = new Notification({
     message: notificationMessage,
     bookingDetails: booking._id,
-    propertyDetailes:property._id,
-    Guest:req.user.id
+    propertyDetailes: property._id,
+    Guest: req.user.id,
   });
   await notification.save();
 
@@ -397,113 +316,42 @@ const cancelBooking = async (req, res) => {
   });
 };
 
-// const cancelBooking = async (req, res) => {
-//   const bookingId = req.params.id;
-
-//   try {
-//     // Find the booking by ID
-//     const booking = await Booking.findById(bookingId);
-//     if (!booking) {
-//       return res.status(404).json({ message: "Booking not found" });
-//     }
-
-//     // Check if the current user is authorized to cancel the booking
-//     if (booking.GuestDetailes.toString() !== req.user.id) {
-//       return res.status(403).json({ message: "You are not authorized to cancel this booking" });
-//     }
-
-//     // Find the associated property
-//     const property = await Property.findById(booking.PropertyDetailes);
-//     if (!property) {
-//       return res.status(404).json({ message: "Property not found" });
-//     }
-
-//     // Update the room count for the canceled booking
-//     const roomToUpdate = property.RoomType.find((room) => room.type);
-//     if (!roomToUpdate) {
-//       return res.status(404).json({ message: "Room type not found in property" });
-//     }
-//     roomToUpdate.count += booking.NumberOfRooms;
-//     await property.save();
-
-//     // Update the booking status to "Cancelled"
-//     booking.BookingStatus = "Cancelled";
-//     await booking.save();
-
-//     // Send a notification to the admin
-//     const notificationMessage = `Booking ID: ${booking._id} has been cancelled by guest ${req.user.name}.`;
-//     const notification = new Notification({
-//       message: notificationMessage,
-//       details: {
-//         bookingId: booking._id,
-//         guestName: req.user.name,
-//         propertyName: property.name,
-//         roomsCancelled: booking.NumberOfRooms,
-//         status: booking.BookingStatus,
-//       },
-//     });
-//     await notification.save();
-
-//     // Optionally emit a real-time notification to the admin
-//     const io = req.app.get("socketio"); // Assuming Socket.IO is integrated
-//     io.emit("admin-notification", {
-//       message: notificationMessage,
-//       details: notification.details,
-//     });
-
-//     return res.status(200).json({
-//       message: "Booking canceled successfully and notification sent to admin",
-//       canceledBooking: booking,
-//     });
-//   } catch (error) {
-//     console.error("Error canceling booking:", error);
-//     return res.status(500).json({ message: "Internal server error" });
-//   }
-// };
-
-
-
-
-
-const AllBookings=async(req,res)=>{
-  const AllBookings=await Booking.find()
-  console.log("AllBookings",AllBookings);
-  return res.status(200).json({message:'all',AllBookings})
-  
-}
-
-
-
-
-
-
-
-const bookingByPropertyId=async(req,res)=>{
-  const propertyId=req.params.id
-  const booking=await Booking.find({PropertyDetailes:propertyId})
-  if(!booking){
-    return res.status(404).json({message:'no booking in this property'})
-  }
-  return res.status(200).json({message:'all booking',booking})
-}
-
-
-
-const getBookedProperties = async (req,res) => {
-  
- 
-    const propertyId=req.params.id
-    console.log("propertyId",propertyId);
-    
-    // Find all bookings related to a specific property
-    const bookings = await Booking.find({ PropertyDetailes: propertyId });
-
-    // Optionally, you can populate the Property data if you need details of the property as well
-    const populatedBookings = await Booking.find({ PropertyDetailes: propertyId })
-      .populate('PropertyDetailes'); // Populate the property data for each booking
-
-    console.log("Booked properties:", populatedBookings);
-    res.status(200).json(populatedBookings) 
-  
+const AllBookings = async (req, res) => {
+  const AllBookings = await Booking.find();
+  console.log("AllBookings", AllBookings);
+  return res.status(200).json({ message: "all", AllBookings });
 };
-module.exports = { BookingProperty ,BookingDetailes,bookingByPropertyId,bookingsByUser,cancelBooking,bookingFinish,verifyBooking,AllBookings,getBookedProperties};
+
+const bookingByPropertyId = async (req, res) => {
+  const propertyId = req.params.id;
+  const booking = await Booking.find({ PropertyDetailes: propertyId });
+  if (!booking) {
+    return res.status(404).json({ message: "no booking in this property" });
+  }
+  return res.status(200).json({ message: "all booking", booking });
+};
+
+const getBookedProperties = async (req, res) => {
+  const propertyId = req.params.id;
+  console.log("propertyId", propertyId);
+
+  const bookings = await Booking.find({ PropertyDetailes: propertyId });
+
+  const populatedBookings = await Booking.find({
+    PropertyDetailes: propertyId,
+  }).populate("PropertyDetailes");
+
+  console.log("Booked properties:", populatedBookings);
+  res.status(200).json(populatedBookings);
+};
+module.exports = {
+  BookingProperty,
+  BookingDetailes,
+  bookingByPropertyId,
+  bookingsByUser,
+  cancelBooking,
+  bookingFinish,
+  verifyBooking,
+  AllBookings,
+  getBookedProperties,
+};

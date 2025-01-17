@@ -59,7 +59,7 @@ res.status(200).json({message:'admin logined successfully',admin,token})
 }
 
 
-
+//to logout admin
 
 const logoutAdmin=async(req,res)=>{
  
@@ -133,6 +133,12 @@ const getAdmin=async(req,res)=>{
 const TotalRevenew=async(req,res)=>{
   const revenew=await Booking.aggregate([
     {
+      $match: {
+        totalPrice: { $gt: 0 },
+        BookingStatus: { $ne: "Cancelled" }, 
+      },
+    },
+    {
       $group:{
         _id:null,
         totalRevenuew:{$sum:'$totalPrice'}
@@ -152,81 +158,38 @@ const getDailyRevenue = async (req, res) => {
   const revenueData = await Booking.aggregate([
     {
       $match: {
-        totalPrice: { $gt: 0 }, // Only valid totalPrice
-        BookingStatus: { $ne: "Cancelled" }, // Exclude canceled bookings
+        totalPrice: { $gt: 0 },
+        BookingStatus: { $ne: "Cancelled" }, 
       },
     },
     {
       $project: {
         totalPrice: 1,
         localDate: {
-          $dateToString: { format: "%Y-%m-%d", date: "$createdAt", timezone: "Asia/Kolkata" }, // Local date
+          $dateToString: { format: "%Y-%m-%d", date: "$createdAt", timezone: "Asia/Kolkata" }, 
         },
       },
     },
     {
       $group: {
-        _id: "$localDate", // Group by local date
+        _id: "$localDate", 
         dailyRevenue: { $sum: "$totalPrice" },
       },
     },
     {
-      $sort: { _id: 1 }, // Sort by date
+      $sort: { _id: 1 }, 
     },
   ]);
   
   console.log("Aggregated Revenue Data:", revenueData);
   
   const dailyRevenue = revenueData.map((entry) => ({
-    day: entry._id, // Date string
+    day: entry._id, 
     revenue: entry.dailyRevenue,
   }));
 
 
 
-
-
-
-
-
-
-
-    // const revenueData = await Booking.aggregate([
-    //   {
-       
-    //     $project: {
-    //       totalPrice: 1,
-    //       dayOfWeek: { $dayOfWeek: "$createdAt" }, 
-    //     },
-    //   },
-    //   {
-        
-    //     $group: {
-    //       _id: "$dayOfWeek", 
-    //       dailyRevenue: { $sum: "$totalPrice" },
-    //     },
-    //   },
-    //   {
-        
-    //     $sort: { _id: 1 },
-    //   },
-    // ]);
-
-    
-    // const dayMap = {
-    //   1: "Sunday",
-    //   2: "Monday",
-    //   3: "Tuesday",
-    //   4: "Wednesday",
-    //   5: "Thursday",
-    //   6: "Friday",
-    //   7: "Saturday",
-    // };
-
-    // const dailyRevenue = revenueData.map((entry) => ({
-    //   day: dayMap[entry._id],
-    //   revenue: entry.dailyRevenue,
-    // }));
 
     return res.status(200).json({
       status: "success",
@@ -347,8 +310,8 @@ const getCanceledBookingsCountPerUser=async(req,res)=>{
    
     {
       $group: {
-        _id: "$GuestDetailes", // Group by GuestDetailes (user ID)
-        cancelledCount: { $sum: 1 }, // Count the number of bookings
+        _id: "$GuestDetailes", 
+        cancelledCount: { $sum: 1 }, 
       },
     },
     
@@ -363,8 +326,8 @@ const countOfReviewsPerUser=async(req,res)=>{
   const result=await Review.aggregate([{
     
       $group: {
-        _id: "$guest", // Group by GuestDetailes (user ID)
-        reviewCount: { $sum: 1 }, // Count the number of bookings
+        _id: "$guest",
+        reviewCount: { $sum: 1 }, 
       },
     
 
@@ -378,8 +341,8 @@ const countOfbookingPerUser=async(req,res)=>{
   const result=await Booking.aggregate([{
     
       $group: {
-        _id: "$GuestDetailes", // Group by GuestDetailes (user ID)
-        bookingCount: { $sum: 1 }, // Count the number of bookings
+        _id: "$GuestDetailes", 
+        bookingCount: { $sum: 1 }, 
       },
     
 
@@ -396,8 +359,8 @@ const revenueOfpartner=async(req,res)=>{
    
     {
       $group: {
-        _id: "$Partner", // Group by GuestDetailes (user ID)
-        revenuew: { $sum: "$totalPrice" }, // Count the number of bookings
+        _id: "$Partner", 
+        revenuew: { $sum: "$totalPrice" }, 
       },
     },
   ])
@@ -410,8 +373,8 @@ const TypeCount=async(req,res)=>{
   const result = await Property.aggregate([
     {
       $group: {
-        _id: "$type", // Group by the `type` field
-        count: { $sum: 1 }, // Count the number of documents in each group
+        _id: "$type", 
+        count: { $sum: 1 }, 
       },
     },
   ])
