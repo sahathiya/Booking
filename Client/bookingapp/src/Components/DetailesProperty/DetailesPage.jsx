@@ -25,6 +25,15 @@ import { FiCopy } from "react-icons/fi";
 import { FacebookShareButton, FacebookIcon } from "react-share";
 import ReviewModal from "../Review/ReviewModal";
 import {toast} from "react-toastify"
+import { FaWifi } from "react-icons/fa";
+import { IoFastFood } from "react-icons/io5";
+import { TbParkingCircleFilled } from "react-icons/tb";
+import { MdPool } from "react-icons/md";
+import { FaHouseFloodWater } from "react-icons/fa6";
+import { MdOutlineFamilyRestroom } from "react-icons/md";
+import { CiLogin, CiLogout, CiCircleInfo, CiCreditCard1 } from "react-icons/ci";
+import { FaChildren } from "react-icons/fa6";
+
 import {
   LikeReview,
   setAllReviews,
@@ -43,7 +52,6 @@ import SearchingProperty from "../Search/SearchingProperty";
 function DetailesPage() {
   const[unavaailable,setUnavailable]=useState([])
   console.log("unavaailable",unavaailable);
-  
   const { id } = useParams();
   const progress = useSelector((state) => state.review.progress);
  
@@ -289,11 +297,45 @@ console.log('bookingfound',bookingfound);
 
   const handleScrollToTable = () => {
     const tableSection = document.getElementById("table-section");
-    const houseruleSection = document.getElementById("houserule-section");
+    
+    
+    
     if (tableSection) {
       tableSection.scrollIntoView({ behavior: "smooth" });
     }
-  };
+  }
+
+
+  const handleHouserules=()=>{
+    const houseruleSection = document.getElementById("house-rules");
+    if(houseruleSection){
+      houseruleSection.scrollIntoView({behavior:"smooth"})
+    }
+  }
+  const handleFacility=()=>{
+    const facilitysection=document.getElementById("facility-section")
+    if(facilitysection){
+      facilitysection.scrollIntoView({behavior:'smooth'})
+    }
+  }
+
+
+  const handleOverview=()=>{
+    const overview=document.getElementById("overview")
+    if(overview){
+      overview.scrollIntoView({behavior:"smooth"})
+    }
+  }
+    const handleInfoandPrices=()=>{
+      const infoprices=document.getElementById("info&prices")
+      if(infoprices){
+        infoprices.scrollIntoView({behavior:"smooth"})
+      }
+    }
+    
+
+
+  
 
   
   const handleallBookings = async () => {
@@ -396,21 +438,29 @@ console.log('bookingfound',bookingfound);
       <Navbar2 />
       {/* <Header3/>
       <SearchingProperty/> */}
-      <div className="flex flex-wrap justify-center gap-4">
-        <button className="hover:bg-gray-300 active:border-b-4 active:border-blue-500 px-4 py-2 rounded w-full sm:w-auto">
+      <div className="flex flex-wrap justify-evenly gap-4">
+        <button 
+        onClick={handleOverview}
+        className="hover:bg-gray-300 active:border-b-2 active:border-blue-500 px-4 py-2 rounded w-full sm:w-auto">
           Overview
         </button>
-        <button className="hover:bg-gray-300 active:border-b-4 active:border-blue-500 px-4 py-2 rounded w-full sm:w-auto">
+        <button 
+        onClick={handleInfoandPrices}
+        className="hover:bg-gray-300 active:border-b-2 active:border-blue-500 px-4 py-2 rounded w-full sm:w-auto">
           Info & Prices
         </button>
-        <button className="hover:bg-gray-300 active:border-b-4 active:border-blue-500 px-4 py-2 rounded w-full sm:w-auto">
+        <button 
+        onClick={handleFacility}
+        className="hover:bg-gray-300 active:border-b-2 active:border-blue-500 px-4 py-2 rounded w-full sm:w-auto">
           Facilities
         </button>
-        <button className="hover:bg-gray-300 active:border-b-4 active:border-blue-500 px-4 py-2 rounded w-full sm:w-auto">
+        <button 
+        onClick={handleHouserules}
+        className="hover:bg-gray-300 active:border-b-2 active:border-blue-500 px-4 py-2 rounded w-full sm:w-auto">
           House rules
         </button>
         <button
-          className="hover:bg-gray-300 active:border-b-4 active:border-blue-500 px-4 py-2 rounded w-full sm:w-auto"
+          className="hover:bg-gray-300 active:border-b-2 active:border-blue-500 px-4 py-2 rounded w-full sm:w-auto"
           onClick={handleOpenModal}
         >
           Guest reviews({allReviews.length})
@@ -717,9 +767,9 @@ console.log('bookingfound',bookingfound);
         </div>
       )}
 
-      <div className="p-6 min-h-screen">
+      <div className="p-6 min-h-screen" >
         {detailesproperty.map((pro) => (
-          <div key={pro._id} className="max-w-5xl mx-auto   overflow-hidden">
+          <div key={pro._id} className="max-w-5xl mx-auto   overflow-hidden" id="overview">
             <div className="p-6 border-b">
               <div className="flex items-center justify-between">
                 <div>
@@ -819,30 +869,64 @@ console.log('bookingfound',bookingfound);
               <p className="text-gray-700 text-lg">{pro.description}</p>
             </div>
 
-            <div className="p-6">
-              <h2 className="text-xl font-semibold text-gray-800 mb-4">
-                Most popular facilities
-              </h2>
-              <ul className="grid grid-cols-2 gap-4">
-                {pro.facilities.map((facility, index) => (
-                  <li
-                    key={index}
-                    className="flex items-center space-x-2 text-gray-600"
-                  >
-                    <span className="text-green-500">
-                      <i className="fas fa-check-circle"></i>
-                    </span>
-                    <span>{facility}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <div className="p-6" id="facility-section">
+  <h2 className="text-xl font-semibold text-gray-800 mb-4">
+    Most popular facilities
+  </h2>
+  
+  {/* Icon and Text Section */}
+  <div className="flex flex-wrap justify-evenly items-center gap-4 md:gap-6 lg:mr-10">
+    <div className="flex items-center space-x-2">
+      <TbParkingCircleFilled className="text-green-600 text-2xl" />
+      <span className="text-gray-600 text-lg">Free Parking</span>
+    </div>
+    <div className="flex items-center space-x-2">
+      <IoFastFood className="text-green-600 text-2xl" />
+      <span className="text-gray-600 text-lg">Breakfast</span>
+    </div>
+    <div className="flex items-center space-x-2">
+      <MdPool className="text-green-600 text-2xl" />
+      <span className="text-gray-600 text-lg">Swimming Pool</span>
+    </div>
+    <div className="flex items-center space-x-2">
+      <FaHouseFloodWater className="text-green-600 text-2xl" />
+      <span className="text-gray-600 text-lg">Stay</span>
+    </div>
+    <div className="flex items-center space-x-2">
+      <MdOutlineFamilyRestroom className="text-green-600 text-2xl" />
+      <span className="text-gray-600 text-lg">Family rooms</span>
+    </div>
+    <div className="flex items-center space-x-2">
+      <FaWifi className="text-green-600 text-2xl" />
+      <span className="text-gray-600 text-lg">Free Wifi</span>
+    </div>
+  </div>
+  
+  {/* Facilities List Section */}
+  <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
+    {pro.facilities.map((facility, index) => (
+      <li
+        key={index}
+        className="flex items-center space-x-2 text-gray-600"
+      >
+        <span className="text-green-500">
+          <i className="fas fa-check-circle"></i>
+        </span>
+        <span>{facility}</span>
+      </li>
+    ))}
+  </ul>
+</div>
+
+
+
+
           </div>
         ))}
       </div>
 
       {/* <Availability/> */}
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-5xl mx-auto" id="info&prices">
         <h1 className="text-black font-bold text-xl mb-4">Availability</h1>
 
         <div className="w-full sm:w-[800px] max-w-full h-auto border-2 border-yellow-500 mb-6 rounded-md">
@@ -1041,7 +1125,108 @@ console.log('bookingfound',bookingfound);
       </div>
 
       <br></br>
-      <HouseRules propertyname={propertyName} />
+       <div className="p-6 bg-white border rounded-lg shadow-md max-w-5xl mx-auto" id="house-rules">
+            <h2 className="text-2xl font-semibold mb-4">House rules</h2>
+            <p className="text-sm text-gray-600 mb-6">
+              {propertyName} takes special requests - add in the next step!
+            </p>
+            <div className="border border-gray-400 p-4 overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <tbody>
+                  {/* Check-in */}
+                  <tr className="border-b">
+                    <td className="p-2 w-10">
+                      <CiLogin className="text-2xl" />
+                    </td>
+                    <td className="p-2 font-bold">Check-in</td>
+                    <td className="p-2 text-sm text-gray-600">From 14:00</td>
+                  </tr>
+                  {/* Check-out */}
+                  <tr className="border-b">
+                    <td className="p-2 w-10">
+                      <CiLogout className="text-2xl" />
+                    </td>
+                    <td className="p-2 font-bold">Check-out</td>
+                    <td className="p-2 text-sm text-gray-600">Until 12:00</td>
+                  </tr>
+                  {/* Cancellation/Prepayment */}
+                  <tr className="border-b">
+                    <td className="p-2 w-10">
+                      <CiCircleInfo className="text-2xl" />
+                    </td>
+                    <td className="p-2 font-bold">Cancellation/Prepayment</td>
+                    <td className="p-2 text-sm text-gray-600">
+                      Cancellation and prepayment policies vary according to accommodation type. Please check what{" "}
+                      <a href="#" className="text-blue-500 underline">
+                        conditions
+                      </a>{" "}
+                      may apply to each option when making your selection.
+                    </td>
+                  </tr>
+                  {/* Children and Beds */}
+                  <tr className="border-b">
+                    <td className="p-2 w-10">
+                      <FaChildren className="text-2xl" />
+                    </td>
+                    <td className="p-2 font-bold">Children and beds</td>
+                    <td className="p-2 text-sm text-gray-600">
+                      Children of any age are welcome. To see correct prices and occupancy information, please make sure you
+                      have added the correct number of children and their ages in your search. Cots and extra beds are not
+                      available at this property.
+                    </td>
+                  </tr>
+                  {/* Age Restriction */}
+                  <tr className="border-b">
+                    <td className="p-2 w-10">
+                      <i className="fas fa-user-lock text-2xl"></i>
+                    </td>
+                    <td className="p-2 font-bold">Age restriction</td>
+                    <td className="p-2 text-sm text-gray-600">The minimum age for check-in is 18.</td>
+                  </tr>
+                  {/* Pets */}
+                  <tr className="border-b">
+                    <td className="p-2 w-10">
+                      <i className="fas fa-paw text-2xl"></i>
+                    </td>
+                    <td className="p-2 font-bold">Pets</td>
+                    <td className="p-2 text-sm text-gray-600">Pets are allowed. Charges may be applicable.</td>
+                  </tr>
+                  {/* Groups */}
+                  <tr className="border-b">
+                    <td className="p-2 w-10">
+                      <i className="fas fa-users text-2xl"></i>
+                    </td>
+                    <td className="p-2 font-bold">Groups</td>
+                    <td className="p-2 text-sm text-gray-600">
+                      When booking more than 7 rooms, different policies and additional supplements may apply.
+                    </td>
+                  </tr>
+                  {/* Accepted Payment Methods */}
+                  <tr>
+                    <td className="p-2 w-10">
+                      <CiCreditCard1 className="text-2xl" />
+                    </td>
+                    <td className="p-2 font-bold">Accepted payment methods</td>
+                    <td className="p-2 text-sm text-gray-600">
+                      <div className="flex flex-wrap space-x-2 items-center">
+                        <img
+                          src="https://www.visa.co.in/dam/VCOM/regional/ap/india/global-elements/images/in-visa-classic-card-498x280.png"
+                          alt="Visa"
+                          className="h-6"
+                        />
+                        <img
+                          src="https://www.visa.co.in/dam/VCOM/regional/ap/india/global-elements/images/in-visa-gold-card-498x280.png"
+                          alt="MasterCard"
+                          className="h-6"
+                        />
+                        <span className="text-sm bg-green-600 text-white px-2 py-1 rounded-md">Cash</span>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
 
       <br />
       <Footer1 />

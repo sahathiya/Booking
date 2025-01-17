@@ -88,13 +88,16 @@ function Houses() {
                     <span>150 m from centre</span>
                   </div>
                   <p className="mt-2 text-gray-700">
-                    Double Room with Private Bathroom
-                    <br />
-                    <span className="text-sm text-gray-500">
-                      1 large double bed
-                    </span>
-                  </p>
-                  <div className="mt-3">
+  {item.RoomType && item.RoomType.length > 0 ? (
+    item.RoomType.map((pro, index) => (
+      <>
+      <span key={index}>
+        {pro.type} {" "}
+        with Private Bathroom
+        {index < item.RoomType.length - 1 && ", "}
+      </span>
+      <p className="text-sm text-gray-500">1 large {pro.type==='double room'?'double':'single'} bed</p>
+      <div className="mt-3">
                     <p className="text-green-600 font-semibold text-sm">
                       ✓ Free cancellation
                     </p>
@@ -102,10 +105,19 @@ function Houses() {
                       ✓ No prepayment needed – pay at the property
                     </p>
                     <p className="text-red-600 text-sm">
-                      Only 3 rooms left at this price on our site
+                      Only {pro.count} rooms left at this price on our site
                     </p>
                   </div>
-                </div>
+      </>
+    ))
+  ) : (
+    <span>No room types available</span>
+  )}
+  <br />
+  
+</p>
+                  </div>
+                
 
                 
                 <div className="mt-4 flex items-center justify-between">
@@ -130,14 +142,7 @@ function Houses() {
               </div>
             </div>
 
-            {/* Review Section */}
-            {/* <div className="absolute top-4 right-4 bg-blue-600 text-white text-xs px-2 py-1 rounded-md shadow-md">
-    <span className="font-semibold text-sm">7.4</span>
-  </div>
-  <div className="absolute top-4 right-20 bg-white text-gray-800 text-xs px-2 py-1 rounded-md shadow-md">
-    <span className="font-semibold">Good</span>
-    <span className="ml-2">168 reviews</span>
-  </div> */}
+      
           </div>
         ))}
       </div>
