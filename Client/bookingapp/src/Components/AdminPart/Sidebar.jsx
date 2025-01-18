@@ -61,7 +61,7 @@ function Sidebar() {
       >
         <div className="h-full px-4 py-6 space-y-4 overflow-y-auto">
           <div>
-            <NavLink to="/" className="flex items-center ml-3">
+            <NavLink to="/dashboardchart" className="flex items-center ml-3">
               <img
                 src="https://i.scdn.co/image/ab6775700000ee859d06b236b6077b9e367978e0"
                 className="h-8 rounded-md"

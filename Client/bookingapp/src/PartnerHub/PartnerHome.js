@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Navbarpartner from "./Navbarpartner";
+import Footerpartner from "./Footerpartner";
 
 function PartnerHome() {
   const partner = useSelector((state) => state.partner.partner);
@@ -67,7 +68,10 @@ function PartnerHome() {
             </p>
           </div>
         )}
+        
       </div>
+      
+      <Footerpartner/>
     </>
   );
 }

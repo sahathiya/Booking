@@ -61,7 +61,7 @@ function RegistrationP() {
               value={email}
               onChange={(e) => {
                 setEmail(e.target.value);
-                setEmailError(""); 
+                setEmailError("");
               }}
               className={`w-full border ${
                 emailError ? "border-red-500" : "border-gray-300"

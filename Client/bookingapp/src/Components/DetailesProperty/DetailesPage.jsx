@@ -479,7 +479,7 @@ console.log('bookingfound',bookingfound);
 
 <div className="flex items-center justify-between mt-4">
   <div className="inline-block text-lg font-bold bg-blue-900 text-white px-3 py-1 rounded-md mt-2">
-    {propertyprogress ? propertyprogress.averageRating : 1}
+    {propertyprogress ? propertyprogress.averageRating : '1.0'}
   </div>
   
   <button
@@ -776,7 +776,7 @@ console.log('bookingfound',bookingfound);
 
                 <div className="flex items-center text-yellow-500 text-xl">
   {Array.from({ length: 5 }).map((_, index) => {
-    const averageRating = progress.find((item) => item.property === pro._id)?.averageRating || 1.0;
+    const averageRating = progress.find((item) => item.property === pro._id)?.averageRating || '1.0';
     return (
       <span key={index}>
         {index < Math.round(averageRating) ? '★' : '☆'}

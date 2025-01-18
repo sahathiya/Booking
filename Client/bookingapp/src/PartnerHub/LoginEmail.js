@@ -31,7 +31,7 @@ function LoginEmail() {
   return (
     <div>
       <NavbarP />
-    
+
       <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] p-4">
         <div className="bg-white shadow-lg rounded-lg p-6 max-w-md w-full">
           <h1 className="text-2xl font-bold text-gray-800 mb-4">

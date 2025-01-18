@@ -14,6 +14,7 @@ function RoomDetails() {
   const roomImage = detailesproperty
     .map((pro) => pro.RoomType.map((item) => item.image))
     .flat();
+console.log("roomImage",roomImage);
 
   return (
     <>

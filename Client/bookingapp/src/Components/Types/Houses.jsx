@@ -81,9 +81,7 @@ function Houses() {
                       {item.city}
                     </a>
                     <span>•</span>
-                    <a href="#" className="underline">
-                      Show on map
-                    </a>
+                    
                     <span>•</span>
                     <span>150 m from centre</span>
                   </div>
@@ -122,12 +120,9 @@ function Houses() {
                 
                 <div className="mt-4 flex items-center justify-between">
                   <div>
-                    <p className="text-right text-gray-500 text-sm">1 night</p>
-                    <p className="text-2xl font-bold text-gray-800">
+                  <p className="text-2xl font-bold text-gray-800">
                       ₹ {item.pricePerNight}
-                      <span className="text-sm font-normal text-gray-500">
-                        + ₹ 1,152 taxes and charges
-                      </span>
+                      <span className="text-sm text-gray-600">/1 night</span>
                     </p>
                   </div>
                   <div>

@@ -179,13 +179,12 @@ const PropertyCard = () => {
                     {item.city}, {item.country}
                   </p>
                   <div className="flex items-center space-x-2 ">
-                    {/* Rating */}
-                    <div className="bg-blue-900 text-white text-sm rounded-md w-8 h-8 flex items-center justify-center shadow-lg">
+                    <div className="bg-blue-900 text-white text-sm font-bold rounded-md w-8 h-8 flex items-center justify-center shadow-lg">
                       {reviews.find((review) => review.property._id === item._id)
-                        ?.rating || 1}
+                        ?.rating || '1.0'}
                     </div>
   
-                    {/* Review Label */}
+                    
                     <p className="text-sm text-gray-500">
                       {reviews.find((review) => review.property._id === item._id)
                         ?.reviewLabel || "Bad"}

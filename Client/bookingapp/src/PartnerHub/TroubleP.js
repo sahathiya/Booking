@@ -15,7 +15,6 @@ function TroubleP() {
           track.
         </p>
 
-        {/* Forgot Password */}
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-3">
             <i className="fas fa-lock text-blue-500 text-xl"></i>
@@ -32,7 +31,6 @@ function TroubleP() {
         </div>
         <hr className="border-gray-300" />
 
-        {/* Forgot Username */}
         <div className="flex items-center justify-between mb-4 mt-4">
           <div className="flex items-center space-x-3">
             <i className="fas fa-user-circle text-blue-500 text-xl"></i>
@@ -49,7 +47,6 @@ function TroubleP() {
         </div>
         <hr className="border-gray-300" />
 
-        {/* Go to Sign-In */}
         <div className="flex items-center justify-between mt-4">
           <div className="flex items-center space-x-3">
             <i className="fas fa-sign-in-alt text-blue-500 text-xl"></i>
@@ -67,7 +64,6 @@ function TroubleP() {
         </div>
         <hr className="border-gray-300 mt-4" />
 
-        {/* Terms and Footer */}
         <div className="text-center">
           <p className="text-sm text-gray-600 mt-6">
             By signing in or creating an account, you agree with our{" "}

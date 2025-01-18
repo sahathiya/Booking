@@ -99,7 +99,7 @@ function LoginPassword() {
             <br />
             <br />
             <button
-              onClick={() => navigate("/forgott-password")}
+              onClick={() => navigate("/forgot-password")}
               className="w-full text-blue-900 font-medium py-2 rounded-lg hover:bg-blue-100 transition"
             >
               Forgotten your password?

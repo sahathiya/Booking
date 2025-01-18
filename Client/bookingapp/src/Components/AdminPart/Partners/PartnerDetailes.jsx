@@ -87,7 +87,7 @@ function PartnerDetailes() {
               Total Revenew
             </h2>
             <p className="text-3xl font-extrabold text-gray-800 mt-2">
-              {revenuew.find((item) => item._id === id)?.revenuew || 0}
+            ₹{revenuew.find((item) => item._id === id)?.revenuew || 0}
             </p>
           </div>
           <h3 className="text-lg font-medium text-blue-900 mb-4">Properties</h3>
@@ -113,7 +113,8 @@ function PartnerDetailes() {
                       scope="row"
                       className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
                     >
-                      {item.Propertyname}
+                      <img src={item.images[0]} className="h-20 w-20 rounded-md"/><span>{item.Propertyname}</span> 
+                     
                     </th>
                     <td className="px-6 py-4">{item.type}</td>
                     <td className="px-6 py-4">₹{item.pricePerNight}</td>

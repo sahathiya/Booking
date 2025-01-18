@@ -1,8 +1,3 @@
-
-
-
-
-
 import { faCalendarDays } from "@fortawesome/free-solid-svg-icons";
 import { LuUserRound } from "react-icons/lu";
 import "react-date-range/dist/styles.css";

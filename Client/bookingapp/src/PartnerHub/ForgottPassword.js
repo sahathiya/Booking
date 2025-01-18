@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axiosInstance from "../Axios/axiosinstance";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import NavbarP from "./Navbar/NavbarP";
 
 function ForgottPassword() {
@@ -50,7 +50,9 @@ function ForgottPassword() {
               Send reset link
             </button>
           </form>
-          <p className="text-center text-blue-500 font-semibold mt-4">
+          <p 
+          onClick={()=>navigate(`/contact-support`)}
+          className="text-center text-blue-500 font-semibold mt-4 cursor-pointer">
             Forgot your Username?
           </p>
           <br></br>

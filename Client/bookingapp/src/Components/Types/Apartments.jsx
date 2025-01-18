@@ -83,9 +83,7 @@ function Apartments() {
                       {item.city}
                     </a>
                     <span>•</span>
-                    <a href="#" className="underline">
-                      Show on map
-                    </a>
+                    
                   </div>
                   <p className="mt-2 text-gray-700">
                     {item.RoomType && item.RoomType.length > 0 ? (
@@ -127,10 +125,7 @@ function Apartments() {
                       ₹ {item.pricePerNight}
                       <span className="text-sm text-gray-600">/1 night</span>
                     </p>
-                    {/* <span className="text-sm font-normal text-gray-500">
-                        + ₹ 1,152 taxes and charges
-                      </span> */}
-                    {/* </p> */}
+                    
                   </div>
                   <div>
                     <button
