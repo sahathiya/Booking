@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 
 
 import React, { useEffect, useState } from "react";
@@ -20,7 +21,7 @@ console.log("totalRevenue",totalRevenue.totalRevenuew)
   const dailyData = dailyRevenue.map((item) => item.revenue) || [];
  const data= [
     {   label: "Total bookings",value: 1000 },//bookings
-    {   label: "Total revenuew",value: totalRevenue.totalRevenuew} ,
+    {   label: "Total revenue",value: totalRevenue.totalRevenuew} ,
     
   ]
 
@@ -51,9 +52,9 @@ console.log("totalRevenue",totalRevenue.totalRevenuew)
   
 
     <div className="p-4 sm:p-6 md:p-8 lg:p-10">
-  {/* Cards Section */}
+  
   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-    {/* Card 1: Total Bookings */}
+    
     <div className="bg-white shadow-md hover:shadow-lg rounded-lg p-4 sm:p-6 transition-shadow duration-300">
       <h2 className="text-gray-500 text-sm font-semibold uppercase">
         Total Bookings
@@ -61,7 +62,7 @@ console.log("totalRevenue",totalRevenue.totalRevenuew)
       <p className="text-3xl font-extrabold text-gray-800 mt-2">{bookings}</p>
     </div>
 
-    {/* Card 2: Total Guests */}
+    
     <div className="bg-white shadow-md hover:shadow-lg rounded-lg p-4 sm:p-6 transition-shadow duration-300">
       <h2 className="text-gray-500 text-sm font-semibold uppercase">
         Total Guests
@@ -69,7 +70,7 @@ console.log("totalRevenue",totalRevenue.totalRevenuew)
       <p className="text-3xl font-extrabold text-gray-800 mt-2">{allusers.length}</p>
     </div>
 
-    {/* Card 3: Cancelled Bookings */}
+    
     <div className="bg-white shadow-md hover:shadow-lg rounded-lg p-4 sm:p-6 transition-shadow duration-300">
       <h2 className="text-gray-500 text-sm font-semibold uppercase">
         Cancelled Bookings
@@ -77,7 +78,7 @@ console.log("totalRevenue",totalRevenue.totalRevenuew)
       <p className="text-3xl font-extrabold text-gray-800 mt-2">{cancel}</p>
     </div>
 
-    {/* Card 4: Total Revenue */}
+    
     <div className="bg-white shadow-md hover:shadow-lg rounded-lg p-4 sm:p-6 transition-shadow duration-300">
       <h2 className="text-gray-500 text-sm font-semibold uppercase">
         Total Revenue
@@ -89,9 +90,8 @@ console.log("totalRevenue",totalRevenue.totalRevenuew)
     </div>
   </div>
 
-  {/* Chart Section */}
+  
   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-    {/* Pie Chart */}
     <div className="bg-white shadow-md hover:shadow-lg rounded-lg p-4 sm:p-6 transition-shadow duration-300 flex justify-center items-center h-[500px]">
       
       <PieChart
@@ -114,7 +114,7 @@ console.log("totalRevenue",totalRevenue.totalRevenuew)
       
     </div>
 
-    {/* Line Chart */}
+   
     <div className="bg-white shadow-md hover:shadow-lg rounded-lg p-4 sm:p-6 transition-shadow duration-300">
       <h3 className="text-gray-500 text-sm font-semibold mb-4 uppercase">
         Revenue Overview
@@ -122,7 +122,7 @@ console.log("totalRevenue",totalRevenue.totalRevenuew)
       {dailyData.length > 0 ? (
         <div className="overflow-auto">
           <LineChart
-            width={600} // Adjust width for responsiveness
+            width={600} 
             height={300}
             series={[{ data: dailyData, label: "Daily Revenue" }]}
             xAxis={[{ scaleType: "point", data: x1Labels }]}

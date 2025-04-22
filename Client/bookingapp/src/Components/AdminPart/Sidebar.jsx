@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { RiLogoutCircleLine } from "react-icons/ri";
@@ -101,7 +102,7 @@ function Sidebar() {
               >
                 <CiMail />
                 <span className="flex-1 ml-3 whitespace-nowrap">Inbox</span>
-                <span className="inline-flex items-center justify-center w-6 h-6 text-sm font-medium text-blue-900 bg-white rounded-full">
+                <span className="inline-flex items-center justify-center w-6 h-6 text-sm font-medium text-white bg-blue-900 rounded-full">
                   {notifications.length}
                 </span>
               </NavLink>

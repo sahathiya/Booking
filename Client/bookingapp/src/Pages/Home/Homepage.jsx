@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axiosInstance from "../../Axios/axiosinstance";
@@ -6,14 +7,13 @@ import { useNavigate } from "react-router-dom";
 import { setAllSaved } from "../../Features/savedSlice";
 import { FaHeart } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
-import SaveModal from "../../Components/Saved/SaveModal";
 import { SetReviews } from "../../Features/adminSlice";
 
 const PropertyCard = () => {
   const [Count, setCount] = useState([]);
   const [reviewCount, setReviewCount] = useState([]);
   console.log("reviewCount", reviewCount);
-  const allReviews = useSelector((state) => state.review.allreviews);
+  // const allReviews = useSelector((state) => state.review.allreviews);
   console.log("Count", Count);
   const reviews = useSelector((state) => state.admin.reviews);
   console.log("reviews", reviews);
@@ -24,9 +24,7 @@ const PropertyCard = () => {
 
   const property = useSelector((state) => state.property.property);
   const savedProperties = useSelector((state) => state.saved.savedProperties);
-  const [currentProperty, setCurrentProperty] = useState(null);
-  const [isaddModalOpen, setaddModalOpen] = useState(false);
-  const [isremoveModalOpen, setremoveModalOpen] = useState(false);
+ 
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -75,30 +73,17 @@ const PropertyCard = () => {
         dispatch(
           setAllSaved(savedProperties.filter((item) => item._id !== propertyID))
         );
-        setCurrentProperty({
-          _id: propertyID,
-          name: removeresponse.data.Propertyname,
-        });
-        setremoveModalOpen(true);
+     
       } else {
         const addResponse = await axiosInstance.post(`/saved/${propertyID}`);
         dispatch(setAllSaved([...savedProperties, { _id: propertyID }]));
-        setCurrentProperty({
-          _id: propertyID,
-          name: addResponse.data.Propertyname,
-        });
-        setaddModalOpen(true);
+       
       }
     } catch (error) {
       console.error("Error toggling save:", error);
     }
   };
 
-  const handleCloseModal = () => {
-    setaddModalOpen(false);
-    setremoveModalOpen(false);
-    setCurrentProperty(null);
-  };
 
   const handleHotel = async (type) => {
     console.log("tyy", type);
@@ -151,25 +136,7 @@ const PropertyCard = () => {
                   </button>
                 </div>
   
-                {currentProperty &&
-                  isaddModalOpen &&
-                  currentProperty._id === item._id && (
-                    <SaveModal
-                      isOpen={isaddModalOpen}
-                      onClose={handleCloseModal}
-                      title="Saved"
-                    />
-                  )}
-  
-                {currentProperty &&
-                  isremoveModalOpen &&
-                  currentProperty._id === item._id && (
-                    <SaveModal
-                      isOpen={isremoveModalOpen}
-                      onClose={handleCloseModal}
-                      title="Removed"
-                    />
-                  )}
+                
   
                 <div className="p-4">
                   <h3 className="text-lg font-semibold mb-1">
@@ -180,13 +147,13 @@ const PropertyCard = () => {
                   </p>
                   <div className="flex items-center space-x-2 ">
                     <div className="bg-blue-900 text-white text-sm font-bold rounded-md w-8 h-8 flex items-center justify-center shadow-lg">
-                      {reviews.find((review) => review.property._id === item._id)
+                      {reviews.find((review) => review.property?._id === item._id)
                         ?.rating || '1.0'}
                     </div>
   
                     
                     <p className="text-sm text-gray-500">
-                      {reviews.find((review) => review.property._id === item._id)
+                      {reviews.find((review) => review.property?._id === item._id)
                         ?.reviewLabel || "Bad"}
                     </p>
                   </div>

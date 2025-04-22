@@ -1,3 +1,4 @@
+
 import { faCalendarDays } from "@fortawesome/free-solid-svg-icons";
 import { LuUserRound } from "react-icons/lu";
 import "react-date-range/dist/styles.css";
@@ -83,7 +84,7 @@ function SearchingProperty() {
         />
       </div>
 
-      <div className="flex-1 flex items-center gap-2 p-2 z-50 border-4 border-[#febb02] rounded-lg relative bg-white   w-full md:w-auto">
+      <div className="flex-1 flex items-center gap-2 p-2  border-4 border-[#febb02] rounded-lg relative bg-white   w-full md:w-auto">
         <FontAwesomeIcon
           icon={faCalendarDays}
           className="text-gray-400 text-xl"
@@ -104,7 +105,7 @@ function SearchingProperty() {
             moveRangeOnFirstSelection={false}
             ranges={date}
             minDate={new Date()}
-            className="absolute top-8 left-0"
+            className="absolute top-8 left-0 z-50"
           />
         )}
       </div>

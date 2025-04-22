@@ -1086,7 +1086,7 @@ console.log('bookingfound',bookingfound);
                               I'll Reserve
                             </button>
                           </td>
-                          {!unavaailable.length>0?(
+                          {Array.isArray(unavaailable) && !unavaailable.length > 0? (
                             <td className="px-4 py-2 border border-gray-300">
                             Available
                           </td>
@@ -1094,7 +1094,7 @@ console.log('bookingfound',bookingfound);
                             <td className="px-4 py-2 border border-gray-300 text-red-600">
                            Not Available this dates
                            <p>
-  {unavaailable.map((item) =>
+  {Array.isArray(unavaailable) &&unavaailable.map((item) =>
     new Date(item.checkIn).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',

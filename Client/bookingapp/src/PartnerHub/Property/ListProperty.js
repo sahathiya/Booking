@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState ,useEffect} from "react";
 import {
   FaHotel,
@@ -15,6 +16,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Navbarpartner from "../Navbarpartner";
 import {toast} from 'react-toastify'
+import { FaLocationDot } from "react-icons/fa6";
 function ListProperty() {
   
   const navigate = useNavigate();
@@ -29,6 +31,7 @@ function ListProperty() {
     adultCount: 1,
     childCount: 0,
     facilities:"",
+    location:"",
     pricePerNight: 0,
     numberofRooms: 0,
     images: [],
@@ -156,6 +159,7 @@ const allfacilities=[
       toast.success(response.data.message);
       setFormData({
         Propertyname: "",
+        location:"",
         description: "",
         city: "",
         country: "",
@@ -197,6 +201,20 @@ const allfacilities=[
                 value={formData.Propertyname}
                 onChange={handleChange}
                 placeholder="Property Name"
+                className="w-full border border-gray-300 rounded-lg px-4 py-2"
+                required
+              />
+            </div>
+
+
+            <div className="flex items-center space-x-2">
+              <FaLocationDot className="text-gray-600" />
+              <input
+                type="text"
+                name="location"
+                value={formData.location}
+                onChange={handleChange}
+                placeholder="location"
                 className="w-full border border-gray-300 rounded-lg px-4 py-2"
                 required
               />

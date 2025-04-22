@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../../../Axios/axiosinstance";
 import { IoMdStar, IoMdStarHalf, IoMdStarOutline } from "react-icons/io";

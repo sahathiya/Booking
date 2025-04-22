@@ -15,7 +15,7 @@ const PropertyListing = () => {
       description:
         "Furnished and self-catering accommodation, where guests rent the entire place.",
       image:
-        "https://yt3.googleusercontent.com/wPeRjf1SnEqVRl2DXjJH7D3wz3tKrdgs7zQDNLIGmrf593isVEZORKRlqnGhql_VGnTvpVkotQ=s900-c-k-c0x00ffffff-no-rj",
+        "https://img.freepik.com/free-vector/building-exterior-with-open-windows-people_74855-6268.jpg?t=st=1743833101~exp=1743836701~hmac=8d1d58a987961ad5ebae389b5ee9623e9e8cc3fee6a3fc22191b3a259c1304bd&w=1380",
     },
     {
       id: 2,

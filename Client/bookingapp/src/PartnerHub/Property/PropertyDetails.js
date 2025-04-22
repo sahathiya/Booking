@@ -80,6 +80,7 @@ function PropertyDetails() {
               <p className="text-gray-600 text-sm leading-relaxed">
                 {property.description}
               </p>
+              
               <div className="text-sm text-gray-700 space-y-1">
                 <p>
                   <strong className="font-medium">City:</strong> {property.city}
@@ -99,10 +100,6 @@ function PropertyDetails() {
                 <p>
                   <strong className="font-medium">Facilities:</strong>{" "}
                   {property.facilities?.join(", ")}
-                </p>
-                <p>
-                  <strong className="font-medium">Rating:</strong>{" "}
-                  {property.rating}
                 </p>
               </div>
 

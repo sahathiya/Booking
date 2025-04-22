@@ -11,7 +11,7 @@
 
 
 import React, { useEffect, useState } from 'react';
-import { FaCity, FaGlobe, FaHotel, FaUser, FaChild, FaStar, FaImages, FaFileAlt, FaRupeeSign, FaBed } from 'react-icons/fa';
+import { FaCity, FaGlobe, FaHotel, FaUser, FaChild, FaImages, FaFileAlt, FaRupeeSign, FaBed } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import axiosInstance from '../../Axios/axiosinstance';

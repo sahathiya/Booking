@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { FaBell, FaQuestionCircle, FaUser } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
@@ -14,7 +13,7 @@ import { GoQuestion } from "react-icons/go";
 import { PiSuitcaseSimpleLight } from "react-icons/pi";
 import { MdOutlineReviews } from "react-icons/md";
 import { LuMenu } from "react-icons/lu";
-import { IoIosPerson } from "react-icons/io";
+
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -158,7 +157,7 @@ const Navbar = () => {
           >
             <IoMdNotificationsOutline size={27} />
 
-            {notifications.length > 0 && (
+            {notifications && notifications.length > 0 && (
               <div className="absolute -top-2 -right-2 bg-red-600 text-white text-xs  rounded-full h-5 w-5 flex items-center justify-center">
                 {notifications.length}
               </div>

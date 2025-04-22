@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axiosInstance from "../Axios/axiosinstance";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import NavbarP from "./Navbar/NavbarP";
 
 function ForgottPassword() {
@@ -60,13 +60,13 @@ function ForgottPassword() {
           <div className="text-center">
             <p className="text-xs text-gray-500 mt-6">
               By signing in or creating an account, you agree with our{" "}
-              <a href="#" className="text-blue-600 hover:underline">
+              <Link to={`/`} className="text-blue-600 hover:underline">
                 Terms & conditions
-              </a>{" "}
+              </Link>{" "}
               and{" "}
-              <a href="#" className="text-blue-600 hover:underline">
+              <Link to={`/`} className="text-blue-600 hover:underline">
                 Privacy statement
-              </a>
+              </Link>
               .
             </p>
             <p className="text-xs text-gray-500 mt-4">

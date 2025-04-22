@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axiosInstance from "../../../Axios/axiosinstance";
@@ -49,11 +50,11 @@ function Allbookings() {
                 <td className="px-4 py-2">{item.GuestDetailes?.email}</td>
                 <td className="px-4 py-2">
                   <img
-                    src={item.PropertyDetailes.images[0]}
+                    src={item.PropertyDetailes?.images[0]}
                     className="w-16 h-16 object-cover rounded-md"
                   />
                   <td className="px-4 py-2">
-                    {item.PropertyDetailes.Propertyname}
+                    {item.PropertyDetailes?.Propertyname}
                   </td>
                 </td>
 

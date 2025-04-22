@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable jsx-a11y/alt-text */
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
@@ -84,7 +86,7 @@ function PartnerDetailes() {
         <div className="overflow-x-auto border-t border-gray-200 mt-6 pt-4 ">
           <div className="bg-white shadow-md hover:shadow-lg rounded-lg p-4 sm:p-6 transition-shadow duration-300">
             <h2 className="text-gray-500 text-sm font-semibold uppercase">
-              Total Revenew
+              Total Revenue
             </h2>
             <p className="text-3xl font-extrabold text-gray-800 mt-2">
             ₹{revenuew.find((item) => item._id === id)?.revenuew || 0}

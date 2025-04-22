@@ -27,13 +27,14 @@ function SearchDetailes() {
   const properties = location.state?.properties || [];
   console.log("location", location);
   const cityname = properties.map((item) => item.city);
-  console.log("propertiesbbbbbbb", cityname);
+  const locations= properties.map((item) => item.location);
+  console.log("locations", locations[0]);
 
   const [position, setPosition] = useState(null);
   console.log("position", position);
 
   const [modalOpen, setModalOpen] = useState(false);
-  console.log("MapComponent rendered", modalOpen);
+ 
 
   const toggleModal = () => setModalOpen(!modalOpen);
   const [filtered, setFiltered] = useState([]);
@@ -69,7 +70,7 @@ function SearchDetailes() {
     (state) => state.property.filteredProperties
   );
 
-  console.log("filteredProperties", filteredProperties);
+  console.log("properties", properties);
 
   const priceRanges = [
     { min: 300, max: 500 },
@@ -149,20 +150,39 @@ function SearchDetailes() {
     <>
       <Navbar />
       <Navbar2 />
-
+  
       <div className="flex flex-col md:flex-row container mx-auto p-6">
         <div className="w-full md:w-1/3 lg:w-1/4 bg-gray-100 p-4 space-y-4 rounded-md shadow-md">
+        <button
+        onClick={toggleModal}
+        className="bg-blue-900 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+      >
+        Show on Map
+      </button>
+
           {modalOpen && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
               <div className="bg-white w-[500px] h-[500px] rounded-lg shadow-lg overflow-hidden relative">
-                <button
-                  className="absolute top-2 left-2 text-white font-bold text-2xl z-[9999]"
-                  onClick={toggleModal}
-                >
-                  ×
-                </button>
+  <button
+    className="absolute top-0 right-2 text-black font-bold text-2xl z-[9999]"
+    onClick={toggleModal}
+  >
+    ×
+  </button>
 
-                <APIProvider apiKey="AIzaSyAgxJOapMjdcl_Ddybk6QO8K5RITXj6OOc">
+  <iframe
+    src={locations[0]}
+    className="w-full h-full"
+    style={{ border: 0 }}
+    allowFullScreen=""
+    loading="lazy"
+    referrerPolicy="no-referrer-when-downgrade"
+  ></iframe>
+</div>
+
+            </div>
+          )}
+ {/* <APIProvider apiKey="AIzaSyAgxJOapMjdcl_Ddybk6QO8K5RITXj6OOc">
                   <div className="w-full h-full">
                     <Map zoom={9} center={position} mapId="1cf93e21043661ac">
                       <AdvancedMarker
@@ -176,12 +196,8 @@ function SearchDetailes() {
                       )}
                     </Map>
                   </div>
-                </APIProvider>
-              </div>
-            </div>
-          )}
-
-          {position ? (
+                </APIProvider> */}
+          {/* {position ? (
             <APIProvider apiKey="AIzaSyAgxJOapMjdcl_Ddybk6QO8K5RITXj6OOc">
               <div className="w-[230px] h-[300px]">
                 <Map zoom={9} center={position} mapId="1cf93e21043661ac">
@@ -201,7 +217,7 @@ function SearchDetailes() {
             </APIProvider>
           ) : (
             <p className="text-gray-500">Loading map...</p>
-          )}
+          )} */}
 
           <div className="bg-white p-4 rounded-md shadow">
             <h2 className="font-bold text-lg mb-2">Filter by:</h2>
@@ -335,50 +351,7 @@ function SearchDetailes() {
           <br />
           {(isSearching ? filteredProperties : properties).map(
             (item, index) => (
-              // <div
-              //   key={index}
-              //   className="flex flex-col md:flex-row items-start md:items-stretch border-2 border-blue-500 shadow-lg rounded-lg overflow-hidden mb-4 md:mb-6 bg-white max-w-full"
-              // >
-              //   {/* Image Section */}
-              //   <div className="relative w-full md:w-1/3">
-              //     <img
-              //       src={item.images[0]}
-              //       alt={item.Propertyname}
-              //       className="w-full h-full   rounded-md object-cover"
-              //     />
-              //     <button className="absolute top-2 right-2 bg-white p-2 rounded-full shadow-md hover:scale-110">
-              //       <FontAwesomeIcon
-              //         icon={faHeart}
-              //         className="text-lg text-black"
-              //       />
-              //     </button>
-              //   </div>
-
-              //   {/* Details Section */}
-              //   <div className="w-full md:w-2/3 p-4 flex flex-col justify-between">
-              //     <div>
-              //       <h1 className="text-lg md:text-xl font-bold text-blue-600 mb-2">
-              //         {item.Propertyname}
-              //       </h1>
-              //       <p className="text-sm text-gray-500 mb-2">
-              //         {item.city}, {item.country}
-              //       </p>
-              //       <p className="text-sm text-gray-600 mb-1">{item.brand}</p>
-              //       <p className="text-sm text-gray-600 mb-1">{item.facilities}</p>
-              //       <p className="text-lg font-semibold text-green-700 mb-2">
-              //         ₹{item.pricePerNight}{" "}
-              //         <span className="text-sm">per 1 night</span>
-              //       </p>
-              //     </div>
-              //     <button
-              //       onClick={() => navigate(`/detailespage/${item._id}`)}
-              //       className="bg-blue-600 text-white font-semibold rounded-md py-2 px-4 mt-4 hover:bg-blue-700 transition"
-              //     >
-              //       See availability
-              //     </button>
-              //   </div>
-              // </div>
-
+             
               <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg overflow-hidden border">
                 <div className="grid grid-cols-1 md:grid-cols-3">
                   {/* Property Image */}
@@ -419,10 +392,17 @@ function SearchDetailes() {
                         </div>
                       </h2>
                       <div className="text-sm text-blue-500 flex items-center space-x-2">
-                        <a href="#" className="underline">
+                        <p  
+                        onClick={toggleModal}
+                        className="underline cursor-pointer">
                           {item.city}
-                        </a>
+                        </p>
                         <span>•</span>
+                        <p 
+                         onClick={toggleModal}
+                        className="underline cursor-pointer">
+                          show on map
+                        </p>
                       
                       </div>
                       <p className="mt-2 text-gray-700">
