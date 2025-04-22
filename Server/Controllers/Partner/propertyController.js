@@ -156,11 +156,12 @@ const AddProperty = async (req, res) => {
       RoomType,
       image,
       brand,
+      location
     } = req.body;
 
     console.log("req.body:", req.body);
 
-    // Parse RoomType
+    
     let parsedRoomType;
     try {
       parsedRoomType = typeof RoomType === "string" ? JSON.parse(RoomType) : RoomType;
@@ -168,11 +169,11 @@ const AddProperty = async (req, res) => {
       return res.status(400).json({ message: "Invalid RoomType format" });
     }
 
-    // Upload images
+    
     const images = req.files.map(file => file.path);
     console.log("Uploaded files:", req.files);
 
-    // Create property
+    
     const property = new Property({
       partner: req.user.id,
       Propertyname,
@@ -187,17 +188,19 @@ const AddProperty = async (req, res) => {
       numberofRooms,
       brand,
       images,
+      location,
       RoomType: parsedRoomType.map(rt => ({
         type: rt.type,
         count: rt.count,
         about: rt.about,
         facility: rt.facility || [],
-        image:image
+        image:rt.image
       })),
     });
 
     const savedProperty = await property.save();
     const populatedProperty = await Property.findById(savedProperty._id).populate("partner");
+console.log("populatedProperty",populatedProperty);
 
     return res.status(201).json({
       message: "Property added successfully",

@@ -32,6 +32,7 @@ const propertySchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
   reviews:{type: mongoose.Schema.Types.ObjectId, ref: "Review"},
   Bookings: { type: mongoose.Schema.Types.ObjectId, ref: "Booking" },
+  location:{type:String}
  
 });
 
