@@ -32,14 +32,14 @@ const registerUser = async (req, res) => {
 
   await newUser.save();
 
-  res.cookie("user", newUser, {
-    httpOnly: false,
-    secure: false,
-    sameSite: "lax",
-    maxAge: 24 * 60 * 60 * 1000,
-  });
+  // res.cookie("user", newUser, {
+  //   httpOnly: false,
+  //   secure: false,
+  //   sameSite: "lax",
+  //   maxAge: 24 * 60 * 60 * 1000,
+  // });
 
-  return res.status(201).json({ message: "User registered successfully" });
+  return res.status(201).json({ message: "User registered successfully",newUser });
 };
 
 //to get all users
@@ -57,6 +57,8 @@ const getUserbyId = async (req, res) => {
 //login user
 
 const loginUser = async (req, res, next) => {
+  console.log('ggggg');
+  
   const { email, password } = req.body;
 
   if (!email || !password) {
@@ -104,6 +106,7 @@ const loginUser = async (req, res, next) => {
     sameSite: "lax",
     maxAge: 24 * 60 * 60 * 1000,
   });
+console.log('user from login',user);
 
   res.status(200).json({ message: "User logged in successfully", user, token });
 };
@@ -220,20 +223,21 @@ const loginWithOtp = async (req, res) => {
       maxAge: 24 * 60 * 60 * 1000,
     });
 
-    res.cookie("user", user, {
-      httpOnly: false,
-      secure: false,
-      sameSite: "lax",
-      maxAge: 24 * 60 * 60 * 1000,
-    });
+    // res.cookie("user", user, {
+    //   httpOnly: false,
+    //   secure: false,
+    //   sameSite: "lax",
+    //   maxAge: 24 * 60 * 60 * 1000,
+    // });
 
     return res.status(200).json({
       success: true,
       message: "Login successful via OTP",
-      user: {
-        ...user._doc,
-        password: "",
-      },
+      user
+      // user: {
+      //   ...user._doc,
+      //   password: "",
+      // },
     });
   } else {
     return res.status(400).json({ success: false, message: "Invalid OTP" });
