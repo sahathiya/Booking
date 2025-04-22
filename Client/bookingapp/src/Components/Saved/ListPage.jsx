@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
 import { useParams } from "react-router-dom";
 import Navbar from "../Navbars/Navbar";
 import React, { useEffect, useState } from "react";

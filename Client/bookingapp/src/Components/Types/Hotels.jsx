@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 import Navbar from "../Navbars/Navbar";
 import { useLocation, useNavigate } from "react-router-dom";

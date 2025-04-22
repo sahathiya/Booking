@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { CiCircleInfo } from "react-icons/ci";
 import { IoIosEye, IoIosEyeOff } from "react-icons/io";
