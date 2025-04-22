@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,7 +23,7 @@ const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const user = useSelector((state) => state.user.user);
-  console.log("userrrrrr", user);
+  console.log("userrrrrr...", user);
 
   const handleSignOut = async () => {
     try {
@@ -45,9 +46,16 @@ const Navbar = () => {
 
   useEffect(() => {
     const fetchNotifications = async () => {
+      try {
+        if (!user) return;
       const response = await axiosInstance.get(`/notification`);
       console.log("notifications", response);
       setNotifications(response.data.notification);
+        
+      } catch (error) {
+        console.error("Failed to fetch notifications:", error);
+        
+      }
     };
     fetchNotifications();
   }, []);
@@ -55,11 +63,11 @@ const Navbar = () => {
   useEffect(() => {
     const userCookie = Cookies.get("user");
     if (userCookie) {
-      const userJson = userCookie.startsWith("j:")
-        ? userCookie.slice(2)
-        : userCookie;
+      // const userJson = userCookie.startsWith("j:")
+      //   ? userCookie.slice(2)
+      //   : userCookie;
       try {
-        const user = JSON.parse(userJson);
+        const user = JSON.parse(userCookie);
         dispatch(LogUser(user));
       } catch (error) {
         console.error("Failed to parse partner cookie:", error);

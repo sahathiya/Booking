@@ -1,10 +1,12 @@
+/* eslint-disable no-use-before-define */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axiosInstance from "../../Axios/axiosinstance";
 import { useDispatch } from "react-redux";
 import { LogUser } from "../../Features/userSlice";
 import Header from "../../Components/Navbars/Header";
-
+import Cookies from "js-cookie";
 function Login() {
   const location = useLocation();
   const email = location.state?.email;
@@ -43,9 +45,12 @@ function Login() {
         otp: otpCode,
         email: email,
       });
+      
       console.log("API Response:", response);
       const user = response.data.user;
       console.log("User:", user);
+      Cookies.set("user", JSON.stringify(user), { expires: 7 }); 
+      // const user = JSON.parse(Cookies.get("user"));
 
       dispatch(LogUser(user));
       navigate("/");

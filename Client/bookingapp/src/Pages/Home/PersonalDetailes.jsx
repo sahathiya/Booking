@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { LogUser, updateUser } from "../../Features/userSlice";
 import Navbar from "../../Components/Navbars/Navbar";
 import axiosInstance from "../../Axios/axiosinstance";
-
+import Cookies from 'js-cookie'
 const PersonalDetails = () => {
   const user = useSelector((state) => state.user.user);
   console.log("user from redux", user);
@@ -38,7 +38,9 @@ const PersonalDetails = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
+        const user=Cookies.get('user')
         const response = await axiosInstance.get(`/userbyid/${user._id}`);
+        
         dispatch(LogUser(response.data.user));
         setPersonalDetails(response.data.user);
       } catch (error) {

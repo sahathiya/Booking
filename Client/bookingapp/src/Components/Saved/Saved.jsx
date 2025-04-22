@@ -1,6 +1,7 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../../Axios/axiosinstance";
-import { FaHeart, FaPen, FaTrash } from "react-icons/fa";
+import { FaHeart, FaPen } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { setAllSaved } from "../../Features/savedSlice";
 import { useNavigate } from "react-router-dom";
