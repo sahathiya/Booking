@@ -1,11 +1,15 @@
 const Saved=require("../../Models/User/savedSchema")
 const Users=require("../../Models/User/userSchema")
+
+
+
 const addToSaved=async(req,res)=>{
 
 
 
     const propertyID = req.params.id;
     let saved = await Saved.findOne({ guest:req.user.id });
+console.log("req.user",req.user);
 
     if (!saved) {
         const newSaved = new Saved({
@@ -32,6 +36,8 @@ const isPropertyInSaved = saved.savedProperty.some(property => property.equals(p
 
     res.status(200).json({ status: 'success', message: 'property already added to saved' });
 }
+
+
 
 
 const removeFromSaved=async(req,res)=>{

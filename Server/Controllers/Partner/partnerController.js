@@ -30,13 +30,28 @@ const registerPartner = async (req, res) => {
    
     await newPartner.save();
     
-    res.cookie("partner", newPartner, {
-        httpOnly: false,
-        secure: false,
-        sameSite: "lax",
-        maxAge: 24 * 60 * 60 * 1000,
-       
-      });
+   
+
+
+    const token=jwt.sign({id:newPartner._id,email:newPartner.email},process.env.PARTNER_KEY,{expiresIn:'1d'})
+const Refreshtoken=jwt.sign({id:newPartner._id,email:newPartner.email},process.env.PARTNER_KEY,{expiresIn:'1d'})
+
+
+res.cookie("partnertoken", token, {
+  httpOnly: true,
+  secure: false,
+  sameSite: "lax",
+  maxAge: 24 * 60 * 60 * 1000,
+  
+});
+
+res.cookie("Refreshpartnertoken", Refreshtoken, {
+  httpOnly: true,
+  secure: false,
+  sameSite: "lax",
+  maxAge: 24 * 60 * 60 * 1000,
+  
+});
     res.status(201).json({ message: "Partner registered successfully", user: newPartner });
   } catch (error) {
     console.error("Error registering partner:", error);
@@ -83,13 +98,13 @@ res.cookie("Refreshpartnertoken", Refreshtoken, {
 });
 
 
-res.cookie("partner", user, {
-  httpOnly: false,
-  secure: false,
-  sameSite: "lax",
-  maxAge: 24 * 60 * 60 * 1000,
+// res.cookie("partner", user, {
+//   httpOnly: false,
+//   secure: false,
+//   sameSite: "lax",
+//   maxAge: 24 * 60 * 60 * 1000,
  
-});
+// });
 
 res.status(200).json({message:'partner logined successfully',user,token})
 

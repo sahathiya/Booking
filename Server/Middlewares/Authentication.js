@@ -1,10 +1,13 @@
 const jwt=require("jsonwebtoken");
 
 const userAuthMiddleware = async (req, res, next) => {
+  console.log("hhhhh");
+  
     try {
       
       const token=req.cookies.token
-      console.log(token)
+      
+      console.log("token",token)
      if(!token){
       return res.status(401).send("Authentication token missing");
      }
@@ -16,8 +19,9 @@ const userAuthMiddleware = async (req, res, next) => {
                 res.send(err)
             }else{
                 req.user=user
+                console.log("req.user",req.user);
                 
-                console.log(req.user);
+                console.log('Decoded User:', req.user);
                 
                 next()
             }

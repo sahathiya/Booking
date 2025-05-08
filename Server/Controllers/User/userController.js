@@ -31,13 +31,32 @@ const registerUser = async (req, res) => {
   console.log("newwww", newUser);
 
   await newUser.save();
+  const token = jwt.sign(
+    { id: newUser._id, email: newUser.email },
+    process.env.SECRECT_KEY,
+    { expiresIn: "1d" }
+  );
+  const refreshToken = jwt.sign(
+    { id: newUser._id, email: newUser.email },
+    process.env.SECRECT_KEY,
+    { expiresIn: "1d" }
+  );
 
-  // res.cookie("user", newUser, {
-  //   httpOnly: false,
-  //   secure: false,
-  //   sameSite: "lax",
-  //   maxAge: 24 * 60 * 60 * 1000,
-  // });
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: false,
+    sameSite: "lax",
+    maxAge: 24 * 60 * 60 * 1000,
+  });
+
+  res.cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    secure: false,
+    sameSite: "lax",
+    maxAge: 24 * 60 * 60 * 1000,
+  });
+
+  
 
   return res.status(201).json({ message: "User registered successfully",newUser });
 };
@@ -100,12 +119,12 @@ const loginUser = async (req, res, next) => {
     maxAge: 24 * 60 * 60 * 1000,
   });
 
-  res.cookie("user", user, {
-    httpOnly: false,
-    secure: false,
-    sameSite: "lax",
-    maxAge: 24 * 60 * 60 * 1000,
-  });
+  // res.cookie("user", user, {
+  //   httpOnly: false,
+  //   secure: false,
+  //   sameSite: "lax",
+  //   maxAge: 24 * 60 * 60 * 1000,
+  // });
 console.log('user from login',user);
 
   res.status(200).json({ message: "User logged in successfully", user, token });
@@ -223,21 +242,10 @@ const loginWithOtp = async (req, res) => {
       maxAge: 24 * 60 * 60 * 1000,
     });
 
-    // res.cookie("user", user, {
-    //   httpOnly: false,
-    //   secure: false,
-    //   sameSite: "lax",
-    //   maxAge: 24 * 60 * 60 * 1000,
-    // });
-
     return res.status(200).json({
       success: true,
       message: "Login successful via OTP",
       user
-      // user: {
-      //   ...user._doc,
-      //   password: "",
-      // },
     });
   } else {
     return res.status(400).json({ success: false, message: "Invalid OTP" });
@@ -251,13 +259,8 @@ const logoutUser = async (req, res) => {
     httpOnly: true,
     secure: true,
     sameSite: "lax",
-  }),
-    res.clearCookie("user", {
-      httpOnly: true,
-      secure: true,
-      sameSite: "lax",
-    }),
-    res.clearCookie("Refreshtoken", {
+  })
+    res.clearCookie("refreshToken", {
       httpOnly: true,
       secure: true,
       sameSite: "lax",
