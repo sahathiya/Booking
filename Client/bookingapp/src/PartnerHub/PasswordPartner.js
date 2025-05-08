@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axiosInstance from "../Axios/axiosinstance";
 import NavbarP from "./Navbar/NavbarP";
+import { useDispatch, useSelector } from "react-redux";
+import { LogPartner } from "../Features/partnerSlice";
 
 function PasswordPartner() {
+  const partner = useSelector ((state) => state.partner.partner);
+console.log("partnerpartner",partner);
+
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -11,7 +16,7 @@ function PasswordPartner() {
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
   const location = useLocation();
-
+const dispatch=useDispatch()
   const email = location.state?.email;
   const detailes = location.state?.detailes;
 
@@ -41,6 +46,10 @@ function PasswordPartner() {
     return Object.keys(newErrors).length === 0;
   };
 
+
+  // useEffect(() => {
+  //   console.log("Redux Partner:", partner);
+  // }, [partner]);
   const handleAccount = async (e) => {
     e.preventDefault();
     if (validateForm()) {
@@ -53,7 +62,12 @@ function PasswordPartner() {
           password,
         });
         console.log("Account Created:", res);
-        navigate("/loginemail");
+
+        const user=res.data.user
+        console.log("useeeee",user);
+        
+        dispatch(LogPartner(user))
+        navigate("/homepartner");
       } catch (error) {
         console.error("Error during account creation:", error);
         if (error.response) {

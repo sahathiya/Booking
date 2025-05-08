@@ -1106,7 +1106,7 @@ console.log('bookingfound',bookingfound);
     })
   )}
 </p> and <p>
-  {unavaailable.map((item) =>
+  {unavaailable&&unavaailable.map((item) =>
     new Date(item.checkOut).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',

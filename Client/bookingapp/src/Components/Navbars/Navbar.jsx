@@ -23,7 +23,7 @@ const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const user = useSelector((state) => state.user.user);
-  console.log("userrrrrr...", user);
+  console.log("userrrrrr...000", user);
 
   const handleSignOut = async () => {
     try {
@@ -62,19 +62,19 @@ const Navbar = () => {
 
   useEffect(() => {
     const userCookie = Cookies.get("user");
-    if (userCookie) {
+    // if (userCookie) {
       // const userJson = userCookie.startsWith("j:")
       //   ? userCookie.slice(2)
       //   : userCookie;
       try {
-        const user = JSON.parse(userCookie);
+        // const user = JSON.parse(userCookie);
         dispatch(LogUser(user));
       } catch (error) {
         console.error("Failed to parse partner cookie:", error);
       }
-    } else {
-      dispatch(LogoutUser());
-    }
+    // } else {
+    //   dispatch(LogoutUser());
+    // }
   }, [dispatch]);
 
   return (

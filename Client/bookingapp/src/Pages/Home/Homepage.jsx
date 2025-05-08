@@ -10,9 +10,12 @@ import { FaRegHeart } from "react-icons/fa";
 import { SetReviews } from "../../Features/adminSlice";
 
 const PropertyCard = () => {
+  const user = useSelector((state) => state.user.user);
   const [Count, setCount] = useState([]);
   const [reviewCount, setReviewCount] = useState([]);
   console.log("reviewCount", reviewCount);
+  
+  
   // const allReviews = useSelector((state) => state.review.allreviews);
   console.log("Count", Count);
   const reviews = useSelector((state) => state.admin.reviews);
@@ -28,7 +31,7 @@ const PropertyCard = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  console.log('user from property card',user);
   useEffect(() => {
     const fetchProperties = async () => {
       try {
@@ -63,10 +66,13 @@ const PropertyCard = () => {
 
     fetchSavedProperties();
   }, [dispatch]);
+console.log("savedProperties",savedProperties);
 
   const handleToggleSave = async (propertyID) => {
     try {
       if (savedProperties.some((item) => item._id === propertyID)) {
+        console.log("savedProperties",savedProperties);
+        
         const removeresponse = await axiosInstance.delete(
           `/remove/${propertyID}`
         );

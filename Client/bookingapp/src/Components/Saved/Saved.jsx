@@ -11,7 +11,7 @@ import Navbar from "../Navbars/Navbar";
 function Saved() {
   const savedProperty = useSelector((state) => state.saved.savedProperties);
   const dispatch = useDispatch();
-  const length = savedProperty.length;
+  const length = savedProperty?.length;
 
   const [showDialog, setShowDialog] = useState(false);
   const [url, setUrl] = useState("");
@@ -33,6 +33,8 @@ function Saved() {
     const fetchSaved = async () => {
       try {
         const response = await axiosInstance.get("/allsaved");
+        console.log(" response of all saved",response);
+        
         dispatch(setAllSaved(response.data.allSaved.savedProperty));
       } catch (error) {
         console.error("Error fetching saved properties:", error);
@@ -143,7 +145,9 @@ function Saved() {
     }
   };
 
-  return (
+  console.log("savedProperty....",savedProperty);
+  
+    return (
     <>
       <Navbar />
       <div className="w-full max-w-screen-lg mx-auto p-4">

@@ -48,8 +48,8 @@ function Login() {
       
       console.log("API Response:", response);
       const user = response.data.user;
-      console.log("User:", user);
-      Cookies.set("user", JSON.stringify(user), { expires: 7 }); 
+      // console.log("User:", user);
+      // Cookies.set("user", JSON.stringify(user), { expires: 7 }); 
       // const user = JSON.parse(Cookies.get("user"));
 
       dispatch(LogUser(user));

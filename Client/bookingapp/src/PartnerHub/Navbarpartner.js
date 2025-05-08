@@ -12,24 +12,19 @@ const Navbarpartner = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const Partner = useSelector((state) => state.partner.partner);
+console.log("Partner",Partner);
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   useEffect(() => {
-    const partnerCookie = Cookies.get("partner");
-    if (partnerCookie) {
-      const partnerJson = partnerCookie.startsWith("j:")
-        ? partnerCookie.slice(2)
-        : partnerCookie;
+ 
       try {
-        const partner = JSON.parse(partnerJson);
-        dispatch(LogPartner(partner));
+       
+        dispatch(LogPartner(Partner));
       } catch (error) {
         console.error("Failed to parse partner cookie:", error);
       }
-    } else {
-      dispatch(LogoutPartner());
-    }
+  
   }, [dispatch]);
 
   const handleSignOut = async () => {
@@ -38,7 +33,7 @@ const Navbarpartner = () => {
       if (res.status === 200) {
         console.log("Partner logged out successfully");
         dispatch(LogoutPartner());
-        Cookies.remove("partner");
+        
         navigate("/homepartner");
       } else {
         console.error("Failed to log out");

@@ -2,7 +2,7 @@ import axios from 'axios';
 
 
 const axiosInstance = axios.create({
-  baseURL: 'https://booking-sggw.onrender.com', 
+  baseURL: 'http://localhost:4000', 
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json'

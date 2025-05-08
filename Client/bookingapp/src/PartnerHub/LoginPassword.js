@@ -3,9 +3,11 @@ import React, { useState } from 'react';
 import {Link, useLocation, useNavigate } from 'react-router-dom';
 import axiosInstance from '../Axios/axiosinstance';
 import NavbarP from './Navbar/NavbarP';
+import { useDispatch } from 'react-redux';
+import { LogPartner } from '../Features/partnerSlice';
 
 function LoginPassword() {
-
+const dispatch=useDispatch()
   const [password, setPassword] = useState("");
   const [formErrors, setFormErrors] = useState({}); 
   const [showPassword, setShowPassword] = useState(false);
@@ -36,7 +38,10 @@ function LoginPassword() {
       try {
         const response = await axiosInstance.post("/partnerLogin", { email, password });
         if (response.status === 200) {
+          const partner=response.data.user
+          dispatch(LogPartner(partner))
           navigate('/homepartner');
+
         } else {
           setFormErrors({ password: "Incorrect password. Please try again." });
         }

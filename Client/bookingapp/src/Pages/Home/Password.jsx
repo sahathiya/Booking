@@ -3,6 +3,8 @@ import axiosInstance from "../../Axios/axiosinstance";
 import { useLocation, useNavigate } from "react-router-dom";
 import Header from "../../Components/Navbars/Header";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { LogUser } from "../../Features/userSlice";
 function PasswordForm() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -13,7 +15,7 @@ function PasswordForm() {
   const navigate = useNavigate();
   const location = useLocation();
   const email = location.state?.email;
-
+const dispatch=useDispatch()
   const validatePassword = (password) => {
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{10,}$/;
     return passwordRegex.test(password);
@@ -52,7 +54,9 @@ function PasswordForm() {
 
         if (response.status === 201) {
           toast.success("Registration successful");
-          navigate("/log");
+          navigate("/");
+          const user=response.data.newUser
+          dispatch(LogUser(user))
         } else {
           toast.warn("Registration failed");
         }

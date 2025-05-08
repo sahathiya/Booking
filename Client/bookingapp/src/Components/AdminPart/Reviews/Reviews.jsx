@@ -73,25 +73,25 @@ function Reviews() {
           <article key={item._id} className="mb-6 border-b border-gray-200 ">
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center">
-                {item.guest.profileImage ? (
+                {item.guest?.profileImage ? (
                   <img
                     className="w-10 h-10 me-4 rounded-full"
-                    src={item.guest.profileImage}
+                    src={item.guest?.profileImage}
                     alt=""
                   />
                 ) : (
                   <div className="w-10 h-10 bg-yellow-400 rounded-full flex items-center justify-center text-white font-bold text-lg">
-                    {item.guest.firstname
-                      ? item.guest.firstname.slice(0, 1)
-                      : item.guest.email.slice(0, 1)}
+                    {item.guest?.firstname
+                      ? item.guest?.firstname.slice(0, 1)
+                      : item.guest?.email.slice(0, 1)}
                   </div>
                 )}
 
                 <div className="font-medium">
                   <p>
-                    {item.guest.firstname ||
-                      item.guest.lastname ||
-                      item.guest.email}
+                    {item.guest?.firstname ||
+                      item.guest?.lastname ||
+                      item.guest?.email}
                     <time
                       dateTime="2014-08-16 19:00"
                       className="block text-sm text-gray-500 dark:text-gray-400"

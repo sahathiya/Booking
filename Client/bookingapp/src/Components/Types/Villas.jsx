@@ -62,7 +62,7 @@ function Villas() {
               </div>
 
               {/* Property Details */}
-              <div className="col-span-2 p-4 md:pl-6 flex flex-col justify-between">
+              <div className="col-span-2   md:pl-6 flex flex-col justify-between">
                 <div>
                   <h2 className="text-xl font-semibold text-blue-800">
                     {item.Propertyname}{" "}
