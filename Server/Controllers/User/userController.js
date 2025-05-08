@@ -44,15 +44,15 @@ const registerUser = async (req, res) => {
 
   res.cookie("token", token, {
     httpOnly: true,
-    secure: false,
-    sameSite: "lax",
+    secure: true,
+    sameSite: "None",
     maxAge: 24 * 60 * 60 * 1000,
   });
 
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
-    secure: false,
-    sameSite: "lax",
+    secure: true,
+    sameSite: "None",
     maxAge: 24 * 60 * 60 * 1000,
   });
 
@@ -108,23 +108,18 @@ const loginUser = async (req, res, next) => {
   res.cookie("token", token, {
     httpOnly: true,
     secure: true,
-    sameSite: "lax",
+    sameSite: "None",
     maxAge: 24 * 60 * 60 * 1000,
   });
 
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
     secure: true,
-    sameSite: "lax",
+    sameSite: "None",
     maxAge: 24 * 60 * 60 * 1000,
   });
 
-  // res.cookie("user", user, {
-  //   httpOnly: false,
-  //   secure: false,
-  //   sameSite: "lax",
-  //   maxAge: 24 * 60 * 60 * 1000,
-  // });
+ 
 console.log('user from login',user);
 
   res.status(200).json({ message: "User logged in successfully", user, token });
@@ -230,15 +225,15 @@ const loginWithOtp = async (req, res) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false,
-      sameSite: "lax",
+      secure: true,
+      sameSite: "None",
       maxAge: 24 * 60 * 60 * 1000,
     });
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      secure: false,
-      sameSite: "lax",
+      secure: true,
+      sameSite: "None",
       maxAge: 24 * 60 * 60 * 1000,
     });
 
