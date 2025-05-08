@@ -6,11 +6,11 @@ const userAuthMiddleware = async (req, res, next) => {
     try {
       
       const token=req.cookies.token
-      
+      if (!token) return res.status(401).json({ message: "Access denied. No token provided." });
       console.log("token",token)
-     if(!token){
-      return res.status(401).send("Authentication token missing");
-     }
+    //  if(!token){
+    //   return res.status(401).send("Authentication token missing");
+    //  }
         
         if (token) {
           jwt.verify(token, process.env.SECRECT_KEY, (err, user) => {
