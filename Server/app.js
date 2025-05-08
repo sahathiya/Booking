@@ -14,7 +14,7 @@ const errorHandler=require('./Middlewares/ErrorHandler')
 
 app.use(cookieParser());
 app.use(cors({
-    origin: 'http://localhost:3000', 
+    origin: 'https://booking-sahathiyas-projects.vercel.app', 
     credentials: true,               
 }));
 
