@@ -180,7 +180,7 @@ const bookingFinish = async (req, res) => {
     line_items: lineItems,
     mode: "payment",
     ui_mode: "embedded",
-    return_url: `${process.env.URL_FRONTEND}/conform-page/{CHECKOUT_SESSION_ID}/${book._id}`,
+    return_url: `https://booking-sahathiyas-projects.vercel.app/conform-page/{CHECKOUT_SESSION_ID}/${book._id}`,
   });
 
   book.sessionId = session.id;
