@@ -576,10 +576,10 @@ console.log('bookingfound',bookingfound);
     {allReviews.map((review, index) => (
       <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-8 mb-4" key={review._id}>
         <div className="flex items-center w-full sm:w-1/3 space-x-4">
-          {review.guest.profileImage ? (
+          {review.guest?.profileImage ? (
             <div>
               <img
-                src={review.guest.profileImage}
+                src={review.guest?.profileImage}
                 className="w-12 h-12 rounded-full"
                 alt="Guest"
               />
