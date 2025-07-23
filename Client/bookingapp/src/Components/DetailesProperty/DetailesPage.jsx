@@ -586,7 +586,7 @@ console.log('bookingfound',bookingfound);
             </div>
           ) : (
             <div className="w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center text-white font-bold text-lg">
-              {review.guest.firstname?review.guest.firstname.slice(0, 1):currentuser.email.slice(0,1)}
+              {review.guest.firstname?review.guest.firstname.slice(0, 1):currentuser?.email.slice(0,1)}
             </div>
           )}
           <div>
